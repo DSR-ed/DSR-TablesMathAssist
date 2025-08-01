@@ -162,12 +162,13 @@ function buildTables(){
 /* -------------------- EXERCICE -------------------- */
 let serie = [], idx = 0, score = 0, timer = null, started = false, reponsesUser = [];
 
-function pickFactor(){ return tablesActives[Math.floor(Math.random()*tablesActives.length)]; }
-
+// CORRECTION DU BUG : Générer correctement les questions
 function genererSerie(){
   serie = []; reponsesUser = []; tableColors = {};
   for(let i=0;i<nbQuestions;i++){
-    const a = pickFactor(), b = pickFactor();
+    // a vient des tables sélectionnées, b est toujours de 1 à 12
+    const a = tablesActives[Math.floor(Math.random()*tablesActives.length)];
+    const b = Math.floor(Math.random()*12) + 1;
     serie.push({a,b,r:a*b});
     reponsesUser.push(null);
   }
@@ -303,3 +304,4 @@ document.getElementById('btnApplyParams').addEventListener('click',applyParams);
 </script>
 </body>
 </html>
+
