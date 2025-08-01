@@ -1,307 +1,361 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DSR Tables Math Assist</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TablesMathAssist</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;font-family:"Segoe UI",Arial,Helvetica,sans-serif;background:#000;color:#fff;display:flex;flex-direction:column;align-items:center}
-  header{position:sticky;top:0;display:flex;justify-content:space-around;align-items:center;width:100%;padding:10px 0;background:#000;font-size:6vw;color:#0af;z-index:10}
-  header button{font-size:4vw;padding:6px 18px;border:none;border-radius:10px;color:#000;cursor:pointer}
-  #btnStart{background:#0f0}
-  #btnReset{background:#f44}
-  #btnTables{background:#00f;color:#fff}
-  #btnParams{background:transparent;color:#fff;font-size:4.5vw}
-  #btnTables:disabled,#btnParams:disabled,#btnStart.disabled,#okBtn.disabled{opacity:.5;pointer-events:none}
-  main{flex:1;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px}
-  #question{font-size:10vw;font-weight:700;margin:20px 0;text-align:center}
-  #reponse{font-size:8vw;width:60vw;max-width:320px;text-align:center;border:none;border-radius:15px;padding:15px;margin-bottom:20px}
-  #okBtn{font-size:5vw;padding:14px 50px;border:none;border-radius:15px;background:#0f0;color:#000;cursor:pointer}
-  section{width:100%;max-width:800px}
-  #zoneFin,#zoneTables,#zoneParams{display:none;margin-top:20px;padding:0 20px}
-  #zoneFin h2{color:#0af;margin:10px 0 5px}
-  #zoneFin ul{list-style:none;font-size:5vw}
-  @media(min-width:600px){#zoneFin ul{font-size:2vw}}
-  .faute{color:#f44}.manquee{color:#ff0}
-  /* TABLES */
-  #grille table{margin:0 auto;border-collapse:collapse;font-size:4vw}
-  #grille th,#grille td{border:1px solid #fff;width:12vw;height:12vw;text-align:center}
-  #grille th{background:#0af;color:#000;font-weight:700}
-  @media(min-width:600px){#grille th,#grille td{width:6vw;height:6vw;font-size:1.6vw}}
-  #liste{margin-top:25px}
-  #liste h4{color:#0af;font-size:5vw;text-align:center;margin-bottom:8px}
-  #liste>div{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;font-size:4.2vw}
-  @media(min-width:600px){#liste h4{font-size:2.2vw}#liste>div{font-size:1.8vw}}
-  /* PARAMS */
-  #zoneParams h3{color:#0af;text-align:center;margin-bottom:10px}
-  #zoneParams label{display:block;margin:10px 0;font-size:5vw}
-  @media(min-width:600px){#zoneParams label{font-size:2.2vw}}
-  #zoneParams input[type=number]{width:100px;font-size:inherit;margin-left:8px;border-radius:6px;border:none;padding:4px}
-  #zoneParams input[type=checkbox]{transform:scale(1.4);margin-right:8px}
-  button{transition:transform .1s}button:active{transform:scale(.95)}
+  body {
+    font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+    background: linear-gradient(to bottom, #fff, #aaf);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #header {
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; max-width: 1000px; padding: 10px;
+  }
+  #logo-container {
+    display: flex; align-items: center; justify-content: flex-start;
+  }
+  #logo {
+    height: 50px; margin-right: 10px;
+  }
+  #title {
+    flex-grow: 1; text-align: center; font-size: 2em; font-weight: bold; color:#222;
+  }
+  #modeToggle {
+    cursor: pointer; font-size: 1.5em; padding: 5px 10px; border: none; border-radius: 8px; background: #0af; color: #fff;
+  }
+  #content {
+    width: 100%; max-width: 1000px; display: flex; flex-direction: column; align-items: center; padding: 10px;
+  }
+  #welcome {
+    margin: 20px;
+    text-align: center;
+    font-size: 1.2em;
+  }
+  #settings {
+    width: 100%; max-width: 900px;
+    display: flex; flex-direction: column; gap: 10px; padding: 10px; background: rgba(255,255,255,0.2); border-radius: 8px;
+  }
+  label {
+    display: flex; flex-direction: column; font-size: 1em; color:#222;
+  }
+  select, input[type=number], input[type=checkbox] {
+    margin-top: 5px; padding: 4px; font-size: 1em; border-radius: 4px; border: 1px solid #888;
+  }
+  #btnStart {
+    margin: 15px; padding: 12px; font-size: 1.2em; border: none; border-radius: 8px; background:#4CAF50; color:#fff; cursor:pointer;
+  }
+  #timer {
+    font-size: 2em; margin: 10px 0;
+  }
+  #question {
+    font-size: 3em; margin: 20px 0;
+  }
+  #answer {
+    font-size: 2em; padding: 10px; width: 100px; text-align: center;
+  }
+  #btnOk {
+    margin-top: 15px; padding: 10px 20px; font-size: 1.2em; border: none; border-radius: 8px; background:#0f0; cursor:pointer;
+  }
+  #results {
+    display: none; margin-top: 20px; width: 100%; text-align: center; background: rgba(255,255,255,0.3); padding: 20px; border-radius:8px;
+  }
+  #results h2 {
+    font-size: 1.5em; margin-bottom: 10px;
+  }
+  #results ul {
+    list-style-type: none; padding: 10px;
+  }
+  #results li {
+    margin: 5px 0;
+  }
+  #grid-container {
+    margin-top: 20px;
+    display: flex; flex-wrap: wrap; justify-content: center; display: none;
+  }
+  table { border-collapse: collapse; }
+  td, th {
+    border: 1px solid #555; width: 40px; height: 40px; text-align: center; font-size: 1em;
+  }
+  /* Progress bar */
+  #progressBarContainer {
+    width: 90%; max-width: 400px; height: 10px; background: #555; border-radius: 5px; margin: 10px 0;
+  }
+  #progressBar {
+    height: 10px; width: 0%; background: #0af; border-radius: 5px; transition: width 0.3s;
+  }
+  /* Night mode theme override */
+  body.night {
+    background: linear-gradient(to bottom, #000, #222);
+    color: #eee;
+  }
+  body.night #header, body.night #settings {
+    background: #222;
+  }
+  body.night #question {
+    color: #fff;
+  }
 </style>
 </head>
 <body>
+<div id="header">
+  <div id="logo-container">
+    <img id="logo" src="logofondtransparentnew-A1.jpg" alt="Logo DSR" />
+  </div>
+  <div id="title">TablesMathAssist</div>
+  <button id="modeToggle">🌙</button>
+</div>
 
-<header>
-  <button id="btnStart">DÉPART</button>
-  <span id="timer">4:00</span>
-  <button id="btnReset">RESET</button>
-  <button id="btnTables">TABLES</button>
-  <button id="btnParams" title="Paramètres">⚙️</button>
-</header>
+<div id="welcome">
+  <p>Bienvenue ! Choisis tes réglages et commence ton entraînement ou mieux !!! Le test et gagne la coupe 🏆</p>
+</div>
 
-<main id="zoneJeu">
-  <div id="question"></div>
-  <input id="reponse" type="number" inputmode="numeric" autocomplete="off">
-  <button id="okBtn" class="disabled">OK</button>
-</main>
+<div id="content">
+  <div id="settings">
+    <label>Nombre de questions :
+      <select id="questionsCount"></select>
+    </label>
+    <label>Temps pour ta série de <span id="questionsCountLabel">x</span> questions :
+      <select id="timePerSeries"></select>
+    </label>
+    <label>
+      <input type="checkbox" id="modeTraining"> Mode entraînement (sans chrono)
+    </label>
+    <button id="startBtn">Commencer le test</button>
+  </div>
 
-<section id="zoneFin">
-  <h2>Résultats</h2>
-  <div id="scoreFinal"></div>
-  <h2 class="faute">Fautes</h2>
-  <ul id="listeFautes"></ul>
-  <h2 class="manquee">Manquées</h2>
-  <ul id="listeManquees"></ul>
-  <button id="btnNew" style="font-size:5vw;padding:14px 40px;background:#0af;color:#000;border:none;border-radius:12px;margin-top:15px">Nouvelle série</button>
-</section>
+  <div id="questionArea" style="display:none; text-align:center;">
+    <div id="progressBarContainer"><div id="progressBar"></div></div>
+    <div id="question"></div>
+    <input type="number" id="answer" autocomplete="off" inputmode="numeric" />
+    <div>
+      <button id="okBtn">Valider</button>
+    </div>
+  </div>
 
-<section id="zoneTables">
-  <h3 style="color:#0af;text-align:center;margin-bottom:10px">Tables 1 – 12</h3>
-  <div id="grille"><table id="tableGrille"></table></div>
-  <div id="liste"></div>
-  <button id="btnBackResults" style="font-size:5vw;padding:14px 40px;background:#0af;color:#000;border:none;border-radius:12px;margin:25px auto 0;display:block">Retour aux résultats</button>
-</section>
+  <div id="results">
+    <h2>Résultats</h2>
+    <ul>
+      <li id="score">Score : 0 / 0</li>
+      <li id="correctCount">Correctes : 0</li>
+      <li id="wrongCount">Incorrectes : 0</li>
+      <li id="missedCount">Non répondues : 0</li>
+    </ul>
+    <div id="gridContainer" style="margin-top:20px;">
+      <table id="grid"></table>
+    </div>
+    <button id="restartBtn">Nouvelle séance</button>
+  </div>
 
-<section id="zoneParams">
-  <h3>Paramètres</h3>
-  <label>Temps (secondes) :
-    <input type="number" id="inputTime" min="1" max="1200" value="240">
-  </label>
-  <label>Nombre de questions :
-    <input type="number" id="inputNb" min="10" max="500" value="50">
-  </label>
-  <div>Tables à inclure :</div>
-  <div id="checkTables" style="margin-top:6px"></div>
-  <button id="btnApplyParams" style="font-size:5vw;padding:12px 36px;background:#0af;color:#000;border:none;border-radius:12px;margin-top:18px">Appliquer</button>
-</section>
+</div>
+
+<div id="footer" style="margin-top:20px; text-align:center;">
+  <p>Conçu et développé par DSR / edlam.dsr@gmail.com</p>
+</div>
 
 <script>
-/* -------------------- PARAMÈTRES -------------------- */
-let tempsChoisi = 240,
-    nbQuestions = 50,
-    tempsRestant = tempsChoisi,
-    tablesActives = Array.from({length:12},(_,i)=>i+1),
-    tableColors = {};
+/* Variables globales */
+let questions = [], reponses = [], score = 0, currentQuestion = 0;
+let totalQuestions = 10;
+let totalTime = 30; // en secondes, par défaut
+let timerID;
+let isTrainingMode = false;
+let questionsCount = 10;
+let timePerSeries = 30; // sec
+let questionsOptions = [];
+let timeOptions = [];
 
-/* -------------------- OUTILS -------------------- */
-const secToMMSS = s => `${Math.floor(s/60)}:${('0'+s%60).slice(-2)}`;
+/* Initialiser sélecteurs questions et temps */
+const questionsSelect = document.getElementById('questionsCount');
+const timeSelect = document.getElementById('timePerSeries');
+const questionsLabel = document.getElementById('questionsCountLabel');
+const startBtn = document.getElementById('startBtn');
+const answerInput = document.getElementById('answer');
+const questionDiv = document.getElementById('question');
+const questionArea = document.getElementById('questionArea');
+const resultsDiv = document.getElementById('results');
+const progressBar = document.getElementById('progressBar');
+const modeCheckbox = document.getElementById('modeTraining');
+const modeBtn = document.getElementById('modeToggle');
 
-/* -------------------- UI PARAMS -------------------- */
-function buildCheckTables(){
-  const div = document.getElementById('checkTables');
-  div.innerHTML = '';
-  for(let t=1;t<=12;t++){
-    const lbl = document.createElement('label');
-    lbl.style.marginRight = '12px';
-    const cb = document.createElement('input');
-    cb.type = 'checkbox';
-    cb.checked = tablesActives.includes(t);
-    cb.dataset.table = t;
-    lbl.append(cb, ` Table ${t}`);
-    div.appendChild(lbl);
-  }
-}
-function applyParams(){
-  tempsChoisi   = Math.max(1,Math.min(1200, +document.getElementById('inputTime').value || 240));
-  nbQuestions   = Math.max(10,Math.min(500 , +document.getElementById('inputNb').value   || 50 ));
-  tablesActives = [...document.querySelectorAll('#checkTables input:checked')]
-                  .map(e=>+e.dataset.table);
-  if(!tablesActives.length){ alert('Coche au moins une table.'); return; }
-  tempsRestant = tempsChoisi;
-  document.getElementById('timer').textContent = secToMMSS(tempsRestant);
-  toggleParams();
-  reset();
-}
-
-/* -------------------- TABLES -------------------- */
-function buildTables(){
-  /* grille 12×12 */
-  const tbl = document.getElementById('tableGrille');
-  tbl.innerHTML = '';
-  let header = '<tr><th>×</th>';
-  for(let i=1;i<=12;i++) header += `<th>${i}</th>`;
-  header += '</tr>';
-  tbl.insertAdjacentHTML('beforeend', header);
-  for(let a=1;a<=12;a++){
-    let row = `<tr><th>${a}</th>`;
-    for(let b=1;b<=12;b++){
-      const key = `${a}-${b}`, color = tableColors[key]||'transparent';
-      row += `<td style="background:${color}">${a*b}</td>`;
-    }
-    row += '</tr>';
-    tbl.insertAdjacentHTML('beforeend', row);
-  }
-  /* liste verticale */
-  const liste = document.getElementById('liste');
-  liste.innerHTML = '';
-  for(let a=1;a<=12;a++){
-    liste.insertAdjacentHTML('beforeend', `<h4>Table de ${a}</h4>`);
-    const div = document.createElement('div');
-    for(let b=1;b<=12;b++){
-      const key = `${a}-${b}`, col = tableColors[key]||'transparent';
-      const box = `<span style="background:${col};padding:4px 8px;border-radius:6px">${a}×${b}=${a*b}</span>`;
-      div.insertAdjacentHTML('beforeend', box);
-    }
-    liste.append(div);
-  }
-}
-
-/* -------------------- EXERCICE -------------------- */
-let serie = [], idx = 0, score = 0, timer = null, started = false, reponsesUser = [];
-
-// CORRECTION DU BUG : Générer correctement les questions
-function genererSerie(){
-  serie = []; reponsesUser = []; tableColors = {};
-  for(let i=0;i<nbQuestions;i++){
-    // a vient des tables sélectionnées, b est toujours de 1 à 12
-    const a = tablesActives[Math.floor(Math.random()*tablesActives.length)];
-    const b = Math.floor(Math.random()*12) + 1;
-    serie.push({a,b,r:a*b});
-    reponsesUser.push(null);
-  }
-  buildTables();
-}
-
-function afficherQuestion(){
-  const q = serie[idx];
-  document.getElementById('question').textContent = `${q.a} × ${q.b} = ?`;
-  document.getElementById('reponse').value = '';
-  document.getElementById('reponse').focus();
-}
-
-function start(){
-  if(started) return;
-  started = true;
-  document.getElementById('btnStart').classList.add('disabled');
-  document.getElementById('btnTables').disabled = true;
-  document.getElementById('btnParams').disabled = true;
-  document.getElementById('okBtn').classList.remove('disabled');
-  timer = setInterval(()=>{
-    tempsRestant--;
-    document.getElementById('timer').textContent = secToMMSS(tempsRestant);
-    if(tempsRestant<=0 || idx>=nbQuestions) finSerie();
-  },1000);
-}
-
-function reset(){
-  clearInterval(timer);
-  started = false; idx = 0; score = 0; tempsRestant = tempsChoisi;
-  document.getElementById('timer').textContent = secToMMSS(tempsRestant);
-  document.getElementById('btnStart').classList.remove('disabled');
-  document.getElementById('btnTables').disabled = false;
-  document.getElementById('btnParams').disabled = false;
-  document.getElementById('okBtn').classList.add('disabled');
-  document.getElementById('zoneJeu').style.display   = 'flex';
-  document.getElementById('zoneFin').style.display    = 'none';
-  document.getElementById('zoneTables').style.display = 'none';
-  document.getElementById('zoneParams').style.display = 'none';
-  genererSerie(); afficherQuestion();
-}
-
-function valider(){
-  if(!started) return;
-  const val = parseInt(document.getElementById('reponse').value,10);
-  reponsesUser[idx] = isNaN(val)?null:val;
-  const key = `${serie[idx].a}-${serie[idx].b}`;
-  if(val === serie[idx].r){ score++; }
-  else if(val !== null){ tableColors[key] = '#f44'; }
-  idx++;
-  if(idx < nbQuestions) afficherQuestion();
-  else finSerie();
-}
-
-function getMedal(){
-  const pct = score/nbQuestions;
-  if(pct>=0.9) return '🏅 OR';
-  if(pct>=0.75) return '🥈 ARGENT';
-  if(pct>=0.6) return '🥉 BRONZE';
-  return '📄 PAPIER';
-}
-
-function finSerie(){
-  clearInterval(timer);
-  serie.forEach((q,i)=>{ if(reponsesUser[i]===null) tableColors[`${q.a}-${q.b}`] = '#ff0'; });
-  buildTables();
-  document.getElementById('zoneJeu').style.display   = 'none';
-  document.getElementById('zoneTables').style.display = 'none';
-  document.getElementById('zoneFin').style.display    = 'block';
-  document.getElementById('btnTables').disabled = false;
-  document.getElementById('btnParams').disabled = false;
-
-  document.getElementById('scoreFinal').textContent =
-    `Score : ${score} / ${nbQuestions}   →   ${getMedal()}`;
-
-  const fautesUL    = document.getElementById('listeFautes');
-  const manqueesUL  = document.getElementById('listeManquees');
-  fautesUL.innerHTML = manqueesUL.innerHTML = '';
-
-  serie.forEach((q,i)=>{
-    const user = reponsesUser[i];
-    if(user!==q.r){
-      const li = document.createElement('li');
-      li.textContent = `${q.a} × ${q.b} = ${q.r}` + (user!==null?` (ta réponse : ${user})`:'');
-      li.className = user===null?'manquee':'faute';
-      (user===null?manqueesUL:fautesUL).append(li);
-    }
-  });
-}
-
-/* -------------------- NAVIGATION -------------------- */
-function toggleTables(){
-  const zt = document.getElementById('zoneTables');
-  const zj = document.getElementById('zoneJeu');
-  const zf = document.getElementById('zoneFin');
-  const zp = document.getElementById('zoneParams');
-  const show = zt.style.display === 'none' || !zt.style.display;
-  zt.style.display = show?'block':'none';
-  zj.style.display = show?'none':'flex';
-  zf.style.display = 'none';
-  zp.style.display = 'none';
-}
-function toggleParams(){
-  const zp = document.getElementById('zoneParams');
-  const zj = document.getElementById('zoneJeu');
-  const zf = document.getElementById('zoneFin');
-  const zt = document.getElementById('zoneTables');
-  const show = zp.style.display === 'none' || !zp.style.display;
-  zp.style.display = show?'block':'none';
-  zj.style.display = show?'none':'flex';
-  zf.style.display = 'none';
-  zt.style.display = 'none';
-}
-
-/* -------------------- INIT -------------------- */
-buildCheckTables();
-genererSerie();
-reset();
-
-/* -------------------- LISTENERS -------------------- */
-document.getElementById('btnStart')      .addEventListener('click',start);
-document.getElementById('btnReset')      .addEventListener('click',reset);
-document.getElementById('btnTables')     .addEventListener('click',toggleTables);
-document.getElementById('btnParams')     .addEventListener('click',toggleParams);
-document.getElementById('okBtn')         .addEventListener('click',valider);
-document.getElementById('reponse')       .addEventListener('keydown',e=>{ if(e.key==='Enter') valider(); });
-document.getElementById('btnBackResults').addEventListener('click',()=>{
-  document.getElementById('zoneTables').style.display='none';
-  document.getElementById('zoneFin').style.display='block';
+/* populate questions options 10-500 step 10 */
+for(let i=10; i<=500; i+=10){ questionsOptions.push(i); }
+questionsOptions.forEach(q => {
+  let opt = document.createElement('option');
+  opt.value = q;
+  opt.innerText = q;
+  questionsSelect.appendChild(opt);
 });
-document.getElementById('btnNew')        .addEventListener('click',reset);
-document.getElementById('btnApplyParams').addEventListener('click',applyParams);
+/* populate time options 30sec to 20min step 1min */
+for(let t=30; t<=1200; t+=60){
+  let opt = document.createElement('option');
+  let minutes = t/60;
+  opt.value = t;
+  opt.innerText = minutes + ' min';
+  timeSelect.appendChild(opt);
+}
+
+/* gestion mode jour/nuit */
+let isNight = false;
+const modeBtn = document.getElementById('modeToggle');
+modeBtn.addEventListener('click', ()=>{
+  document.body.classList.toggle('night');
+  isNight = !isNight;
+  modeBtn.innerText = isNight ? '☀️' : '🌙';
+});
+
+/* gestion changement questions et temps pour mise à jour du label */
+questionsSelect.addEventListener('change', () => {
+  questions = [];
+  questionsCount = parseInt(questionsSelect.value);
+  questionsLabel.innerText = questionsCount;
+});
+timeSelect.addEventListener('change', () => {
+  timePerSeries = parseInt(timeSelect.value);
+});
+/* initialisation des valeurs */
+questionsSelect.value = 10;
+questions = [];
+questionsCount = 10;
+questionsLabel.innerText = questionsCount;
+timeSelect.value = 30;
+timePerSeries = 30;
+
+/* bouton démarrage */
+startBtn.addEventListener('click', () => {
+  questions = [];
+  reponses = [];
+  score = 0;
+  currentQuestion = 0;
+  document.getElementById('score').innerText = `Score : 0 / ${questionsCount}`;
+  document.getElementById('correctCount').innerText = `Correctes : 0`;
+  document.getElementById('wrongCount').innerText = `Incorrectes : 0`;
+  document.getElementById('missedCount').innerText = `Non répondues : 0`;
+  document.getElementById('gridContainer').style.display = 'none';
+  questionArea.style.display = 'block';
+  resultsDiv.style.display = 'none';
+  // créer questions
+  for(let i=0; i<questionsCount; i++){
+    let a = Math.floor(Math.random()*12)+1;
+    let b = Math.floor(Math.random()*12)+1;
+    questions.push({a, b, correct: a*b});
+    reponses.push(null);
+  }
+  currentQuestion = 0;
+  afficherQuestion();
+  siModeNuitSinonJour();
+  if(!modeCheckbox.checked){
+    startTimer();
+  }
+});
+
+/* affichage question */
+function afficherQuestion(){
+  if(currentQuestion >= questions.length){
+    finQuestion();
+    return;
+  }
+  document.getElementById('question').innerText = `${questions[currentQuestion].a} × ${questions[currentQuestion].b} = ?`;
+  answerInput.value='';
+  answerInput.focus();
+  updateProgress();
+}
+
+/* timer */
+function startTimer() {
+  clearInterval(timerID);
+  let t = isTrainingMode ? 9999999 : timePerSeries;
+  let startTime = Date.now();
+  timerID = setInterval(()=>{
+    let elapsed = Math.floor((Date.now() - startTime)/1000);
+    let remaining = t - elapsed;
+    if(remaining <= 0){
+      clearInterval(timerID);
+      finQuestion();  
+    }
+    document.getElementById('timerDisplay') && (document.getElementById('timerDisplay').innerText = 'Temps restant : ' + remaining + ' s');
+  }, 1000);
+}
+
+/* validation réponse */
+document.getElementById('okBtn').addEventListener('click', () => {
+  const reponse = parseInt(answerInput.value);
+  if(!isNaN(reponse)){
+    reponses[currentQuestion] = reponse;
+    if(reponse === questions[currentQuestion].correct){
+      score++;
+    }
+  } else {
+    reponses[currentQuestion] = null;
+  }
+  // passer à la question suivante
+  currentQuestion++;
+  document.getElementById('score').innerText = `Score : ${score} / ${questions.length}`;
+  if(currentQuestion>=questions.length){
+    clearInterval(timerID);
+    afficherResultats();
+  }else{
+    afficherQuestion();
+  }
+});
+
+/* fin question (temps écoulé ou terminé questions) */
+function finQuestion(){
+  clearInterval(timerID);
+  // compter réponses manquées
+  reponses.forEach((r, i)=>{ if(r===null) reponses[i]=0; });
+  afficherResultats();
+}
+
+/* affichage résultats */
+function afficherResultats(){
+  questionArea.style.display='none';
+  document.getElementById('gridContainer').style.display='block';
+  resultsDiv.style.display='block';
+  document.getElementById('score').innerText = `Score : ${score} / ${questions.length}`;
+  document.getElementById('correctCount').innerText = `Correctes : ${questions.filter((q,i)=>reponses[i]===q.correct).length}`;
+  document.getElementById('wrongCount').innerText = `Incorrectes : ${questions.filter((q,i)=>reponses[i]>0 && reponses[i]!==q.correct).length}`;
+  document.getElementById('missedCount').innerText = `Non répondues : ${questions.filter((r,i)=>r===0).length}`;
+
+  // affichage grille
+  const table = document.getElementById('grid');
+  table.innerHTML='';
+  for(let a=1; a<=12; a++){
+    const row = document.createElement('tr');
+    for(let b=1;b<=12;b++){
+      const cell = document.createElement('td');
+      const index = questions.findIndex(q=>q.a===a && q.b===b);
+      let val = reponses[index];
+      if(val===null || val===undefined) val=0;
+      cell.innerText = val;
+      if(val !== questions[index].correct && val!==0){
+        cell.style.background = '#f88'; // rouge
+      } else if(val===0){
+        cell.style.background = '#ff0'; // orange
+      }
+      row.appendChild(cell);
+    }
+    table.appendChild(row);
+  }
+}
+
+/* bouton nouvelle séance */
+document.getElementById('restartBtn').addEventListener('click', () => {
+  document.getElementById('startBtn').click();
+});
+
+/* progress bar */
+function updateProgress() {
+  const progress = (currentQuestion / questions.length)*100;
+  document.getElementById('progressBar').style.width= progress+'%';
+}
+
 </script>
 </body>
 </html>
-
