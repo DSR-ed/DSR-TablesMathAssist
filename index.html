@@ -1,361 +1,598 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>TablesMathAssist</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body {
-    font-family:"Segoe UI",Arial,Helvetica,sans-serif;
-    background: linear-gradient(to bottom, #fff, #aaf);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  #header {
-    display: flex; justify-content: space-between; align-items: center;
-    width: 100%; max-width: 1000px; padding: 10px;
-  }
-  #logo-container {
-    display: flex; align-items: center; justify-content: flex-start;
-  }
-  #logo {
-    height: 50px; margin-right: 10px;
-  }
-  #title {
-    flex-grow: 1; text-align: center; font-size: 2em; font-weight: bold; color:#222;
-  }
-  #modeToggle {
-    cursor: pointer; font-size: 1.5em; padding: 5px 10px; border: none; border-radius: 8px; background: #0af; color: #fff;
-  }
-  #content {
-    width: 100%; max-width: 1000px; display: flex; flex-direction: column; align-items: center; padding: 10px;
-  }
-  #welcome {
-    margin: 20px;
-    text-align: center;
-    font-size: 1.2em;
-  }
-  #settings {
-    width: 100%; max-width: 900px;
-    display: flex; flex-direction: column; gap: 10px; padding: 10px; background: rgba(255,255,255,0.2); border-radius: 8px;
-  }
-  label {
-    display: flex; flex-direction: column; font-size: 1em; color:#222;
-  }
-  select, input[type=number], input[type=checkbox] {
-    margin-top: 5px; padding: 4px; font-size: 1em; border-radius: 4px; border: 1px solid #888;
-  }
-  #btnStart {
-    margin: 15px; padding: 12px; font-size: 1.2em; border: none; border-radius: 8px; background:#4CAF50; color:#fff; cursor:pointer;
-  }
-  #timer {
-    font-size: 2em; margin: 10px 0;
-  }
-  #question {
-    font-size: 3em; margin: 20px 0;
-  }
-  #answer {
-    font-size: 2em; padding: 10px; width: 100px; text-align: center;
-  }
-  #btnOk {
-    margin-top: 15px; padding: 10px 20px; font-size: 1.2em; border: none; border-radius: 8px; background:#0f0; cursor:pointer;
-  }
-  #results {
-    display: none; margin-top: 20px; width: 100%; text-align: center; background: rgba(255,255,255,0.3); padding: 20px; border-radius:8px;
-  }
-  #results h2 {
-    font-size: 1.5em; margin-bottom: 10px;
-  }
-  #results ul {
-    list-style-type: none; padding: 10px;
-  }
-  #results li {
-    margin: 5px 0;
-  }
-  #grid-container {
-    margin-top: 20px;
-    display: flex; flex-wrap: wrap; justify-content: center; display: none;
-  }
-  table { border-collapse: collapse; }
-  td, th {
-    border: 1px solid #555; width: 40px; height: 40px; text-align: center; font-size: 1em;
-  }
-  /* Progress bar */
-  #progressBarContainer {
-    width: 90%; max-width: 400px; height: 10px; background: #555; border-radius: 5px; margin: 10px 0;
-  }
-  #progressBar {
-    height: 10px; width: 0%; background: #0af; border-radius: 5px; transition: width 0.3s;
-  }
-  /* Night mode theme override */
-  body.night {
-    background: linear-gradient(to bottom, #000, #222);
-    color: #eee;
-  }
-  body.night #header, body.night #settings {
-    background: #222;
-  }
-  body.night #question {
-    color: #fff;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TablesMathAssist - DSR</title>
+  <style>
+    /* Votre CSS complet */
+    :root {
+      --gradient-day: linear-gradient(180deg, #ffffff 0%, #e3f2fd 100%);
+      --gradient-night: linear-gradient(180deg, #000000 0%, #0d47a1 100%);
+      --text-day: #1a1a1a;
+      --text-night: #ffffff;
+      --accent-day: #1976d2;
+      --accent-night: #00bcd4;
+      --card-day: rgba(0, 0, 0, 0.05);
+      --card-night: rgba(255, 255, 255, 0.1);
+    }
+    body {
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      background: var(--gradient-night);
+      color: var(--text-night);
+      transition: all .3s;
+    }
+    body.day-mode {
+      background: var(--gradient-day);
+      color: var(--text-day);
+    }
+    .app-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    .header {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: var(--card-night);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+    }
+    body.day-mode .header { background: var(--card-day);}
+    .header-logo img {
+      height: 60px;
+      width: auto;
+    }
+    .app-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--accent-night);
+      text-align: center;
+      flex: 1;
+    }
+    body.day-mode .app-title { color: var(--accent-day);}
+    .btn-theme {
+      background: none;
+      border: 2px solid var(--accent-night);
+      border-radius: 50%;
+      width: 50px; height: 50px;
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: all .3s;
+    }
+    body.day-mode .btn-theme { border-color: var(--accent-day);}
+    .btn-theme:hover { transform: scale(1.1); background: var(--accent-night);}
+    body.day-mode .btn-theme:hover { background: var(--accent-day);}
+    .card {
+      background: var(--card-night);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 15px 0;
+      width: 100%; max-width: 800px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    body.day-mode .card { background: var(--card-day);}
+    .welcome-message {
+      text-align: center; font-size: 1.3rem; line-height: 1.6;
+    }
+    .settings-panel h2 {
+      color: var(--accent-night); margin-bottom: 25px;
+      font-size: 2rem; text-align: center;
+    }
+    body.day-mode .settings-panel h2 { color: var(--accent-day);}
+    .form-group { margin-bottom: 25px;}
+    .form-label {
+      display: block; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; color: var(--accent-night);
+    }
+    body.day-mode .form-label { color: var(--accent-day);}
+    .tables-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px; margin-top: 10px;
+    }
+    .tables-selector label {
+      display: flex; align-items: center; font-size: 1.1rem; cursor: pointer; padding: 8px; border-radius: 8px;
+      transition: background .3s;
+    }
+    .tables-selector input[type="checkbox"] {
+      margin-right: 8px; transform: scale(1.2);
+      accent-color: var(--accent-night);
+    }
+    body.day-mode .tables-selector input[type="checkbox"] { accent-color: var(--accent-day);}
+    select {
+      width: 100%; padding: 12px;
+      font-size: 1.1rem;
+      border: 2px solid var(--accent-night);
+      border-radius: 10px;
+      background: var(--card-night);
+      color: var(--text-night);
+      cursor: pointer;
+    }
+    body.day-mode select {
+      border-color: var(--accent-day);
+      background: var(--card-day);
+      color: var(--text-day);
+    }
+    .btn-primary {
+      background: var(--accent-night); color: white;
+      border: none; padding: 15px 30px; font-size: 1.3rem; font-weight: bold;
+      border-radius: 15px;
+      cursor: pointer; transition: all .3s;
+      margin: 10px;
+    }
+    body.day-mode .btn-primary { background: var(--accent-day);}
+    .btn-primary:hover { transform: translateY(-2px);}
+    .game-area, .results-area { display:none; text-align:center;}
+    .progress-info {
+      font-size:1.2rem;margin-bottom:20px;color: var(--accent-night);}
+    body.day-mode .progress-info{ color: var(--accent-day);}
+    .progress-bar { width:100%;height:10px;
+      background: var(--card-night); border-radius:5px; margin-bottom:30px; overflow:hidden;}
+    body.day-mode .progress-bar {background:var(--card-day);}
+    .progress-fill{height:100%;background:var(--accent-night);width:0%;transition:width .3s;}
+    body.day-mode .progress-fill{background:var(--accent-day);}
+    .question { font-size: 3rem; font-weight: bold; margin: 30px 0; color: var(--accent-night);}
+    body.day-mode .question{ color: var(--accent-day);}
+    .answer-input { font-size:2rem; padding:15px; text-align:center; border:3px solid var(--accent-night);
+      border-radius:15px; background:var(--card-night); color:var(--text-night); width:200px; margin:20px 0;}
+    body.day-mode .answer-input{border-color:var(--accent-day);background:var(--card-day);color:var(--text-day);}
+    .medal { font-size:4rem;margin:20px 0;}
+    .results-grid {overflow-x:auto; margin:30px 0;}
+    .results-grid table {
+      margin:0 auto; border-collapse:collapse; font-size:0.9rem;}
+    .results-grid th, .results-grid td {
+      border:1px solid var(--accent-night); width:35px; height:35px; text-align:center; font-weight:bold;}
+    body.day-mode .results-grid th,body.day-mode .results-grid td {border-color: var(--accent-day);}
+    .results-grid th { background:var(--accent-night);color:white;}
+    body.day-mode .results-grid th { background:var(--accent-day);}
+    .cell-correct {background:transparent;}
+    .cell-incorrect {background:#f44 !important;}
+    .cell-missed {background:#ff0 !important;}
+    @media (max-width:768px){
+      .app-title{font-size:1.8rem;} .header{padding:15px;}
+      .card{padding:20px;margin:10px;} .question{font-size:2rem;}
+      .answer-input{font-size:1.5rem;width:150px;}
+      .results-grid th, .results-grid td {width:25px;height:25px;font-size:0.8rem;}
+    }
+    .footer {margin-top:auto;text-align:center;padding:30px;}
+    .footer-logo img {height:40px;margin-bottom:10px;}
+    .footer-text {font-size:0.9rem;opacity:0.8;}
+    .hidden {display:none!important;}
+  </style>
 </head>
 <body>
-<div id="header">
-  <div id="logo-container">
-    <img id="logo" src="logofondtransparentnew-A1.jpg" alt="Logo DSR" />
-  </div>
-  <div id="title">TablesMathAssist</div>
-  <button id="modeToggle">🌙</button>
-</div>
+  <div class="app-container">
+    <!-- Header avec logo et bouton mode jour/nuit -->
+    <header class="header">
+      <div class="header-logo">
+        <img src="logofTDSR.png" alt="Logo DSR" />
+      </div>
+      <h1 class="app-title">TablesMathAssist</h1>
+      <button id="themeToggle" class="btn-theme"><span class="theme-icon">🌙</span></button>
+    </header>
 
-<div id="welcome">
-  <p>Bienvenue ! Choisis tes réglages et commence ton entraînement ou mieux !!! Le test et gagne la coupe 🏆</p>
-</div>
-
-<div id="content">
-  <div id="settings">
-    <label>Nombre de questions :
-      <select id="questionsCount"></select>
-    </label>
-    <label>Temps pour ta série de <span id="questionsCountLabel">x</span> questions :
-      <select id="timePerSeries"></select>
-    </label>
-    <label>
-      <input type="checkbox" id="modeTraining"> Mode entraînement (sans chrono)
-    </label>
-    <button id="startBtn">Commencer le test</button>
-  </div>
-
-  <div id="questionArea" style="display:none; text-align:center;">
-    <div id="progressBarContainer"><div id="progressBar"></div></div>
-    <div id="question"></div>
-    <input type="number" id="answer" autocomplete="off" inputmode="numeric" />
-    <div>
-      <button id="okBtn">Valider</button>
+    <!-- Message de bienvenue -->
+    <div class="welcome-message card">
+      <p>Choisis tes réglages et commences ton entraînement ou mieux!!! Le test et gagnes la coupe. 🏆</p>
     </div>
+
+    <!-- Zone de paramètres -->
+    <section class="settings-panel card">
+      <h2>Réglages</h2>
+      <div class="form-group">
+        <label class="form-label">Tables à réviser :</label>
+        <div class="tables-selector">
+          <label><input type="checkbox" value="1" checked> 1</label>
+          <label><input type="checkbox" value="2" checked> 2</label>
+          <label><input type="checkbox" value="3" checked> 3</label>
+          <label><input type="checkbox" value="4" checked> 4</label>
+          <label><input type="checkbox" value="5" checked> 5</label>
+          <label><input type="checkbox" value="6" checked> 6</label>
+          <label><input type="checkbox" value="7" checked> 7</label>
+          <label><input type="checkbox" value="8" checked> 8</label>
+          <label><input type="checkbox" value="9" checked> 9</label>
+          <label><input type="checkbox" value="10" checked> 10</label>
+          <label><input type="checkbox" value="11"> 11</label>
+          <label><input type="checkbox" value="12"> 12</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" id="timeLimitLabel">Temps pour ta série de 30 questions :</label>
+        <select id="timeLimit">
+          <option value="0.5">30 secondes</option>
+          <option value="1">1 minute</option>
+          <option value="2">2 minutes</option>
+          <option value="3">3 minutes</option>
+          <option value="4">4 minutes</option>
+          <option value="5" selected>5 minutes</option>
+          <option value="6">6 minutes</option>
+          <option value="7">7 minutes</option>
+          <option value="8">8 minutes</option>
+          <option value="9">9 minutes</option>
+          <option value="10">10 minutes</option>
+          <option value="15">15 minutes</option>
+          <option value="20">20 minutes</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nombre de questions :</label>
+        <select id="questionCount">
+          <option value="10">10 questions</option>
+          <option value="20">20 questions</option>
+          <option value="30" selected>30 questions</option>
+          <option value="40">40 questions</option>
+          <option value="50">50 questions</option>
+          <option value="60">60 questions</option>
+          <option value="70">70 questions</option>
+          <option value="80">80 questions</option>
+          <option value="90">90 questions</option>
+          <option value="100">100 questions</option>
+          <option value="110">110 questions</option>
+          <option value="120">120 questions</option>
+          <option value="130">130 questions</option>
+          <option value="140">140 questions</option>
+          <option value="150">150 questions</option>
+          <option value="160">160 questions</option>
+          <option value="170">170 questions</option>
+          <option value="180">180 questions</option>
+          <option value="190">190 questions</option>
+          <option value="200">200 questions</option>
+          <option value="250">250 questions</option>
+          <option value="300">300 questions</option>
+          <option value="350">350 questions</option>
+          <option value="400">400 questions</option>
+          <option value="450">450 questions</option>
+          <option value="500">500 questions</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>
+          <input type="checkbox" id="noTimerMode"> Mode entraînement (sans chrono)
+        </label>
+      </div>
+      <button id="startGame" class="btn-primary">Commencer le Test</button>
+    </section>
+
+    <!-- Zone de jeu -->
+    <section id="gameArea" class="game-area card">
+      <div class="progress-info">
+        <span id="progressText">Question 1 / 30</span>
+        <span id="timeDisplay">5:00</span>
+      </div>
+      <div class="progress-bar">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+      <div id="question" class="question">7 × 8 = ?</div>
+      <input type="number" id="answerInput" class="answer-input" placeholder="?">
+      <br><br>
+      <button id="validateBtn" class="btn-primary">Valider</button>
+      <button id="pauseBtn" class="btn-primary">Pause</button>
+      <button id="stopBtn" class="btn-primary">Arrêter</button>
+    </section>
+
+    <!-- Zone résultats -->
+    <section id="resultsArea" class="results-area card">
+      <h2>Résultats de votre test</h2>
+      <div id="medal" class="medal">🏆</div>
+      <div id="medalText">OR</div>
+      <div class="results-grid">
+        <div class="result-item"><div>Score global :</div><div id="finalScore" class="result-value">0/30</div></div>
+        <div class="result-item"><div>Bonnes réponses :</div><div id="correctCount" class="result-value">0</div></div>
+        <div class="result-item"><div>Mauvaises réponses :</div><div id="incorrectCount" class="result-value">0</div></div>
+        <div class="result-item"><div>Non répondues :</div><div id="missedCount" class="result-value">0</div></div>
+      </div>
+      <div class="result-item"><div>Pourcentage de réussite :</div><div id="successPercentage" class="result-value">0%</div></div>
+      <h3>Grille des résultats 12×12 :</h3>
+      <div class="results-grid">
+        <table id="resultsGrid"></table>
+      </div>
+      <div style="margin:20px 0;">
+        <div style="display:inline-block;margin:0 10px;"><span style="display:inline-block;width:20px;height:20px;background:transparent;border:1px solid #666;margin-right:5px;"></span>Réponse correcte</div>
+        <div style="display:inline-block;margin:0 10px;"><span style="display:inline-block;width:20px;height:20px;background:#f44;margin-right:5px;"></span>Réponse incorrecte</div>
+        <div style="display:inline-block;margin:0 10px;"><span style="display:inline-block;width:20px;height:20px;background:#ff0;margin-right:5px;"></span>Non répondu</div>
+      </div>
+      <h3>Liste détaillée des erreurs :</h3>
+      <div id="errorsList"></div>
+      <button id="newGameBtn" class="btn-primary">Nouvelle série</button>
+      <button id="backToSettingsBtn" class="btn-primary">Modifier les paramètres</button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-logo">
+        <img src="logofTDSR.png" alt="Logo DSR">
+      </div>
+      <div class="footer-text">
+        Conçu et développé par DSR / edlam.dsr@gmail.com
+      </div>
+    </footer>
   </div>
-
-  <div id="results">
-    <h2>Résultats</h2>
-    <ul>
-      <li id="score">Score : 0 / 0</li>
-      <li id="correctCount">Correctes : 0</li>
-      <li id="wrongCount">Incorrectes : 0</li>
-      <li id="missedCount">Non répondues : 0</li>
-    </ul>
-    <div id="gridContainer" style="margin-top:20px;">
-      <table id="grid"></table>
-    </div>
-    <button id="restartBtn">Nouvelle séance</button>
-  </div>
-
-</div>
-
-<div id="footer" style="margin-top:20px; text-align:center;">
-  <p>Conçu et développé par DSR / edlam.dsr@gmail.com</p>
-</div>
-
-<script>
-/* Variables globales */
-let questions = [], reponses = [], score = 0, currentQuestion = 0;
-let totalQuestions = 10;
-let totalTime = 30; // en secondes, par défaut
-let timerID;
-let isTrainingMode = false;
-let questionsCount = 10;
-let timePerSeries = 30; // sec
-let questionsOptions = [];
-let timeOptions = [];
-
-/* Initialiser sélecteurs questions et temps */
-const questionsSelect = document.getElementById('questionsCount');
-const timeSelect = document.getElementById('timePerSeries');
-const questionsLabel = document.getElementById('questionsCountLabel');
-const startBtn = document.getElementById('startBtn');
-const answerInput = document.getElementById('answer');
-const questionDiv = document.getElementById('question');
-const questionArea = document.getElementById('questionArea');
-const resultsDiv = document.getElementById('results');
-const progressBar = document.getElementById('progressBar');
-const modeCheckbox = document.getElementById('modeTraining');
-const modeBtn = document.getElementById('modeToggle');
-
-/* populate questions options 10-500 step 10 */
-for(let i=10; i<=500; i+=10){ questionsOptions.push(i); }
-questionsOptions.forEach(q => {
-  let opt = document.createElement('option');
-  opt.value = q;
-  opt.innerText = q;
-  questionsSelect.appendChild(opt);
-});
-/* populate time options 30sec to 20min step 1min */
-for(let t=30; t<=1200; t+=60){
-  let opt = document.createElement('option');
-  let minutes = t/60;
-  opt.value = t;
-  opt.innerText = minutes + ' min';
-  timeSelect.appendChild(opt);
-}
-
-/* gestion mode jour/nuit */
-let isNight = false;
-const modeBtn = document.getElementById('modeToggle');
-modeBtn.addEventListener('click', ()=>{
-  document.body.classList.toggle('night');
-  isNight = !isNight;
-  modeBtn.innerText = isNight ? '☀️' : '🌙';
-});
-
-/* gestion changement questions et temps pour mise à jour du label */
-questionsSelect.addEventListener('change', () => {
-  questions = [];
-  questionsCount = parseInt(questionsSelect.value);
-  questionsLabel.innerText = questionsCount;
-});
-timeSelect.addEventListener('change', () => {
-  timePerSeries = parseInt(timeSelect.value);
-});
-/* initialisation des valeurs */
-questionsSelect.value = 10;
-questions = [];
-questionsCount = 10;
-questionsLabel.innerText = questionsCount;
-timeSelect.value = 30;
-timePerSeries = 30;
-
-/* bouton démarrage */
-startBtn.addEventListener('click', () => {
-  questions = [];
-  reponses = [];
-  score = 0;
-  currentQuestion = 0;
-  document.getElementById('score').innerText = `Score : 0 / ${questionsCount}`;
-  document.getElementById('correctCount').innerText = `Correctes : 0`;
-  document.getElementById('wrongCount').innerText = `Incorrectes : 0`;
-  document.getElementById('missedCount').innerText = `Non répondues : 0`;
-  document.getElementById('gridContainer').style.display = 'none';
-  questionArea.style.display = 'block';
-  resultsDiv.style.display = 'none';
-  // créer questions
-  for(let i=0; i<questionsCount; i++){
-    let a = Math.floor(Math.random()*12)+1;
-    let b = Math.floor(Math.random()*12)+1;
-    questions.push({a, b, correct: a*b});
-    reponses.push(null);
-  }
-  currentQuestion = 0;
-  afficherQuestion();
-  siModeNuitSinonJour();
-  if(!modeCheckbox.checked){
-    startTimer();
-  }
-});
-
-/* affichage question */
-function afficherQuestion(){
-  if(currentQuestion >= questions.length){
-    finQuestion();
-    return;
-  }
-  document.getElementById('question').innerText = `${questions[currentQuestion].a} × ${questions[currentQuestion].b} = ?`;
-  answerInput.value='';
-  answerInput.focus();
-  updateProgress();
-}
-
-/* timer */
-function startTimer() {
-  clearInterval(timerID);
-  let t = isTrainingMode ? 9999999 : timePerSeries;
-  let startTime = Date.now();
-  timerID = setInterval(()=>{
-    let elapsed = Math.floor((Date.now() - startTime)/1000);
-    let remaining = t - elapsed;
-    if(remaining <= 0){
-      clearInterval(timerID);
-      finQuestion();  
+  <script>
+    // ---- JS principal simplifié suivant votre logique et visuel ----
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.querySelector('.theme-icon');
+    // Thème
+    function setTheme(mode) {
+      document.body.classList.toggle('day-mode', mode === 'day');
+      themeIcon.textContent = (mode === 'day') ? '☀️' : '🌙';
+      localStorage.setItem('tma_theme', mode);
     }
-    document.getElementById('timerDisplay') && (document.getElementById('timerDisplay').innerText = 'Temps restant : ' + remaining + ' s');
-  }, 1000);
-}
+    let currentTheme = localStorage.getItem('tma_theme') || 'night';
+    setTheme(currentTheme);
 
-/* validation réponse */
-document.getElementById('okBtn').addEventListener('click', () => {
-  const reponse = parseInt(answerInput.value);
-  if(!isNaN(reponse)){
-    reponses[currentQuestion] = reponse;
-    if(reponse === questions[currentQuestion].correct){
-      score++;
+    themeToggle.onclick = () => {
+      currentTheme = (currentTheme === 'day') ? 'night' : 'day';
+      setTheme(currentTheme);
+    };
+
+    // ---- STOCKAGE et init paramètres ----
+    const prefsKey = 'tma_prefs_v2';
+    function savePrefs() {
+      localStorage.setItem(prefsKey, JSON.stringify({
+        tables: getTables(),
+        questionCount: questionCount.value,
+        timeLimit: timeLimit.value,
+        noTimerMode: noTimerMode.checked
+      }));
     }
-  } else {
-    reponses[currentQuestion] = null;
-  }
-  // passer à la question suivante
-  currentQuestion++;
-  document.getElementById('score').innerText = `Score : ${score} / ${questions.length}`;
-  if(currentQuestion>=questions.length){
-    clearInterval(timerID);
-    afficherResultats();
-  }else{
-    afficherQuestion();
-  }
-});
+    function loadPrefs() {
+      const p = JSON.parse(localStorage.getItem(prefsKey)||'null');
+      if (!p) return;
+      document.querySelectorAll('.tables-selector input').forEach((cb,i) => cb.checked=(p.tables||[]).includes(i+1));
+      questionCount.value = p.questionCount||"30";
+      timeLimit.value = p.timeLimit||"5";
+      noTimerMode.checked = !!p.noTimerMode;
+      updateTimeLimitLabel();
+      updateButtonText();
+    }
+    // -- DOM refs --
+    const questionCount = document.getElementById('questionCount');
+    const timeLimit = document.getElementById('timeLimit');
+    const timeLimitLabel = document.getElementById('timeLimitLabel');
+    const noTimerMode = document.getElementById('noTimerMode');
+    function updateTimeLimitLabel() {
+      timeLimitLabel.textContent = `Temps pour ta série de ${questionCount.value} questions :`;
+    }
+    questionCount.addEventListener('change', ()=> {
+      updateTimeLimitLabel(); savePrefs();
+    });
+    timeLimit.addEventListener('change', savePrefs);
+    noTimerMode.addEventListener('change', ()=>{updateButtonText();savePrefs();});
+    document.querySelectorAll('.tables-selector input').forEach(cb => {
+      cb.addEventListener('change', savePrefs);
+    });
+    // Bouton dynamique
+    const startGame = document.getElementById('startGame');
+    function updateButtonText(){
+      startGame.textContent = noTimerMode.checked ? "Commencer l'entraînement" : "Commencer le Test";
+    }
+    loadPrefs();
 
-/* fin question (temps écoulé ou terminé questions) */
-function finQuestion(){
-  clearInterval(timerID);
-  // compter réponses manquées
-  reponses.forEach((r, i)=>{ if(r===null) reponses[i]=0; });
-  afficherResultats();
-}
-
-/* affichage résultats */
-function afficherResultats(){
-  questionArea.style.display='none';
-  document.getElementById('gridContainer').style.display='block';
-  resultsDiv.style.display='block';
-  document.getElementById('score').innerText = `Score : ${score} / ${questions.length}`;
-  document.getElementById('correctCount').innerText = `Correctes : ${questions.filter((q,i)=>reponses[i]===q.correct).length}`;
-  document.getElementById('wrongCount').innerText = `Incorrectes : ${questions.filter((q,i)=>reponses[i]>0 && reponses[i]!==q.correct).length}`;
-  document.getElementById('missedCount').innerText = `Non répondues : ${questions.filter((r,i)=>r===0).length}`;
-
-  // affichage grille
-  const table = document.getElementById('grid');
-  table.innerHTML='';
-  for(let a=1; a<=12; a++){
-    const row = document.createElement('tr');
-    for(let b=1;b<=12;b++){
-      const cell = document.createElement('td');
-      const index = questions.findIndex(q=>q.a===a && q.b===b);
-      let val = reponses[index];
-      if(val===null || val===undefined) val=0;
-      cell.innerText = val;
-      if(val !== questions[index].correct && val!==0){
-        cell.style.background = '#f88'; // rouge
-      } else if(val===0){
-        cell.style.background = '#ff0'; // orange
+    // ---- Logique du jeu ----
+    let GAME = {};
+    // Utilitaires
+    function getTables(){
+      return Array.from(document.querySelectorAll('.tables-selector input:checked')).map(cb=>parseInt(cb.value));
+    }
+    function secToMMSS(s) {
+      const m = Math.floor(s/60), sec = (s%60).toString().padStart(2,'0');
+      return `${m}:${sec}`;
+    }
+    // Barre progression
+    function updateProgressBar(){
+      progressFill.style.width = ((GAME.idx)/GAME.nbQuestions*100)+'%';
+      progressText.textContent = `Question ${Math.min(GAME.idx+1,GAME.nbQuestions)} / ${GAME.nbQuestions}`;
+    }
+    function updateTimerDisplay(){
+      if (GAME.noTimerMode) timeDisplay.textContent = '';
+      else timeDisplay.textContent = secToMMSS(GAME.timeLeft);
+    }
+    // Génération + démarrage partie
+    function generateSerie(){
+      let tables = GAME.tables;
+      let serie = [];
+      for(let i=0;i<GAME.nbQuestions;i++) {
+        let a = tables[Math.floor(Math.random()*tables.length)];
+        let b = Math.floor(Math.random()*12)+1;
+        serie.push({a,b,r:a*b});
       }
-      row.appendChild(cell);
+      return serie;
     }
-    table.appendChild(row);
-  }
-}
+    // Démarrage
+    startGame.onclick = () => {
+      GAME = {
+        tables: getTables(), nbQuestions: parseInt(questionCount.value), timeLimit: parseFloat(timeLimit.value)*60,
+        noTimerMode: noTimerMode.checked,
+        idx:0, score:0, timer:null, timeLeft:0, serie:[], userAnswers:[]
+      };
+      if (GAME.tables.length===0) {alert('Sélectionnez au moins une table'); return;}
+      GAME.serie = generateSerie();
+      GAME.timeLeft = GAME.noTimerMode?0:GAME.timeLimit;
+      GAME.userAnswers = [];
+      showGame();
+      showQuestion();
+      if (!GAME.noTimerMode) {
+        GAME.timer = setInterval(()=>{
+          GAME.timeLeft--;
+          updateTimerDisplay();
+          if (GAME.timeLeft<=0) endGame();
+        }, 1000);
+      }
+      updateTimerDisplay();
+      updateProgressBar();
+      savePrefs();
+    };
+    // Affichage des zones
+    function showGame(){
+      document.querySelector('.settings-panel').style.display='none';
+      document.querySelector('.welcome-message').style.display='none';
+      document.getElementById('gameArea').style.display='block';
+      document.getElementById('resultsArea').style.display='none';
+    }
+    function showResults(){
+      document.querySelector('.settings-panel').style.display='none';
+      document.querySelector('.welcome-message').style.display='none';
+      document.getElementById('gameArea').style.display='none';
+      document.getElementById('resultsArea').style.display='block';
+    }
+    function showSettings(){
+      document.querySelector('.settings-panel').style.display='block';
+      document.querySelector('.welcome-message').style.display='block';
+      document.getElementById('gameArea').style.display='none';
+      document.getElementById('resultsArea').style.display='none';
+    }
+    // Affichage question
+    const progressText=document.getElementById('progressText');
+    const progressFill=document.getElementById('progressFill');
+    const timeDisplay=document.getElementById('timeDisplay');
+    const questionDiv=document.getElementById('question');
+    const answerInput=document.getElementById('answerInput');
+    const validateBtn=document.getElementById('validateBtn');
+    function showQuestion(){
+      let q=GAME.serie[GAME.idx];
+      questionDiv.textContent = `${q.a} × ${q.b} = ?`;
+      answerInput.value = '';
+      answerInput.focus();
+      updateProgressBar();
+      updateTimerDisplay();
+    }
+    // Validation réponse
+    function doValidate(){
+      let ans = parseInt(answerInput.value); 
+      if (isNaN(ans)) ans = null;
+      GAME.userAnswers.push(ans);
+      if (ans === GAME.serie[GAME.idx].r) GAME.score++;
+      GAME.idx++;
+      if (GAME.idx>=GAME.nbQuestions) endGame();
+      else showQuestion();
+    }
+    validateBtn.onclick = doValidate;
+    answerInput.addEventListener('keypress', e=>{
+      if (e.key==="Enter") doValidate();
+    });
+    // Pause & Arrêt
+    pauseBtn.onclick = function(){
+      if (GAME.timer) {
+        clearInterval(GAME.timer);
+        GAME.timer=null;
+        pauseBtn.textContent="Reprendre";
+        validateBtn.disabled = true;
+        answerInput.disabled = true;
+      } else {
+        GAME.timer = setInterval(()=>{
+          GAME.timeLeft--;
+          updateTimerDisplay();
+          if (GAME.timeLeft<=0) endGame();
+        }, 1000);
+        pauseBtn.textContent="Pause";
+        validateBtn.disabled = false;
+        answerInput.disabled = false;
+        answerInput.focus();
+      }
+    };
+    stopBtn.onclick = function(){
+      if (GAME.timer) clearInterval(GAME.timer);
+      showSettings();
+    };
+    // Fin de partie
+    // Affichage résultats
+    const medalElem = document.getElementById('medal');
+    const medalText = document.getElementById('medalText');
+    const finalScore = document.getElementById('finalScore');
+    const correctCount = document.getElementById('correctCount');
+    const incorrectCount = document.getElementById('incorrectCount');
+    const missedCount = document.getElementById('missedCount');
+    const successPercentage = document.getElementById('successPercentage');
+    function endGame(){
+      if (GAME.timer) clearInterval(GAME.timer);
+      showResults();
+      let answered = GAME.userAnswers.length;
+      let nbQuestions = GAME.nbQuestions;
+      let good = 0, bad = 0, miss=0;
+      for(let i=0;i<nbQuestions;i++){
+        if (typeof GAME.userAnswers[i]==="number") {
+          if (GAME.userAnswers[i]===GAME.serie[i].r) good++;
+          else bad++;
+        } else miss++;
+      }
+      finalScore.textContent = `${good}/${nbQuestions}`;
+      correctCount.textContent = good;
+      incorrectCount.textContent = bad;
+      missedCount.textContent = miss;
+      let pct = nbQuestions===0 ? 0 : Math.round(100*good/nbQuestions);
+      successPercentage.textContent = `${pct}%`;
+      // Médailles
+      let medal = "🏆", medalName = "OR";
+      if (nbQuestions == 10) { // Spécial 10 questions
+        if(pct>=90){medal="🏆";medalName="OR";}
+        else if(pct>=80){medal="🥈";medalName="ARGENT";}
+        else if(pct>=70){medal="🥉";medalName="BRONZE";}
+        else{medal=medalBlanche();medalName="PAPIER";}
+      } else {
+        if(pct>=98){medal="🏆";medalName="OR";}
+        else if(pct>=95){medal="🥈";medalName="ARGENT";}
+        else if(pct>=90){medal="🥉";medalName="BRONZE";}
+        else{medal=medalBlanche();medalName="PAPIER";}
+      }
+      medalElem.innerHTML = medal;
+      medalText.innerHTML = medalName;
+      document.getElementById('resultsGrid').innerHTML = buildResultsGrid(GAME.serie, GAME.userAnswers);
+      document.getElementById('errorsList').innerHTML = buildErrorsList(GAME.serie, GAME.userAnswers);
+    }
+    function medalBlanche(){
+      // SVG blanc avec "4"
+      return `<svg width="64" height="64"><circle cx="32" cy="32" r="30" fill="#fff" stroke="#ccc" stroke-width="4"/><text x="32" y="44" text-anchor="middle" font-size="40" fill="#333" font-family="Arial" font-weight="bold">4</text></svg>`;
+    }
+    // Grille résultats
+    function buildResultsGrid(serie, userAnswers){
+      let html = '<tr><th>×</th>';
+      for(let i=1;i<=12;i++) html+=`<th>${i}</th>`;
+      html+='</tr>';
+      for(let a=1;a<=12;a++){
+        html+=`<tr><th>${a}</th>`;
+        for(let b=1;b<=12;b++){
+          let klass = '';
+          for(let i=0;i<serie.length;i++){
+            if(serie[i].a===a && serie[i].b===b){
+              if(userAnswers[i]===serie[i].r) klass='cell-correct';
+              else if(userAnswers[i]==null) klass='cell-missed';
+              else klass='cell-incorrect';
+              break;
+            }
+          }
+          html += `<td class="${klass}">${a*b}</td>`;
+        }
+        html+='</tr>';
+      }
+      return html;
+    }
+    // Liste erreurs détaillées
+    function buildErrorsList(serie, userAnswers){
+      let html = '';
+      for(let i=0;i<serie.length;i++){
+        if (typeof userAnswers[i]==="number" && userAnswers[i]!==serie[i].r){
+          html += `<div>${serie[i].a}&times;${serie[i].b} = ${serie[i].r} <span style="color:#f44"> (réponse : ${userAnswers[i]})</span></div>`;
+        } else if (userAnswers[i]==null){
+          html += `<div>${serie[i].a}&times;${serie[i].b} = ${serie[i].r} <span style="color:#ff0;"> (Non répondu)</span></div>`;
+        }
+      }
+      if (!html) html = "<div>Aucune erreur 👍</div>";
+      return html;
+    }
+    // Actions fin (nouvelle série / paramètres)
+    document.getElementById('newGameBtn').onclick = () => startGame.onclick();
+    document.getElementById('backToSettingsBtn').onclick = () => showSettings();
 
-/* bouton nouvelle séance */
-document.getElementById('restartBtn').addEventListener('click', () => {
-  document.getElementById('startBtn').click();
-});
-
-/* progress bar */
-function updateProgress() {
-  const progress = (currentQuestion / questions.length)*100;
-  document.getElementById('progressBar').style.width= progress+'%';
-}
-
-</script>
+    // Initial State
+    showSettings();
+  </script>
 </body>
 </html>
