@@ -1040,13 +1040,13 @@
       // SVG blanc avec "4"
       return `<svg width="64" height="64"><circle cx="32" cy="32" r="30" fill="#fff" stroke="#ccc" stroke-width="4"/><text x="32" y="44" text-anchor="middle" font-size="40" fill="#333" font-family="Arial" font-weight="bold">4</text></svg>`;
     }
-    // Grille résultats
+    // Grille résultats - ERREUR CORRIGÉE ICI
     function buildResultsGrid(serie, userAnswers){
       let html = '<tr><th>×</th>';
       for(let i=1;i<=12;i++) html+=`<th>${i}</th>`;
       html+='</tr>';
       for(let a=1;a<=12;a++){
-        html+=`<tr><th>${a</th>`;
+        html+=`<tr><th>${a}</th>`; // CORRIGÉ : accolade fermée
         for(let b=1;b<=12;b++){
           let klass = '';
           for(let i=0;i<serie.length;i++){
