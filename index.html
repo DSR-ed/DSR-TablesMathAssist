@@ -430,6 +430,119 @@
       border-radius:15px; background:var(--card-night); color:var(--text-night); width:200px; margin:20px 0;}
     body.day-mode .answer-input{border-color:var(--accent-day);background:var(--card-day);color:var(--text-day);}
     .medal { font-size:4rem;margin:20px 0;}
+    
+    /* ========== PAGE RÉSULTATS AMÉLIORÉE ========== */
+    .results-area h2 {
+      color: var(--accent-night); 
+      margin-bottom: 25px;
+      font-size: 2rem; 
+      text-align: center;
+    }
+    body.day-mode .results-area h2 { color: var(--accent-day);}
+    
+    /* Message de félicitation aléatoire */
+    .medal-message {
+      font-size: 1.3rem;
+      font-weight: 600;
+      text-align: center;
+      margin: 20px 0 30px 0;
+      padding: 15px;
+      border-radius: 12px;
+      line-height: 1.4;
+    }
+    
+    /* Couleurs selon la médaille */
+    .medal-message.gold {
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #8B4513;
+      border: 2px solid #DAA520;
+    }
+    .medal-message.silver {
+      background: linear-gradient(135deg, #C0C0C0, #A8A8A8);
+      color: #2F4F4F;
+      border: 2px solid #999999;
+    }
+    .medal-message.bronze {
+      background: linear-gradient(135deg, #CD7F32, #B8860B);
+      color: #FFFFFF;
+      border: 2px solid #A0522D;
+    }
+    .medal-message.paper {
+      background: linear-gradient(135deg, #F5F5F5, #E0E0E0);
+      color: #555555;
+      border: 2px solid #CCCCCC;
+    }
+    
+    /* Blocs de score harmonieux */
+    .score-blocks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 30px 0;
+    }
+    
+    .score-block {
+      background: var(--card-night);
+      border: 2px solid var(--accent-night);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    body.day-mode .score-block {
+      background: var(--card-day);
+      border-color: var(--accent-day);
+    }
+    
+    .score-block:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .score-label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent-night);
+      margin-bottom: 8px;
+    }
+    
+    body.day-mode .score-label {
+      color: var(--accent-day);
+    }
+    
+    .score-value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--text-night);
+    }
+    
+    body.day-mode .score-value {
+      color: var(--text-day);
+    }
+    
+    /* Responsive pour mobile */
+    @media (max-width: 768px) {
+      .score-blocks {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+      }
+      
+      .score-block {
+        padding: 15px;
+      }
+      
+      .score-value {
+        font-size: 1.5rem;
+      }
+      
+      .medal-message {
+        font-size: 1.1rem;
+        padding: 12px;
+      }
+    }
+    /* ========== FIN PAGE RÉSULTATS AMÉLIORÉE ========== */
+    
     .results-grid {overflow-x:auto; margin:30px 0;}
     .results-grid table {
       margin:0 auto; border-collapse:collapse; font-size:0.9rem;}
@@ -695,17 +808,39 @@
       <button id="stopBtn" class="btn-primary">Arrêter</button>
     </section>
 
+    <!-- ========== PAGE RÉSULTATS COMPLÈTEMENT REFAITE ========== -->
     <section id="resultsArea" class="results-area card">
-      <h2>Résultats de votre test</h2>
+      <h2>Résultats de ton test</h2>
       <div id="medal" class="medal">🏆</div>
       <div id="medalText">OR</div>
-      <div class="results-grid">
-        <div class="result-item"><div>Score global :</div><div id="finalScore" class="result-value">0/30</div></div>
-        <div class="result-item"><div>Bonnes réponses :</div><div id="correctCount" class="result-value">0</div></div>
-        <div class="result-item"><div>Mauvaises réponses :</div><div id="incorrectCount" class="result-value">0</div></div>
-        <div class="result-item"><div>Non répondues :</div><div id="missedCount" class="result-value">0</div></div>
+      
+      <!-- Message de félicitation aléatoire -->
+      <div id="medalMessage" class="medal-message"></div>
+      
+      <!-- Blocs de score harmonieux -->
+      <div class="score-blocks">
+        <div class="score-block">
+          <div class="score-label">Score global</div>
+          <div id="finalScore" class="score-value">0/30</div>
+        </div>
+        <div class="score-block">
+          <div class="score-label">Bonnes réponses</div>
+          <div id="correctCount" class="score-value">0</div>
+        </div>
+        <div class="score-block">
+          <div class="score-label">Mauvaises réponses</div>
+          <div id="incorrectCount" class="score-value">0</div>
+        </div>
+        <div class="score-block">
+          <div class="score-label">Non répondues</div>
+          <div id="missedCount" class="score-value">0</div>
+        </div>
+        <div class="score-block">
+          <div class="score-label">Pourcentage de réussite</div>
+          <div id="successPercentage" class="score-value">0%</div>
+        </div>
       </div>
-      <div class="result-item"><div>Pourcentage de réussite :</div><div id="successPercentage" class="result-value">0%</div></div>
+      
       <h3>Grille des résultats 12×12 :</h3>
       <div class="results-grid">
         <table id="resultsGrid"></table>
@@ -732,6 +867,58 @@
   </div>
   
   <script>
+    // ========== PHRASES ALÉATOIRES POUR MÉDAILLES ==========
+    const MEDAL_MESSAGES = {
+      gold: [
+        "Tu as gagné la coupe OR, félicitations tu as réussi une vraie prouesse !",
+        "Incroyable ! Tu maîtrises parfaitement tes tables, c'est de l'OR pur !",
+        "Champion(ne) ! Ton résultat est exceptionnel, tu mérites cette médaille d'OR !",
+        "Bravo ! Tu es un(e) véritable expert(e) des tables de multiplication !",
+        "Extraordinaire ! Tu as atteint l'excellence, cette médaille d'OR est bien méritée !",
+        "Fantastique ! Ton niveau est remarquable, tu peux être fier(e) de toi !",
+        "Exceptionnel ! Tu as démontré une maîtrise parfaite, félicitations !",
+        "Impressionnant ! Tes efforts ont payé, tu es au sommet !",
+        "Magnifique ! Tu as brillé comme de l'or, continue comme ça !",
+        "Parfait ! Tu es un(e) champion(ne) des mathématiques !"
+      ],
+      silver: [
+        "Très bien ! Tu as décroché la médaille d'ARGENT, c'est un excellent résultat !",
+        "Bravo ! Ton travail sérieux t'a mené à cette belle médaille d'ARGENT !",
+        "Super ! Tu es sur la bonne voie, cette médaille d'ARGENT le prouve !",
+        "Félicitations ! Ton niveau est très bon, tu peux être fier(e) !",
+        "Bien joué ! Cette médaille d'ARGENT récompense tes efforts !",
+        "Excellent travail ! Tu maîtrises bien tes tables, continue !",
+        "Très bon résultat ! Cette médaille d'ARGENT est méritée !",
+        "Bravo ! Tu progresses bien, cette médaille le confirme !",
+        "Super performance ! Tu es en bonne voie vers l'excellence !",
+        "Très bien ! Tes révisions portent leurs fruits !"
+      ],
+      bronze: [
+        "Bien ! Tu as obtenu la médaille de BRONZE, c'est un bon début !",
+        "Pas mal ! Cette médaille de BRONZE montre que tu progresses !",
+        "Bravo ! Tu as travaillé et cette médaille de BRONZE le récompense !",
+        "C'est un bon résultat ! Continue tes efforts pour progresser !",
+        "Bien joué ! Cette médaille de BRONZE est encourageante !",
+        "Tu y arrives ! Tes efforts commencent à payer !",
+        "Correct ! Tu es sur le bon chemin, persévère !",
+        "Pas mal du tout ! Continue à t'entraîner !",
+        "C'est bien ! Tu peux encore mieux faire, courage !",
+        "Bon travail ! Cette médaille te motive pour la suite !"
+      ],
+      paper: [
+        "Ne te décourage pas ! Avec plus d'entraînement, tu vas y arriver !",
+        "Courage ! Les tables demandent de la pratique, continue !",
+        "Pas grave ! Chaque erreur est une leçon, recommence !",
+        "Allez ! Avec de la persévérance, tu vas progresser !",
+        "C'est en forgeant qu'on devient forgeron, continue !",
+        "Ne baisse pas les bras ! La réussite demande du temps !",
+        "Courage ! Retravailles tes tables et tu vas y arriver !",
+        "Pas de panique ! Avec plus d'entraînement, ça viendra !",
+        "Continue ! Chaque tentative te rapproche du succès !",
+        "Persévère ! Les mathématiques s'apprennent avec la pratique !"
+      ]
+    };
+
     // ========== THÈME + BOUTONS DOUBLES ==========
     const themeToggle = document.getElementById('themeToggle'); // Mobile
     const themeToggleDesktop = document.getElementById('themeToggleDesktop'); // Desktop
@@ -1040,13 +1227,23 @@
       if (GAME.timer) clearInterval(GAME.timer);
       showSettings();
     };
+    
+    // ========== FONCTION MESSAGE ALÉATOIRE ==========
+    function getRandomMedalMessage(medalType) {
+      const messages = MEDAL_MESSAGES[medalType];
+      const randomIndex = Math.floor(Math.random() * messages.length);
+      return messages[randomIndex];
+    }
+    
     const medalElem = document.getElementById('medal');
     const medalText = document.getElementById('medalText');
+    const medalMessage = document.getElementById('medalMessage');
     const finalScore = document.getElementById('finalScore');
     const correctCount = document.getElementById('correctCount');
     const incorrectCount = document.getElementById('incorrectCount');
     const missedCount = document.getElementById('missedCount');
     const successPercentage = document.getElementById('successPercentage');
+    
     function endGame(){
       if (GAME.timer) clearInterval(GAME.timer);
       showResults();
@@ -1065,20 +1262,28 @@
       missedCount.textContent = miss;
       let pct = nbQuestions===0 ? 0 : Math.round(100*good/nbQuestions);
       successPercentage.textContent = `${pct}%`;
-      let medal = "🏆", medalName = "OR";
+      
+      // Déterminer médaille et message aléatoire
+      let medal = "🏆", medalName = "OR", medalType = "gold";
       if (nbQuestions == 10) {
-        if(pct>=90){medal="🏆";medalName="OR";}
-        else if(pct>=80){medal="🥈";medalName="ARGENT";}
-        else if(pct>=70){medal="🥉";medalName="BRONZE";}
-        else{medal=medalBlanche();medalName="PAPIER";}
+        if(pct>=90){medal="🏆";medalName="OR";medalType="gold";}
+        else if(pct>=80){medal="🥈";medalName="ARGENT";medalType="silver";}
+        else if(pct>=70){medal="🥉";medalName="BRONZE";medalType="bronze";}
+        else{medal=medalBlanche();medalName="PAPIER";medalType="paper";}
       } else {
-        if(pct>=98){medal="🏆";medalName="OR";}
-        else if(pct>=95){medal="🥈";medalName="ARGENT";}
-        else if(pct>=90){medal="🥉";medalName="BRONZE";}
-        else{medal=medalBlanche();medalName="PAPIER";}
+        if(pct>=98){medal="🏆";medalName="OR";medalType="gold";}
+        else if(pct>=95){medal="🥈";medalName="ARGENT";medalType="silver";}
+        else if(pct>=90){medal="🥉";medalName="BRONZE";medalType="bronze";}
+        else{medal=medalBlanche();medalName="PAPIER";medalType="paper";}
       }
+      
       medalElem.innerHTML = medal;
       medalText.innerHTML = medalName;
+      
+      // Afficher message aléatoire avec style approprié
+      medalMessage.textContent = getRandomMedalMessage(medalType);
+      medalMessage.className = `medal-message ${medalType}`;
+      
       document.getElementById('resultsGrid').innerHTML = buildResultsGrid(GAME.serie, GAME.userAnswers);
       document.getElementById('errorsList').innerHTML = buildErrorsList(GAME.serie, GAME.userAnswers);
     }
