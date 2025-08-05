@@ -33,43 +33,112 @@
       align-items: center;
       padding: 20px;
     }
+
+    /* ========== HEADER RESPONSIVE CORRIGÉ ========== */
     .header {
       width: 100%;
       max-width: 1200px;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
       margin-bottom: 30px;
       padding: 20px;
       background: var(--card-night);
       border-radius: 15px;
       backdrop-filter: blur(10px);
+      position: relative;
     }
     body.day-mode .header { background: var(--card-day);}
+
+    /* Desktop - Layout horizontal */
+    @media (min-width: 769px) {
+      .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .header-top {
+        display: contents;
+      }
+      .app-title {
+        flex: 1;
+        text-align: center;
+        margin: 0;
+      }
+    }
+
+    /* Mobile/Tablette - Layout vertical */
+    @media (max-width: 768px) {
+      .header {
+        padding: 15px;
+      }
+      .header-top {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+      .app-title {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+      }
+    }
+
     .header-logo img {
       height: 60px;
       width: auto;
     }
+    @media (max-width: 768px) {
+      .header-logo img {
+        height: 50px;
+      }
+    }
+
     .app-title {
       font-size: 2.5rem;
       font-weight: bold;
       color: var(--accent-night);
-      text-align: center;
-      flex: 1;
     }
     body.day-mode .app-title { color: var(--accent-day);}
+
+    @media (max-width: 768px) {
+      .app-title {
+        font-size: 1.8rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .app-title {
+        font-size: 1.5rem;
+      }
+    }
+
     .btn-theme {
       background: none;
       border: 2px solid var(--accent-night);
       border-radius: 50%;
-      width: 50px; height: 50px;
+      width: 50px; 
+      height: 50px;
       cursor: pointer;
       font-size: 1.5rem;
       transition: all .3s;
+      flex-shrink: 0;
     }
     body.day-mode .btn-theme { border-color: var(--accent-day);}
     .btn-theme:hover { transform: scale(1.1); background: var(--accent-night);}
     body.day-mode .btn-theme:hover { background: var(--accent-day);}
+
+    /* Bouton plus petit sur mobile */
+    @media (max-width: 768px) {
+      .btn-theme {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+    }
+    /* ========== FIN HEADER RESPONSIVE ========== */
+
     .card {
       background: var(--card-night);
       border-radius: 20px;
@@ -366,7 +435,6 @@
     .cell-incorrect {background:#f44 !important;}
     .cell-missed {background:#ff0 !important;}
     @media (max-width:768px){
-      .app-title{font-size:1.8rem;} .header{padding:15px;}
       .card{padding:20px;margin:10px;} .question{font-size:2rem;}
       .answer-input{font-size:1.5rem;width:150px;}
       .results-grid th, .results-grid td {width:25px;height:25px;font-size:0.8rem;}
@@ -385,14 +453,20 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- Header avec logo et bouton mode jour/nuit -->
+    <!-- ========== HEADER RESPONSIVE CORRIGÉ ========== -->
     <header class="header">
-      <div class="header-logo">
-        <img src="logofTDSR.png" alt="Logo DSR" />
+      <!-- Ligne du haut : Logo + Bouton (mobile/tablette) -->
+      <div class="header-top">
+        <div class="header-logo">
+          <img src="logofTDSR.png" alt="Logo DSR" />
+        </div>
+        <button id="themeToggle" class="btn-theme"><span class="theme-icon">🌙</span></button>
       </div>
+      
+      <!-- Titre (centré sous le logo sur mobile, au centre sur desktop) -->
       <h1 class="app-title">TablesMathAssist</h1>
-      <button id="themeToggle" class="btn-theme"><span class="theme-icon">🌙</span></button>
     </header>
+    <!-- ========== FIN HEADER CORRIGÉ ========== -->
 
     <!-- ========== PAGE ACCUEIL RESTRUCTURÉE ========== -->
     <div id="homePage">
@@ -964,6 +1038,7 @@
     function showGame(){
       document.querySelector('.settings-panel').style.display='none';
       document.querySelector('.welcome-message').style.display='none';
+      document.querySelector('.learn-panel').style.display='none';
       document.getElementById('gameArea').style.display='block';
       document.getElementById('resultsArea').style.display='none';
       document.getElementById('homePage').style.display='none';
@@ -973,6 +1048,7 @@
     function showResults(){
       document.querySelector('.settings-panel').style.display='none';
       document.querySelector('.welcome-message').style.display='none';
+      document.querySelector('.learn-panel').style.display='none';
       document.getElementById('gameArea').style.display='none';
       document.getElementById('resultsArea').style.display='block';
       document.getElementById('homePage').style.display='none';
@@ -982,6 +1058,7 @@
     function showSettings(){
       document.querySelector('.settings-panel').style.display='block';
       document.querySelector('.welcome-message').style.display='block';
+      document.querySelector('.learn-panel').style.display='block';
       document.getElementById('gameArea').style.display='none';
       document.getElementById('resultsArea').style.display='none';
       document.getElementById('homePage').style.display='block';
