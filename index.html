@@ -34,7 +34,7 @@
       padding: 20px;
     }
 
-    /* ========== HEADER ET CARDS - ALIGNEMENT PARFAIT ========== */
+    /* ========== HEADER ET CARDS - ALIGNEMENT PARFAIT CORRIGÉ ========== */
     .header, .card {
       width: 100%;
       max-width: 800px;
@@ -91,19 +91,21 @@
     .btn-theme:hover { transform: scale(1.1); background: var(--accent-night);}
     body.day-mode .btn-theme:hover { background: var(--accent-day);}
 
-    /* ========== MOBILE/TABLETTE - ALIGNEMENT ULTRA-PRÉCIS ========== */
+    /* ========== MOBILE/TABLETTE - ALIGNEMENT ULTRA-PRÉCIS CORRIGÉ ========== */
     @media (max-width: 768px) {
       .app-container {
-        padding: 10px; /* Réduit le padding général */
+        padding: 15px; /* Marge confortable sur mobile */
       }
       
       .header, .card {
-        /* FORCE l'alignement parfait */
-        width: calc(100vw - 20px); /* Largeur identique pour tous */
-        max-width: calc(100vw - 20px);
-        margin-left: 0;
-        margin-right: 0;
-        padding: 15px; /* Padding identique pour tous */
+        /* ALIGNEMENT PARFAIT UNIFORME */
+        width: calc(100vw - 30px); /* Largeur identique avec marges */
+        max-width: calc(100vw - 30px);
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px; /* Padding uniforme pour tous */
+        margin-top: 15px;
+        margin-bottom: 15px;
       }
       
       .header {
@@ -134,24 +136,24 @@
         height: 40px;
         font-size: 1.2rem;
       }
-      
-      .card {
-        padding: 20px; /* Padding différent pour les cards sur mobile */
-        margin: 10px 0; /* Margin réduite sur mobile */
-      }
     }
 
     @media (max-width: 480px) {
-      .app-title {
-        font-size: 1.5rem;
+      .app-container {
+        padding: 10px; /* Marge plus petite sur très petit écran */
       }
       
       .header, .card {
-        width: calc(100vw - 10px); /* Encore plus précis sur très petit écran */
-        max-width: calc(100vw - 10px);
+        width: calc(100vw - 20px); /* Largeur adaptée */
+        max-width: calc(100vw - 20px);
+        padding: 15px; /* Padding réduit sur très petit écran */
+      }
+      
+      .app-title {
+        font-size: 1.5rem;
       }
     }
-    /* ========== FIN MOBILE ULTRA-PRÉCIS ========== */
+    /* ========== FIN MOBILE ULTRA-PRÉCIS CORRIGÉ ========== */
 
     .card {
       padding: 30px;
@@ -1129,20 +1131,114 @@
     updateHeaderLayout();
     window.addEventListener('resize', updateHeaderLayout);
 
-    // ========== DONNÉES DES ASTUCES ==========
+    // ========== DONNÉES DES ASTUCES NOUVELLES ==========
     const ASTUCES = {
-      1: ["🟢 Facile ! Quand tu multiplies par 1, le nombre reste toujours pareil !", "• Exemples : 1 × 5 = 5, 1 × 8 = 8, 1 × 12 = 12", "• Astuce : Le 1 n'a pas de pouvoir magique, il ne change rien !", "• Entraîne-toi : dis \"1 fois 7 égale 7\" à voix haute"],
-      2: ["🟢 C'est la table des doubles !", "• Prends le nombre et double-le : 2 × 4 = 4 + 4 = 8", "• Compte de 2 en 2 : 2, 4, 6, 8, 10, 12, 14...", "• Astuce : Imagine 2 paquets identiques d'objets", "• Tous les résultats sont des nombres pairs !"],
-      3: ["🟠 Compte de 3 en 3 comme à la marelle !", "• Récite : 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36", "• Pour 3 × 4 = fais 3 + 3 + 3 + 3 = 12", "• Astuce : Saute de 3 cases à chaque fois !", "• Dessine 3 objets, puis encore 3, puis encore 3..."],
-      4: ["🟠 Double deux fois !", "• Prends le nombre, double-le, puis double encore", "• Exemple : 4 × 3 = 3 + 3 = 6, puis 6 + 6 = 12", "• Astuce : 4 = 2 + 2, alors fais deux fois la table de 2 !", "• Compte : 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48"],
-      5: ["🟢 Tous les résultats finissent par 0 ou 5 !", "• Récite : 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60", "• Règle magique : nombres pairs × 5 finissent par 0", "• Nombres impairs × 5 finissent par 5", "• Compte sur tes doigts : 5, 10 (une main complète !)"],
-      6: ["🟠 Récite la suite magique !", "• 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72", "• Compte sur tes doigts : sur chaque doigt dis 6, 12, 18...", "• Astuce : Chante cette suite comme une chanson !", "• 6 × nombre pair = résultat finit par 2, 4, 6, 8, 0"],
-      7: ["🔴 Pense aux jours de la semaine !", "• 7 jours = 1 semaine, 14 jours = 2 semaines...", "• 7 × 4 = 28 (4 semaines = 1 mois !)", "• Retiens : 7 × 8 = 56 (sept-huit = cinquante-six)", "• Compte : 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84"],
-      8: ["🔴 Double trois fois !", "• Pour 8 × 2 : 2 → 4 → 8 → 16", "• (2+2=4, puis 4+4=8, puis 8+8=16)", "• Astuce : 8 c'est 2×2×2, alors triple le doublement !", "• Compte : 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96"],
-      9: ["🟠 Magique ! Les chiffres du résultat font toujours 9 !", "• 9 × 4 = 36, et 3 + 6 = 9", "• 9 × 7 = 63, et 6 + 3 = 9", "• Astuce doigts : pour 9×3, baisse le 3e doigt = 27 !", "• Compte : 9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99, 108"],
-      10: ["🟢 Super facile ! Ajoute juste un 0 !", "• 10 × 7 = 70 (écris 7 puis 0)", "• 10 × 12 = 120 (écris 12 puis 0)", "• Astuce : 10 c'est magique, il transforme tout !", "• Compte : 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120"],
-      11: ["🟠 Pour 1 à 9, écris le chiffre deux fois !", "• 11 × 4 = 44 (écris 4 puis 4)", "• 11 × 7 = 77 (écris 7 puis 7)", "• Pour 10, 11, 12 c'est différent mais facile à retenir !", "• Compte : 11, 22, 33, 44, 55, 66, 77, 88, 99, 110, 121, 132"],
-      12: ["🔴 La douzaine ! Compte par 12 !", "• 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144", "• Pense à une douzaine d'œufs !", "• 12 × 5 = 60 (5 douzaines d'œufs)", "• Astuce : 12 = 10 + 2, alors 12×4 = 40+8 = 48"]
+      1: [
+        "🟢 C'est très facile ! Quand tu multiplies par 1, le nombre ne change jamais !",
+        "• Tu vois, 1 × 5 = 5, comme si tu avais 1 paquet de 5 bonbons = 5 bonbons",
+        "• C'est pareil avec tous les nombres : 1 × 8 = 8, 1 × 12 = 12",
+        "• Astuce : Le nombre 1 est comme un miroir, il ne change rien au nombre !",
+        "• Pour t'entraîner : dis tout haut '1 fois 7 égale 7' plusieurs fois"
+      ],
+      
+      2: [
+        "🟢 La table de 2, c'est très simple : tu doubles le nombre !",
+        "• Doubler, ça veut dire prendre deux fois la même chose",
+        "• Par exemple : 2 × 4, c'est comme avoir 4 + 4 = 8",
+        "• Tu peux compter de 2 en 2 : 2, 4, 6, 8, 10, 12, 14, 16, 18, 20...",
+        "• Astuce magique : tous les résultats finissent par 0, 2, 4, 6 ou 8 !",
+        "• Imagine 2 paquets identiques de biscuits, combien as-tu en tout ?"
+      ],
+      
+      3: [
+        "🟠 Pour la table de 3, compte de 3 en 3 comme en sautant à la marelle !",
+        "• Récite cette suite magique : 3, 6, 9, 12, 15, 18, 21, 24, 27, 30...",
+        "• Pour calculer 3 × 4, imagine 4 paquets de 3 bonbons chacun",
+        "• Tu peux aussi faire 3 + 3 + 3 + 3 = 12",
+        "• Astuce amusante : dessine 3 ronds, puis encore 3, puis encore 3...",
+        "• C'est comme faire 3 pas, puis 3 pas, puis 3 pas !"
+      ],
+      
+      4: [
+        "🟠 La table de 4, c'est comme doubler deux fois !",
+        "• D'abord tu doubles le nombre, puis tu doubles encore le résultat",
+        "• Exemple : 4 × 3 → d'abord 3 + 3 = 6, puis 6 + 6 = 12",
+        "• Tu peux réciter : 4, 8, 12, 16, 20, 24, 28, 32, 36, 40...",
+        "• Astuce : 4, c'est 2 + 2, alors fais deux fois la table de 2 !",
+        "• Pense à 4 roues sur une voiture, combien de roues sur plusieurs voitures ?"
+      ],
+      
+      5: [
+        "🟢 Super facile ! Tous les résultats de la table de 5 finissent par 0 ou 5 !",
+        "• Récite : 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60...",
+        "• Règle magique : nombre pair × 5 = résultat qui finit par 0",
+        "• Règle magique : nombre impair × 5 = résultat qui finit par 5", 
+        "• Compte sur tes doigts : une main complète = 5 !",
+        "• Pense aux pièces de 5 centimes dans ta tirelire !"
+      ],
+      
+      6: [
+        "🟠 Pour la table de 6, apprends cette suite comme une chanson !",
+        "• Chante : 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72...",
+        "• Utilise tes doigts : sur chaque doigt, dis 6, 12, 18, 24, 30, 36...",
+        "• Astuce : 6 × nombre pair donne un résultat qui finit par 2, 4, 6, 8 ou 0",
+        "• Pense aux œufs : une boîte de 6 œufs, combien d'œufs dans plusieurs boîtes ?",
+        "• Pour retenir : invente une petite chanson avec ces nombres !"
+      ],
+      
+      7: [
+        "🔴 Pense aux jours de la semaine pour retenir la table de 7 !",
+        "• Il y a 7 jours dans une semaine, 14 jours dans 2 semaines...",
+        "• Souviens-toi : 7 × 4 = 28 (c'est 4 semaines, presque 1 mois !)",
+        "• Truc pour retenir : 7 × 8 = 56 (sept-huit font cinquante-six)",
+        "• Récite : 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84...",
+        "• Compte les jours sur un calendrier pour t'aider !"
+      ],
+      
+      8: [
+        "🔴 La table de 8, c'est comme doubler 3 fois de suite !",
+        "• Pour 8 × 2 : prends 2, double-le (2+2=4), double encore (4+4=8), double encore (8+8=16)",
+        "• Astuce : 8 c'est 2×2×2, alors triple le doublement !",
+        "• Récite : 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96...",
+        "• Pense aux pattes d'une araignée : 8 pattes sur une araignée !",
+        "• Pour t'aider : écris la table et colorie-la pour mieux la retenir"
+      ],
+      
+      9: [
+        "🟠 La table de 9 a un secret magique incroyable !",
+        "• Secret : additionne les chiffres du résultat, tu obtiens toujours 9 !",
+        "• Exemple : 9 × 4 = 36, et 3 + 6 = 9 !",
+        "• Autre exemple : 9 × 7 = 63, et 6 + 3 = 9 !",
+        "• Astuce avec les doigts : pour 9×3, baisse ton 3ème doigt, lis 27 !",
+        "• Récite : 9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99, 108..."
+      ],
+      
+      10: [
+        "🟢 La plus facile de toutes ! Tu ajoutes juste un 0 !",
+        "• 10 × 7 = 70 (écris 7 puis ajoute 0)",
+        "• 10 × 12 = 120 (écris 12 puis ajoute 0)",
+        "• Astuce magique : le 10 transforme tous les nombres !",
+        "• Récite : 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120...",
+        "• Pense aux pièces de 10 centimes ou aux billets de 10 euros !"
+      ],
+      
+      11: [
+        "🟠 Pour les nombres de 1 à 9, écris le chiffre deux fois !",
+        "• 11 × 4 = 44 (écris 4, puis encore 4)",
+        "• 11 × 7 = 77 (écris 7, puis encore 7)",
+        "• Attention : pour 10, 11, 12 c'est différent mais facile à retenir !",
+        "• Récite : 11, 22, 33, 44, 55, 66, 77, 88, 99, 110, 121, 132...",
+        "• Astuce visuelle : tous les résultats jusqu'à 9 ont des chiffres jumeaux !"
+      ],
+      
+      12: [
+        "🔴 La table de 12, c'est la table des douzaines !",
+        "• Une douzaine = 12, comme une boîte de 12 œufs !",
+        "• Récite : 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144...",
+        "• 12 × 5 = 60 (5 douzaines d'œufs font 60 œufs)",
+        "• Astuce : 12 = 10 + 2, alors 12×4 = (10×4) + (2×4) = 40+8 = 48",
+        "• Pense aux heures sur une horloge : 12 heures !"
+      ]
     };
 
     // ========== NAVIGATION APPRENTISSAGE ==========
