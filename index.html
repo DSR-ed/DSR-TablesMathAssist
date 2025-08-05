@@ -82,12 +82,46 @@
     body.day-mode .card { background: var(--card-day);}
     .welcome-message {
       text-align: center; font-size: 1.3rem; line-height: 1.6;
+      font-weight: 500;
     }
-    .settings-panel h2 {
+    .settings-panel h2, .learn-panel h2 {
       color: var(--accent-night); margin-bottom: 25px;
       font-size: 2rem; text-align: center;
     }
-    body.day-mode .settings-panel h2 { color: var(--accent-day);}
+    body.day-mode .settings-panel h2, body.day-mode .learn-panel h2 { color: var(--accent-day);}
+    
+    /* ========== NOUVEAU PAVÉ APPRENTISSAGE ========== */
+    .learn-panel {
+      text-align: center;
+    }
+    .learn-panel .welcome-section {
+      margin-bottom: 25px;
+      padding: 20px;
+      background: rgba(142, 36, 170, 0.1);
+      border-radius: 15px;
+      border: 1px solid rgba(142, 36, 170, 0.3);
+    }
+    body.day-mode .learn-panel .welcome-section {
+      background: rgba(142, 36, 170, 0.05);
+    }
+    /* ========== FIN NOUVEAU PAVÉ ========== */
+    
+    /* ========== MESSAGE MOTIVANT DANS RÉGLAGES ========== */
+    .settings-motivating-message {
+      text-align: center; 
+      font-size: 1.2rem; 
+      line-height: 1.5;
+      margin-bottom: 25px;
+      padding: 15px;
+      background: rgba(25, 118, 210, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(25, 118, 210, 0.2);
+    }
+    body.day-mode .settings-motivating-message {
+      background: rgba(25, 118, 210, 0.08);
+    }
+    /* ========== FIN MESSAGE MOTIVANT ========== */
+    
     .form-group { margin-bottom: 25px;}
     .form-label {
       display: block; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; color: var(--accent-night);
@@ -360,16 +394,33 @@
       <button id="themeToggle" class="btn-theme"><span class="theme-icon">🌙</span></button>
     </header>
 
-    <!-- ========== PAGE ACCUEIL (inchangée) ========== -->
+    <!-- ========== PAGE ACCUEIL RESTRUCTURÉE ========== -->
     <div id="homePage">
-      <!-- Message de bienvenue -->
+      <!-- Message de bienvenue MODIFIÉ -->
       <div class="welcome-message card">
-        <p>Choisis tes réglages et commences ton entraînement ou mieux!!! Le test et gagnes la coupe. 🏆</p>
+        <p>L'application dédiée aux élèves de CM1 à la 5ème pour un apprentissage parfait des tables de multiplications de 1 à 12</p>
       </div>
 
-      <!-- Zone de paramètres -->
+      <!-- ========== NOUVEAU PAVÉ APPRENTISSAGE ========== -->
+      <section class="learn-panel card">
+        <h2>Apprends tes tables ici</h2>
+        <div class="welcome-section">
+          <p style="font-size: 1.1rem; margin-bottom: 20px;">
+            📚 Découvre les astuces et secrets de chaque table de multiplication !
+          </p>
+          <button id="learnBtn" class="btn-primary" style="background: #8e24aa;">Commencer à apprendre</button>
+        </div>
+      </section>
+
+      <!-- ========== PAVÉ RÉGLAGES MODIFIÉ ========== -->
       <section class="settings-panel card">
-        <h2>Réglages</h2>
+        <!-- Message motivant déplacé ici -->
+        <div class="settings-motivating-message">
+          <p>Choisis tes réglages et commences ton entraînement ou mieux!!! Le test et gagnes la coupe. 🏆</p>
+        </div>
+        
+        <h2>Réglages de ton Test</h2>
+        
         <div class="form-group">
           <label class="form-label">Tables à réviser :</label>
           <div class="tables-selector">
@@ -442,11 +493,10 @@
           </label>
         </div>
         <button id="startGame" class="btn-primary">Commencer le Test</button>
-        <button id="learnBtn" class="btn-primary" style="background: #8e24aa;">Apprentissage</button>
       </section>
     </div>
 
-    <!-- ========== PAGE APPRENTISSAGE ========== -->
+    <!-- ========== PAGE APPRENTISSAGE (inchangée) ========== -->
     <div id="learnPage" class="card">
       <h2 class="learn-title">Apprentissage des Tables de 1 à 12</h2>
       <p class="learn-sub">Clique sur une table pour apprendre ses secrets !</p>
@@ -519,7 +569,7 @@
       </div>
     </div>
 
-    <!-- ========== PAGE DÉTAIL TABLE ========== -->
+    <!-- ========== PAGE DÉTAIL TABLE (inchangée) ========== -->
     <div id="tableDetailPage" class="card">
       <div class="table-detail-header">
         <h2 id="tableDetailTitle" class="table-detail-title">Table de 2</h2>
@@ -535,7 +585,7 @@
       </div>
     </div>
 
-    <!-- ========== MODAL ASTUCES ========== -->
+    <!-- ========== MODAL ASTUCES (inchangée) ========== -->
     <div id="astuceModal" class="modal-overlay">
       <div class="modal-content">
         <button id="closeAstuceModal" class="modal-close">×</button>
@@ -602,7 +652,7 @@
   </div>
   
   <script>
-    // ========== DONNÉES DES ASTUCES ==========
+    // ========== DONNÉES DES ASTUCES (inchangées) ==========
     const ASTUCES = {
       1: [
         "🟢 Facile ! Quand tu multiplies par 1, le nombre reste toujours pareil !",
@@ -706,7 +756,7 @@
       setTheme(currentTheme);
     };
 
-    // ========== NAVIGATION APPRENTISSAGE ==========
+    // ========== NAVIGATION APPRENTISSAGE (inchangée) ==========
     const learnBtn = document.getElementById('learnBtn');
     const learnPage = document.getElementById('learnPage');
     const homePage = document.getElementById('homePage');
@@ -777,7 +827,7 @@
       window.scrollTo(0, 0);
     }
 
-    // ========== MODAL ASTUCES ==========
+    // ========== MODAL ASTUCES (inchangée) ==========
     const showAstuceBtn = document.getElementById('showAstuceBtn');
     const astuceModal = document.getElementById('astuceModal');
     const closeAstuceModal = document.getElementById('closeAstuceModal');
@@ -1040,13 +1090,13 @@
       // SVG blanc avec "4"
       return `<svg width="64" height="64"><circle cx="32" cy="32" r="30" fill="#fff" stroke="#ccc" stroke-width="4"/><text x="32" y="44" text-anchor="middle" font-size="40" fill="#333" font-family="Arial" font-weight="bold">4</text></svg>`;
     }
-    // Grille résultats - ERREUR CORRIGÉE ICI
+    // Grille résultats
     function buildResultsGrid(serie, userAnswers){
       let html = '<tr><th>×</th>';
       for(let i=1;i<=12;i++) html+=`<th>${i}</th>`;
       html+='</tr>';
       for(let a=1;a<=12;a++){
-        html+=`<tr><th>${a}</th>`; // CORRIGÉ : accolade fermée
+        html+=`<tr><th>${a}</th>`;
         for(let b=1;b<=12;b++){
           let klass = '';
           for(let i=0;i<serie.length;i++){
