@@ -34,85 +34,40 @@
       padding: 20px;
     }
 
-    /* ========== HEADER RESPONSIVE CORRIGÉ ========== */
+    /* ========== HEADER RESPONSIVE PARFAITEMENT CORRIGÉ ========== */
     .header {
       width: 100%;
-      max-width: 1200px;
+      max-width: 800px; /* MÊME largeur que les .card */
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
       margin-bottom: 30px;
       padding: 20px;
       background: var(--card-night);
-      border-radius: 15px;
+      border-radius: 20px; /* MÊME border-radius que les .card */
       backdrop-filter: blur(10px);
-      position: relative;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3); /* MÊME shadow que les .card */
     }
     body.day-mode .header { background: var(--card-day);}
 
-    /* Desktop - Layout horizontal */
-    @media (min-width: 769px) {
-      .header {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .header-top {
-        display: contents;
-      }
-      .app-title {
-        flex: 1;
-        text-align: center;
-        margin: 0;
-      }
-    }
-
-    /* Mobile/Tablette - Layout vertical */
-    @media (max-width: 768px) {
-      .header {
-        padding: 15px;
-      }
-      .header-top {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-      }
-      .app-title {
-        width: 100%;
-        text-align: center;
-        margin: 0;
-      }
+    /* Desktop - Layout horizontal (par défaut) */
+    .header-top {
+      display: none; /* Caché sur desktop */
     }
 
     .header-logo img {
       height: 60px;
       width: auto;
     }
-    @media (max-width: 768px) {
-      .header-logo img {
-        height: 50px;
-      }
-    }
 
     .app-title {
       font-size: 2.5rem;
       font-weight: bold;
       color: var(--accent-night);
+      text-align: center;
+      flex: 1;
     }
     body.day-mode .app-title { color: var(--accent-day);}
-
-    @media (max-width: 768px) {
-      .app-title {
-        font-size: 1.8rem;
-      }
-    }
-    @media (max-width: 480px) {
-      .app-title {
-        font-size: 1.5rem;
-      }
-    }
 
     .btn-theme {
       background: none;
@@ -129,12 +84,41 @@
     .btn-theme:hover { transform: scale(1.1); background: var(--accent-night);}
     body.day-mode .btn-theme:hover { background: var(--accent-day);}
 
-    /* Bouton plus petit sur mobile */
+    /* ========== MOBILE/TABLETTE UNIQUEMENT ========== */
     @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+      }
+      
+      .header-top {
+        display: flex; /* Visible sur mobile */
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+      
+      .header-logo img {
+        height: 50px;
+      }
+      
+      .app-title {
+        font-size: 1.8rem;
+        margin: 0;
+      }
+      
       .btn-theme {
         width: 40px;
         height: 40px;
         font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .app-title {
+        font-size: 1.5rem;
       }
     }
     /* ========== FIN HEADER RESPONSIVE ========== */
@@ -144,7 +128,8 @@
       border-radius: 20px;
       padding: 30px;
       margin: 15px 0;
-      width: 100%; max-width: 800px;
+      width: 100%; 
+      max-width: 800px;
       backdrop-filter: blur(10px);
       box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
@@ -453,18 +438,26 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- ========== HEADER RESPONSIVE CORRIGÉ ========== -->
+    <!-- ========== HEADER PARFAITEMENT CORRIGÉ ========== -->
     <header class="header">
-      <!-- Ligne du haut : Logo + Bouton (mobile/tablette) -->
+      <!-- Ligne du haut : Logo + Bouton (UNIQUEMENT mobile) -->
       <div class="header-top">
         <div class="header-logo">
           <img src="logofTDSR.png" alt="Logo DSR" />
         </div>
         <button id="themeToggle" class="btn-theme"><span class="theme-icon">🌙</span></button>
       </div>
+
+      <!-- Layout desktop : Logo | Titre | Bouton (UNIQUEMENT desktop) -->
+      <div class="header-logo" style="display: none;">
+        <img src="logofTDSR.png" alt="Logo DSR" />
+      </div>
       
       <!-- Titre (centré sous le logo sur mobile, au centre sur desktop) -->
       <h1 class="app-title">TablesMathAssist</h1>
+      
+      <!-- Bouton desktop (UNIQUEMENT desktop) -->
+      <button id="themeToggleDesktop" class="btn-theme" style="display: none;"><span class="theme-icon">🌙</span></button>
     </header>
     <!-- ========== FIN HEADER CORRIGÉ ========== -->
 
@@ -570,7 +563,7 @@
       </section>
     </div>
 
-    <!-- ========== PAGE APPRENTISSAGE (inchangée) ========== -->
+    <!-- ========== PAGES APPRENTISSAGE (inchangées) ========== -->
     <div id="learnPage" class="card">
       <h2 class="learn-title">Apprentissage des Tables de 1 à 12</h2>
       <p class="learn-sub">Clique sur une table pour apprendre ses secrets !</p>
@@ -670,7 +663,7 @@
       </div>
     </div>
 
-    <!-- Zone de jeu (inchangée) -->
+    <!-- Zones de jeu et résultats (inchangées) -->
     <section id="gameArea" class="game-area card">
       <div class="progress-info">
         <span id="progressText">Question 1 / 30</span>
@@ -687,7 +680,6 @@
       <button id="stopBtn" class="btn-primary">Arrêter</button>
     </section>
 
-    <!-- Zone résultats (inchangée) -->
     <section id="resultsArea" class="results-area card">
       <h2>Résultats de votre test</h2>
       <div id="medal" class="medal">🏆</div>
@@ -726,6 +718,55 @@
   </div>
   
   <script>
+    // ========== THÈME + BOUTONS DOUBLES ==========
+    const themeToggle = document.getElementById('themeToggle'); // Mobile
+    const themeToggleDesktop = document.getElementById('themeToggleDesktop'); // Desktop
+    const themeIcons = document.querySelectorAll('.theme-icon');
+    
+    // Fonction thème
+    function setTheme(mode) {
+      document.body.classList.toggle('day-mode', mode === 'day');
+      themeIcons.forEach(icon => {
+        icon.textContent = (mode === 'day') ? '☀️' : '🌙';
+      });
+      localStorage.setItem('tma_theme', mode);
+    }
+    
+    let currentTheme = localStorage.getItem('tma_theme') || 'night';
+    setTheme(currentTheme);
+
+    // Event handlers pour les deux boutons
+    function toggleTheme() {
+      currentTheme = (currentTheme === 'day') ? 'night' : 'day';
+      setTheme(currentTheme);
+    }
+    
+    themeToggle.onclick = toggleTheme;
+    themeToggleDesktop.onclick = toggleTheme;
+
+    // ========== AFFICHAGE CONDITIONNEL DESKTOP/MOBILE ==========
+    function updateHeaderLayout() {
+      const isMobile = window.innerWidth <= 768;
+      
+      // Éléments desktop
+      const desktopLogo = document.querySelector('.header-logo:not(.header-top .header-logo)');
+      const desktopButton = document.getElementById('themeToggleDesktop');
+      
+      if (isMobile) {
+        // Mobile : cacher les éléments desktop
+        if (desktopLogo) desktopLogo.style.display = 'none';
+        if (desktopButton) desktopButton.style.display = 'none';
+      } else {
+        // Desktop : afficher les éléments et repositionner
+        if (desktopLogo) desktopLogo.style.display = 'block';
+        if (desktopButton) desktopButton.style.display = 'flex';
+      }
+    }
+    
+    // Mise à jour au chargement et redimensionnement
+    updateHeaderLayout();
+    window.addEventListener('resize', updateHeaderLayout);
+
     // ========== DONNÉES DES ASTUCES (inchangées) ==========
     const ASTUCES = {
       1: [
@@ -813,24 +854,7 @@
       ]
     };
 
-    // ---- JS principal (inchangé) ----
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.querySelector('.theme-icon');
-    // Thème
-    function setTheme(mode) {
-      document.body.classList.toggle('day-mode', mode === 'day');
-      themeIcon.textContent = (mode === 'day') ? '☀️' : '🌙';
-      localStorage.setItem('tma_theme', mode);
-    }
-    let currentTheme = localStorage.getItem('tma_theme') || 'night';
-    setTheme(currentTheme);
-
-    themeToggle.onclick = () => {
-      currentTheme = (currentTheme === 'day') ? 'night' : 'day';
-      setTheme(currentTheme);
-    };
-
-    // ========== NAVIGATION APPRENTISSAGE (inchangée) ==========
+    // === JS NAVIGATION APPRENTISSAGE (inchangé) ===
     const learnBtn = document.getElementById('learnBtn');
     const learnPage = document.getElementById('learnPage');
     const homePage = document.getElementById('homePage');
@@ -841,7 +865,7 @@
     // Variables globales
     let currentTableNum = 1;
 
-    // Aller vers apprentissage
+    // Navigation
     learnBtn.onclick = () => {
       homePage.style.display = 'none';
       learnPage.style.display = 'block';
@@ -850,8 +874,6 @@
       document.getElementById('resultsArea').style.display = 'none';
       window.scrollTo(0, 0);
     };
-
-    // Retour vers accueil
     backHome.onclick = () => {
       learnPage.style.display = 'none';
       tableDetailPage.style.display = 'none';
@@ -860,15 +882,12 @@
       document.getElementById('resultsArea').style.display = 'none';
       window.scrollTo(0, 0);
     };
-
-    // Retour vers liste des tables
     backToLearnBtn.onclick = () => {
       tableDetailPage.style.display = 'none';
       learnPage.style.display = 'block';
       window.scrollTo(0, 0);
     };
 
-    // Clic sur une table → afficher détail
     document.querySelectorAll('.table-card').forEach(card => {
       card.onclick = () => {
         currentTableNum = parseInt(card.dataset.num);
@@ -876,68 +895,44 @@
       };
     });
 
-    // Afficher page détail d'une table
     function showTableDetail(tableNum) {
       learnPage.style.display = 'none';
       tableDetailPage.style.display = 'block';
-      
-      // Mettre à jour le titre
       document.getElementById('tableDetailTitle').textContent = `Table de ${tableNum}`;
-      
-      // Générer la grille des multiplications
       const grid = document.getElementById('multiplicationGrid');
       grid.innerHTML = '';
-      
       for (let i = 1; i <= 12; i++) {
         const card = document.createElement('div');
         card.className = 'mult-card';
-        card.innerHTML = `
-          <div class="mult-question">${tableNum} × ${i} =</div>
-          <div class="mult-answer">${tableNum * i}</div>
-        `;
+        card.innerHTML = `<div class="mult-question">${tableNum} × ${i} =</div><div class="mult-answer">${tableNum * i}</div>`;
         grid.appendChild(card);
       }
-      
       window.scrollTo(0, 0);
     }
 
-    // ========== MODAL ASTUCES (inchangée) ==========
+    // Modal astuces
     const showAstuceBtn = document.getElementById('showAstuceBtn');
     const astuceModal = document.getElementById('astuceModal');
     const closeAstuceModal = document.getElementById('closeAstuceModal');
     const astuceModalTitle = document.getElementById('astuceModalTitle');
     const astuceModalContent = document.getElementById('astuceModalContent');
 
-    // Ouvrir modal astuce
     showAstuceBtn.onclick = () => {
       astuceModalTitle.textContent = `Astuces Table de ${currentTableNum}`;
-      
-      // Remplir le contenu
       astuceModalContent.innerHTML = '';
       ASTUCES[currentTableNum].forEach(astuce => {
         const li = document.createElement('li');
         li.textContent = astuce;
         astuceModalContent.appendChild(li);
       });
-      
       astuceModal.classList.add('active');
     };
-
-    // Fermer modal astuce
-    closeAstuceModal.onclick = () => {
-      astuceModal.classList.remove('active');
-    };
-
-    // Fermer modal en cliquant à l'extérieur
+    closeAstuceModal.onclick = () => astuceModal.classList.remove('active');
     astuceModal.onclick = (e) => {
-      if (e.target === astuceModal) {
-        astuceModal.classList.remove('active');
-      }
+      if (e.target === astuceModal) astuceModal.classList.remove('active');
     };
 
-    // ========== FIN NAVIGATION APPRENTISSAGE ==========
-
-    // ---- STOCKAGE et init paramètres (inchangé) ----
+    // === RESTE DU JS INCHANGÉ (préférences, jeu, etc.) ===
     const prefsKey = 'tma_prefs_v2';
     function savePrefs() {
       localStorage.setItem(prefsKey, JSON.stringify({
@@ -957,7 +952,6 @@
       updateTimeLimitLabel();
       updateButtonText();
     }
-    // -- DOM refs --
     const questionCount = document.getElementById('questionCount');
     const timeLimit = document.getElementById('timeLimit');
     const timeLimitLabel = document.getElementById('timeLimitLabel');
@@ -973,16 +967,14 @@
     document.querySelectorAll('.tables-selector input').forEach(cb => {
       cb.addEventListener('change', savePrefs);
     });
-    // Bouton dynamique
     const startGame = document.getElementById('startGame');
     function updateButtonText(){
       startGame.textContent = noTimerMode.checked ? "Commencer l'entraînement" : "Commencer le Test";
     }
     loadPrefs();
 
-    // ---- Logique du jeu (inchangée) ----
+    // Logique du jeu (identique)
     let GAME = {};
-    // Utilitaires
     function getTables(){
       return Array.from(document.querySelectorAll('.tables-selector input:checked')).map(cb=>parseInt(cb.value));
     }
@@ -990,7 +982,6 @@
       const m = Math.floor(s/60), sec = (s%60).toString().padStart(2,'0');
       return `${m}:${sec}`;
     }
-    // Barre progression
     function updateProgressBar(){
       progressFill.style.width = ((GAME.idx)/GAME.nbQuestions*100)+'%';
       progressText.textContent = `Question ${Math.min(GAME.idx+1,GAME.nbQuestions)} / ${GAME.nbQuestions}`;
@@ -999,7 +990,6 @@
       if (GAME.noTimerMode) timeDisplay.textContent = '';
       else timeDisplay.textContent = secToMMSS(GAME.timeLeft);
     }
-    // Génération + démarrage partie
     function generateSerie(){
       let tables = GAME.tables;
       let serie = [];
@@ -1010,7 +1000,6 @@
       }
       return serie;
     }
-    // Démarrage
     startGame.onclick = () => {
       GAME = {
         tables: getTables(), nbQuestions: parseInt(questionCount.value), timeLimit: parseFloat(timeLimit.value)*60,
@@ -1034,7 +1023,6 @@
       updateProgressBar();
       savePrefs();
     };
-    // Affichage des zones
     function showGame(){
       document.querySelector('.settings-panel').style.display='none';
       document.querySelector('.welcome-message').style.display='none';
@@ -1065,7 +1053,6 @@
       document.getElementById('learnPage').style.display='none';
       document.getElementById('tableDetailPage').style.display='none';
     }
-    // Affichage question
     const progressText=document.getElementById('progressText');
     const progressFill=document.getElementById('progressFill');
     const timeDisplay=document.getElementById('timeDisplay');
@@ -1080,7 +1067,6 @@
       updateProgressBar();
       updateTimerDisplay();
     }
-    // Validation réponse
     function doValidate(){
       let ans = parseInt(answerInput.value); 
       if (isNaN(ans)) ans = null;
@@ -1094,7 +1080,6 @@
     answerInput.addEventListener('keypress', e=>{
       if (e.key==="Enter") doValidate();
     });
-    // Pause & Arrêt
     pauseBtn.onclick = function(){
       if (GAME.timer) {
         clearInterval(GAME.timer);
@@ -1118,8 +1103,6 @@
       if (GAME.timer) clearInterval(GAME.timer);
       showSettings();
     };
-    // Fin de partie
-    // Affichage résultats
     const medalElem = document.getElementById('medal');
     const medalText = document.getElementById('medalText');
     const finalScore = document.getElementById('finalScore');
@@ -1145,9 +1128,8 @@
       missedCount.textContent = miss;
       let pct = nbQuestions===0 ? 0 : Math.round(100*good/nbQuestions);
       successPercentage.textContent = `${pct}%`;
-      // Médailles
       let medal = "🏆", medalName = "OR";
-      if (nbQuestions == 10) { // Spécial 10 questions
+      if (nbQuestions == 10) {
         if(pct>=90){medal="🏆";medalName="OR";}
         else if(pct>=80){medal="🥈";medalName="ARGENT";}
         else if(pct>=70){medal="🥉";medalName="BRONZE";}
@@ -1164,10 +1146,8 @@
       document.getElementById('errorsList').innerHTML = buildErrorsList(GAME.serie, GAME.userAnswers);
     }
     function medalBlanche(){
-      // SVG blanc avec "4"
       return `<svg width="64" height="64"><circle cx="32" cy="32" r="30" fill="#fff" stroke="#ccc" stroke-width="4"/><text x="32" y="44" text-anchor="middle" font-size="40" fill="#333" font-family="Arial" font-weight="bold">4</text></svg>`;
     }
-    // Grille résultats
     function buildResultsGrid(serie, userAnswers){
       let html = '<tr><th>×</th>';
       for(let i=1;i<=12;i++) html+=`<th>${i}</th>`;
@@ -1190,7 +1170,6 @@
       }
       return html;
     }
-    // Liste erreurs détaillées
     function buildErrorsList(serie, userAnswers){
       let html = '';
       for(let i=0;i<serie.length;i++){
@@ -1203,11 +1182,9 @@
       if (!html) html = "<div>Aucune erreur 👍</div>";
       return html;
     }
-    // Actions fin (nouvelle série / paramètres)
     document.getElementById('newGameBtn').onclick = () => startGame.onclick();
     document.getElementById('backToSettingsBtn').onclick = () => showSettings();
 
-    // Initial State
     showSettings();
   </script>
 </body>
