@@ -34,21 +34,28 @@
       padding: 20px;
     }
 
-    /* ========== HEADER RESPONSIVE PARFAITEMENT CORRIGÉ ========== */
-    .header {
+    /* ========== HEADER ET CARDS - ALIGNEMENT PARFAIT ========== */
+    .header, .card {
       width: 100%;
-      max-width: 800px; /* MÊME largeur que les .card */
+      max-width: 800px;
+      background: var(--card-night);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      margin: 15px 0;
+    }
+    body.day-mode .header, body.day-mode .card { 
+      background: var(--card-day);
+    }
+
+    /* ========== HEADER DESKTOP ========== */
+    .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
       padding: 20px;
-      background: var(--card-night);
-      border-radius: 20px; /* MÊME border-radius que les .card */
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3); /* MÊME shadow que les .card */
+      margin-bottom: 30px;
     }
-    body.day-mode .header { background: var(--card-day);}
 
     /* Desktop - Layout horizontal (par défaut) */
     .header-top {
@@ -84,12 +91,25 @@
     .btn-theme:hover { transform: scale(1.1); background: var(--accent-night);}
     body.day-mode .btn-theme:hover { background: var(--accent-day);}
 
-    /* ========== MOBILE/TABLETTE UNIQUEMENT ========== */
+    /* ========== MOBILE/TABLETTE - ALIGNEMENT ULTRA-PRÉCIS ========== */
     @media (max-width: 768px) {
+      .app-container {
+        padding: 10px; /* Réduit le padding général */
+      }
+      
+      .header, .card {
+        /* FORCE l'alignement parfait */
+        width: calc(100vw - 20px); /* Largeur identique pour tous */
+        max-width: calc(100vw - 20px);
+        margin-left: 0;
+        margin-right: 0;
+        padding: 15px; /* Padding identique pour tous */
+      }
+      
       .header {
         flex-direction: column;
         align-items: center;
-        padding: 15px;
+        margin-bottom: 20px;
       }
       
       .header-top {
@@ -114,26 +134,28 @@
         height: 40px;
         font-size: 1.2rem;
       }
+      
+      .card {
+        padding: 20px; /* Padding différent pour les cards sur mobile */
+        margin: 10px 0; /* Margin réduite sur mobile */
+      }
     }
 
     @media (max-width: 480px) {
       .app-title {
         font-size: 1.5rem;
       }
+      
+      .header, .card {
+        width: calc(100vw - 10px); /* Encore plus précis sur très petit écran */
+        max-width: calc(100vw - 10px);
+      }
     }
-    /* ========== FIN HEADER RESPONSIVE ========== */
+    /* ========== FIN MOBILE ULTRA-PRÉCIS ========== */
 
     .card {
-      background: var(--card-night);
-      border-radius: 20px;
       padding: 30px;
-      margin: 15px 0;
-      width: 100%; 
-      max-width: 800px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
-    body.day-mode .card { background: var(--card-day);}
     .welcome-message {
       text-align: center; font-size: 1.3rem; line-height: 1.6;
       font-weight: 500;
@@ -419,8 +441,10 @@
     .cell-correct {background:transparent;}
     .cell-incorrect {background:#f44 !important;}
     .cell-missed {background:#ff0 !important;}
+    
+    /* Media queries pour autres éléments */
     @media (max-width:768px){
-      .card{padding:20px;margin:10px;} .question{font-size:2rem;}
+      .question{font-size:2rem;}
       .answer-input{font-size:1.5rem;width:150px;}
       .results-grid th, .results-grid td {width:25px;height:25px;font-size:0.8rem;}
       .table-num { font-size: 1.6rem; }
@@ -438,7 +462,7 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- ========== HEADER PARFAITEMENT CORRIGÉ ========== -->
+    <!-- ========== HEADER SIMPLIFIÉ ========== -->
     <header class="header">
       <!-- Ligne du haut : Logo + Bouton (UNIQUEMENT mobile) -->
       <div class="header-top">
@@ -459,7 +483,6 @@
       <!-- Bouton desktop (UNIQUEMENT desktop) -->
       <button id="themeToggleDesktop" class="btn-theme" style="display: none;"><span class="theme-icon">🌙</span></button>
     </header>
-    <!-- ========== FIN HEADER CORRIGÉ ========== -->
 
     <!-- ========== PAGE ACCUEIL RESTRUCTURÉE ========== -->
     <div id="homePage">
@@ -636,7 +659,7 @@
       </div>
     </div>
 
-    <!-- ========== PAGE DÉTAIL TABLE (inchangée) ========== -->
+    <!-- Toutes les autres sections restent identiques... -->
     <div id="tableDetailPage" class="card">
       <div class="table-detail-header">
         <h2 id="tableDetailTitle" class="table-detail-title">Table de 2</h2>
@@ -645,25 +668,17 @@
           <button id="backToLearnBtn" class="btn-return">← Retour</button>
         </div>
       </div>
-
-      <!-- Grille des multiplications -->
-      <div id="multiplicationGrid" class="multiplication-grid">
-        <!-- Généré dynamiquement par JS -->
-      </div>
+      <div id="multiplicationGrid" class="multiplication-grid"></div>
     </div>
 
-    <!-- ========== MODAL ASTUCES (inchangée) ========== -->
     <div id="astuceModal" class="modal-overlay">
       <div class="modal-content">
         <button id="closeAstuceModal" class="modal-close">×</button>
         <h3 id="astuceModalTitle" class="modal-title">Astuces Table de 2</h3>
-        <ul id="astuceModalContent" class="astuce-list">
-          <!-- Généré dynamiquement par JS -->
-        </ul>
+        <ul id="astuceModalContent" class="astuce-list"></ul>
       </div>
     </div>
 
-    <!-- Zones de jeu et résultats (inchangées) -->
     <section id="gameArea" class="game-area card">
       <div class="progress-info">
         <span id="progressText">Question 1 / 30</span>
@@ -706,7 +721,6 @@
       <button id="backToSettingsBtn" class="btn-primary">Modifier les paramètres</button>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
       <div class="footer-logo">
         <img src="logofTDSR.png" alt="Logo DSR">
@@ -769,103 +783,29 @@
 
     // ========== DONNÉES DES ASTUCES (inchangées) ==========
     const ASTUCES = {
-      1: [
-        "🟢 Facile ! Quand tu multiplies par 1, le nombre reste toujours pareil !",
-        "• Exemples : 1 × 5 = 5, 1 × 8 = 8, 1 × 12 = 12",
-        "• Astuce : Le 1 n'a pas de pouvoir magique, il ne change rien !",
-        "• Entraîne-toi : dis \"1 fois 7 égale 7\" à voix haute"
-      ],
-      2: [
-        "🟢 C'est la table des doubles !",
-        "• Prends le nombre et double-le : 2 × 4 = 4 + 4 = 8",
-        "• Compte de 2 en 2 : 2, 4, 6, 8, 10, 12, 14...",
-        "• Astuce : Imagine 2 paquets identiques d'objets",
-        "• Tous les résultats sont des nombres pairs !"
-      ],
-      3: [
-        "🟠 Compte de 3 en 3 comme à la marelle !",
-        "• Récite : 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36",
-        "• Pour 3 × 4 = fais 3 + 3 + 3 + 3 = 12",
-        "• Astuce : Saute de 3 cases à chaque fois !",
-        "• Dessine 3 objets, puis encore 3, puis encore 3..."
-      ],
-      4: [
-        "🟠 Double deux fois !",
-        "• Prends le nombre, double-le, puis double encore",
-        "• Exemple : 4 × 3 = 3 + 3 = 6, puis 6 + 6 = 12",
-        "• Astuce : 4 = 2 + 2, alors fais deux fois la table de 2 !",
-        "• Compte : 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48"
-      ],
-      5: [
-        "🟢 Tous les résultats finissent par 0 ou 5 !",
-        "• Récite : 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
-        "• Règle magique : nombres pairs × 5 finissent par 0",
-        "• Nombres impairs × 5 finissent par 5",
-        "• Compte sur tes doigts : 5, 10 (une main complète !)"
-      ],
-      6: [
-        "🟠 Récite la suite magique !",
-        "• 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72",
-        "• Compte sur tes doigts : sur chaque doigt dis 6, 12, 18...",
-        "• Astuce : Chante cette suite comme une chanson !",
-        "• 6 × nombre pair = résultat finit par 2, 4, 6, 8, 0"
-      ],
-      7: [
-        "🔴 Pense aux jours de la semaine !",
-        "• 7 jours = 1 semaine, 14 jours = 2 semaines...",
-        "• 7 × 4 = 28 (4 semaines = 1 mois !)",
-        "• Retiens : 7 × 8 = 56 (sept-huit = cinquante-six)",
-        "• Compte : 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84"
-      ],
-      8: [
-        "🔴 Double trois fois !",
-        "• Pour 8 × 2 : 2 → 4 → 8 → 16",
-        "• (2+2=4, puis 4+4=8, puis 8+8=16)",
-        "• Astuce : 8 c'est 2×2×2, alors triple le doublement !",
-        "• Compte : 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96"
-      ],
-      9: [
-        "🟠 Magique ! Les chiffres du résultat font toujours 9 !",
-        "• 9 × 4 = 36, et 3 + 6 = 9",
-        "• 9 × 7 = 63, et 6 + 3 = 9",
-        "• Astuce doigts : pour 9×3, baisse le 3e doigt = 27 !",
-        "• Compte : 9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99, 108"
-      ],
-      10: [
-        "🟢 Super facile ! Ajoute juste un 0 !",
-        "• 10 × 7 = 70 (écris 7 puis 0)",
-        "• 10 × 12 = 120 (écris 12 puis 0)",
-        "• Astuce : 10 c'est magique, il transforme tout !",
-        "• Compte : 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120"
-      ],
-      11: [
-        "🟠 Pour 1 à 9, écris le chiffre deux fois !",
-        "• 11 × 4 = 44 (écris 4 puis 4)",
-        "• 11 × 7 = 77 (écris 7 puis 7)",
-        "• Pour 10, 11, 12 c'est différent mais facile à retenir !",
-        "• Compte : 11, 22, 33, 44, 55, 66, 77, 88, 99, 110, 121, 132"
-      ],
-      12: [
-        "🔴 La douzaine ! Compte par 12 !",
-        "• 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144",
-        "• Pense à une douzaine d'œufs !",
-        "• 12 × 5 = 60 (5 douzaines d'œufs)",
-        "• Astuce : 12 = 10 + 2, alors 12×4 = 40+8 = 48"
-      ]
+      1: ["🟢 Facile ! Quand tu multiplies par 1, le nombre reste toujours pareil !", "• Exemples : 1 × 5 = 5, 1 × 8 = 8, 1 × 12 = 12", "• Astuce : Le 1 n'a pas de pouvoir magique, il ne change rien !", "• Entraîne-toi : dis \"1 fois 7 égale 7\" à voix haute"],
+      2: ["🟢 C'est la table des doubles !", "• Prends le nombre et double-le : 2 × 4 = 4 + 4 = 8", "• Compte de 2 en 2 : 2, 4, 6, 8, 10, 12, 14...", "• Astuce : Imagine 2 paquets identiques d'objets", "• Tous les résultats sont des nombres pairs !"],
+      3: ["🟠 Compte de 3 en 3 comme à la marelle !", "• Récite : 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36", "• Pour 3 × 4 = fais 3 + 3 + 3 + 3 = 12", "• Astuce : Saute de 3 cases à chaque fois !", "• Dessine 3 objets, puis encore 3, puis encore 3..."],
+      4: ["🟠 Double deux fois !", "• Prends le nombre, double-le, puis double encore", "• Exemple : 4 × 3 = 3 + 3 = 6, puis 6 + 6 = 12", "• Astuce : 4 = 2 + 2, alors fais deux fois la table de 2 !", "• Compte : 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48"],
+      5: ["🟢 Tous les résultats finissent par 0 ou 5 !", "• Récite : 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60", "• Règle magique : nombres pairs × 5 finissent par 0", "• Nombres impairs × 5 finissent par 5", "• Compte sur tes doigts : 5, 10 (une main complète !)"],
+      6: ["🟠 Récite la suite magique !", "• 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72", "• Compte sur tes doigts : sur chaque doigt dis 6, 12, 18...", "• Astuce : Chante cette suite comme une chanson !", "• 6 × nombre pair = résultat finit par 2, 4, 6, 8, 0"],
+      7: ["🔴 Pense aux jours de la semaine !", "• 7 jours = 1 semaine, 14 jours = 2 semaines...", "• 7 × 4 = 28 (4 semaines = 1 mois !)", "• Retiens : 7 × 8 = 56 (sept-huit = cinquante-six)", "• Compte : 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84"],
+      8: ["🔴 Double trois fois !", "• Pour 8 × 2 : 2 → 4 → 8 → 16", "• (2+2=4, puis 4+4=8, puis 8+8=16)", "• Astuce : 8 c'est 2×2×2, alors triple le doublement !", "• Compte : 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96"],
+      9: ["🟠 Magique ! Les chiffres du résultat font toujours 9 !", "• 9 × 4 = 36, et 3 + 6 = 9", "• 9 × 7 = 63, et 6 + 3 = 9", "• Astuce doigts : pour 9×3, baisse le 3e doigt = 27 !", "• Compte : 9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99, 108"],
+      10: ["🟢 Super facile ! Ajoute juste un 0 !", "• 10 × 7 = 70 (écris 7 puis 0)", "• 10 × 12 = 120 (écris 12 puis 0)", "• Astuce : 10 c'est magique, il transforme tout !", "• Compte : 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120"],
+      11: ["🟠 Pour 1 à 9, écris le chiffre deux fois !", "• 11 × 4 = 44 (écris 4 puis 4)", "• 11 × 7 = 77 (écris 7 puis 7)", "• Pour 10, 11, 12 c'est différent mais facile à retenir !", "• Compte : 11, 22, 33, 44, 55, 66, 77, 88, 99, 110, 121, 132"],
+      12: ["🔴 La douzaine ! Compte par 12 !", "• 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144", "• Pense à une douzaine d'œufs !", "• 12 × 5 = 60 (5 douzaines d'œufs)", "• Astuce : 12 = 10 + 2, alors 12×4 = 40+8 = 48"]
     };
 
-    // === JS NAVIGATION APPRENTISSAGE (inchangé) ===
+    // Le reste du JavaScript reste identique...
     const learnBtn = document.getElementById('learnBtn');
     const learnPage = document.getElementById('learnPage');
     const homePage = document.getElementById('homePage');
     const backHome = document.getElementById('backHome');
     const tableDetailPage = document.getElementById('tableDetailPage');
     const backToLearnBtn = document.getElementById('backToLearnBtn');
-
-    // Variables globales
     let currentTableNum = 1;
 
-    // Navigation
     learnBtn.onclick = () => {
       homePage.style.display = 'none';
       learnPage.style.display = 'block';
@@ -910,7 +850,6 @@
       window.scrollTo(0, 0);
     }
 
-    // Modal astuces
     const showAstuceBtn = document.getElementById('showAstuceBtn');
     const astuceModal = document.getElementById('astuceModal');
     const closeAstuceModal = document.getElementById('closeAstuceModal');
@@ -932,7 +871,6 @@
       if (e.target === astuceModal) astuceModal.classList.remove('active');
     };
 
-    // === RESTE DU JS INCHANGÉ (préférences, jeu, etc.) ===
     const prefsKey = 'tma_prefs_v2';
     function savePrefs() {
       localStorage.setItem(prefsKey, JSON.stringify({
@@ -973,7 +911,6 @@
     }
     loadPrefs();
 
-    // Logique du jeu (identique)
     let GAME = {};
     function getTables(){
       return Array.from(document.querySelectorAll('.tables-selector input:checked')).map(cb=>parseInt(cb.value));
