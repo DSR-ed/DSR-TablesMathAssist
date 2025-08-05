@@ -131,18 +131,18 @@
     body.day-mode .btn-primary { background: var(--accent-day);}
     .btn-primary:hover { transform: translateY(-2px);}
     
-    /* ========== STYLES APPRENTISSAGE AJOUTÉS ========== */
-    #learnPage { display: none; }
-    .learn-title {
+    /* ========== STYLES APPRENTISSAGE ========== */
+    #learnPage, #tableDetailPage { display: none; }
+    .learn-title, .table-detail-title {
       font-size: 2rem; font-weight: bold; margin-bottom: 5px; text-align: center;
       color: var(--text-night);
     }
-    body.day-mode .learn-title { color: var(--text-day); }
-    .learn-sub {
+    body.day-mode .learn-title, body.day-mode .table-detail-title { color: var(--text-day); }
+    .learn-sub, .table-detail-sub {
       font-size: 1.1rem; text-align: center; margin-bottom: 25px;
       color: var(--text-night);
     }
-    body.day-mode .learn-sub { color: var(--text-day); }
+    body.day-mode .learn-sub, body.day-mode .table-detail-sub { color: var(--text-day); }
     .legend {
       display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; 
       font-weight: 600; color: var(--text-night);
@@ -175,6 +175,94 @@
     .easy { border-color: #4caf50; }
     .medium { border-color: #ff9800; }
     .hard { border-color: #f44336; }
+
+    /* Page détail table */
+    .table-detail-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 25px;
+    }
+    .btn-astuce {
+      background: #4285f4; color: white;
+      border: none; padding: 10px 20px; font-size: 1.1rem; font-weight: bold;
+      border-radius: 10px; cursor: pointer; transition: all .3s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-astuce:hover { background: #3367d6; }
+    .btn-return {
+      background: #6c757d; color: white;
+      border: none; padding: 10px 20px; font-size: 1.1rem; font-weight: bold;
+      border-radius: 10px; cursor: pointer; transition: all .3s;
+    }
+    .btn-return:hover { background: #5a6268; }
+    .multiplication-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+    }
+    .mult-card {
+      background: #4285f4;
+      color: white;
+      border-radius: 12px;
+      padding: 20px 10px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .mult-question {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+    .mult-answer {
+      font-size: 1.8rem;
+      color: #ffd700;
+    }
+
+    /* Modal astuces */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: var(--card-night);
+      border-radius: 15px;
+      padding: 25px;
+      max-width: 90vw;
+      width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    body.day-mode .modal-content { background: var(--card-day); }
+    .modal-close {
+      position: absolute;
+      top: 15px; right: 20px;
+      background: none; border: none;
+      font-size: 1.5rem; cursor: pointer;
+      color: var(--text-night);
+    }
+    body.day-mode .modal-close { color: var(--text-day); }
+    .modal-title {
+      font-size: 1.5rem; font-weight: bold;
+      margin-bottom: 15px; text-align: center;
+      color: var(--accent-night);
+    }
+    body.day-mode .modal-title { color: var(--accent-day); }
+    .astuce-list {
+      list-style: none; padding: 0;
+    }
+    .astuce-list li {
+      margin-bottom: 12px; padding: 8px 0;
+      font-size: 1.1rem; line-height: 1.4;
+      color: var(--text-night);
+    }
+    body.day-mode .astuce-list li { color: var(--text-day); }
     /* ========== FIN STYLES APPRENTISSAGE ========== */
 
     .game-area, .results-area { display:none; text-align:center;}
@@ -210,6 +298,7 @@
       .results-grid th, .results-grid td {width:25px;height:25px;font-size:0.8rem;}
       .table-num { font-size: 1.6rem; }
       .grid-tables { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+      .multiplication-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
     }
     .footer {margin-top:auto;text-align:center;padding:30px;}
     .footer-logo img {height:40px;margin-bottom:10px;}
@@ -310,13 +399,11 @@
           </label>
         </div>
         <button id="startGame" class="btn-primary">Commencer le Test</button>
-        <!-- ========== NOUVEAU BOUTON APPRENTISSAGE ========== -->
         <button id="learnBtn" class="btn-primary" style="background: #8e24aa;">Apprentissage</button>
-        <!-- ========== FIN NOUVEAU BOUTON ========== -->
       </section>
     </div>
 
-    <!-- ========== NOUVELLE PAGE APPRENTISSAGE ========== -->
+    <!-- ========== PAGE APPRENTISSAGE ========== -->
     <div id="learnPage" class="card">
       <h2 class="learn-title">Apprentissage des Tables de 1 à 12</h2>
       <p class="learn-sub">Clique sur une table pour apprendre ses secrets !</p>
@@ -388,7 +475,33 @@
         <button id="backHome" class="btn-primary">⬅ Retour</button>
       </div>
     </div>
-    <!-- ========== FIN PAGE APPRENTISSAGE ========== -->
+
+    <!-- ========== PAGE DÉTAIL TABLE ========== -->
+    <div id="tableDetailPage" class="card">
+      <div class="table-detail-header">
+        <h2 id="tableDetailTitle" class="table-detail-title">Table de 2</h2>
+        <div>
+          <button id="showAstuceBtn" class="btn-astuce">💡 Astuce</button>
+          <button id="backToLearnBtn" class="btn-return">← Retour</button>
+        </div>
+      </div>
+
+      <!-- Grille des multiplications -->
+      <div id="multiplicationGrid" class="multiplication-grid">
+        <!-- Généré dynamiquement par JS -->
+      </div>
+    </div>
+
+    <!-- ========== MODAL ASTUCES ========== -->
+    <div id="astuceModal" class="modal-overlay">
+      <div class="modal-content">
+        <button id="closeAstuceModal" class="modal-close">×</button>
+        <h3 id="astuceModalTitle" class="modal-title">Astuces Table de 2</h3>
+        <ul id="astuceModalContent" class="astuce-list">
+          <!-- Généré dynamiquement par JS -->
+        </ul>
+      </div>
+    </div>
 
     <!-- Zone de jeu (inchangée) -->
     <section id="gameArea" class="game-area card">
@@ -446,6 +559,93 @@
   </div>
   
   <script>
+    // ========== DONNÉES DES ASTUCES ==========
+    const ASTUCES = {
+      1: [
+        "🟢 Facile ! Quand tu multiplies par 1, le nombre reste toujours pareil !",
+        "• Exemples : 1 × 5 = 5, 1 × 8 = 8, 1 × 12 = 12",
+        "• Astuce : Le 1 n'a pas de pouvoir magique, il ne change rien !",
+        "• Entraîne-toi : dis \"1 fois 7 égale 7\" à voix haute"
+      ],
+      2: [
+        "🟢 C'est la table des doubles !",
+        "• Prends le nombre et double-le : 2 × 4 = 4 + 4 = 8",
+        "• Compte de 2 en 2 : 2, 4, 6, 8, 10, 12, 14...",
+        "• Astuce : Imagine 2 paquets identiques d'objets",
+        "• Tous les résultats sont des nombres pairs !"
+      ],
+      3: [
+        "🟠 Compte de 3 en 3 comme à la marelle !",
+        "• Récite : 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36",
+        "• Pour 3 × 4 = fais 3 + 3 + 3 + 3 = 12",
+        "• Astuce : Saute de 3 cases à chaque fois !",
+        "• Dessine 3 objets, puis encore 3, puis encore 3..."
+      ],
+      4: [
+        "🟠 Double deux fois !",
+        "• Prends le nombre, double-le, puis double encore",
+        "• Exemple : 4 × 3 = 3 + 3 = 6, puis 6 + 6 = 12",
+        "• Astuce : 4 = 2 + 2, alors fais deux fois la table de 2 !",
+        "• Compte : 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48"
+      ],
+      5: [
+        "🟢 Tous les résultats finissent par 0 ou 5 !",
+        "• Récite : 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
+        "• Règle magique : nombres pairs × 5 finissent par 0",
+        "• Nombres impairs × 5 finissent par 5",
+        "• Compte sur tes doigts : 5, 10 (une main complète !)"
+      ],
+      6: [
+        "🟠 Récite la suite magique !",
+        "• 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72",
+        "• Compte sur tes doigts : sur chaque doigt dis 6, 12, 18...",
+        "• Astuce : Chante cette suite comme une chanson !",
+        "• 6 × nombre pair = résultat finit par 2, 4, 6, 8, 0"
+      ],
+      7: [
+        "🔴 Pense aux jours de la semaine !",
+        "• 7 jours = 1 semaine, 14 jours = 2 semaines...",
+        "• 7 × 4 = 28 (4 semaines = 1 mois !)",
+        "• Retiens : 7 × 8 = 56 (sept-huit = cinquante-six)",
+        "• Compte : 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84"
+      ],
+      8: [
+        "🔴 Double trois fois !",
+        "• Pour 8 × 2 : 2 → 4 → 8 → 16",
+        "• (2+2=4, puis 4+4=8, puis 8+8=16)",
+        "• Astuce : 8 c'est 2×2×2, alors triple le doublement !",
+        "• Compte : 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96"
+      ],
+      9: [
+        "🟠 Magique ! Les chiffres du résultat font toujours 9 !",
+        "• 9 × 4 = 36, et 3 + 6 = 9",
+        "• 9 × 7 = 63, et 6 + 3 = 9",
+        "• Astuce doigts : pour 9×3, baisse le 3e doigt = 27 !",
+        "• Compte : 9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99, 108"
+      ],
+      10: [
+        "🟢 Super facile ! Ajoute juste un 0 !",
+        "• 10 × 7 = 70 (écris 7 puis 0)",
+        "• 10 × 12 = 120 (écris 12 puis 0)",
+        "• Astuce : 10 c'est magique, il transforme tout !",
+        "• Compte : 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120"
+      ],
+      11: [
+        "🟠 Pour 1 à 9, écris le chiffre deux fois !",
+        "• 11 × 4 = 44 (écris 4 puis 4)",
+        "• 11 × 7 = 77 (écris 7 puis 7)",
+        "• Pour 10, 11, 12 c'est différent mais facile à retenir !",
+        "• Compte : 11, 22, 33, 44, 55, 66, 77, 88, 99, 110, 121, 132"
+      ],
+      12: [
+        "🔴 La douzaine ! Compte par 12 !",
+        "• 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144",
+        "• Pense à une douzaine d'œufs !",
+        "• 12 × 5 = 60 (5 douzaines d'œufs)",
+        "• Astuce : 12 = 10 + 2, alors 12×4 = 40+8 = 48"
+      ]
+    };
+
     // ---- JS principal (inchangé) ----
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.querySelector('.theme-icon');
@@ -463,16 +663,22 @@
       setTheme(currentTheme);
     };
 
-    // ========== NAVIGATION APPRENTISSAGE AJOUTÉE ==========
+    // ========== NAVIGATION APPRENTISSAGE ==========
     const learnBtn = document.getElementById('learnBtn');
     const learnPage = document.getElementById('learnPage');
     const homePage = document.getElementById('homePage');
     const backHome = document.getElementById('backHome');
+    const tableDetailPage = document.getElementById('tableDetailPage');
+    const backToLearnBtn = document.getElementById('backToLearnBtn');
+
+    // Variables globales
+    let currentTableNum = 1;
 
     // Aller vers apprentissage
     learnBtn.onclick = () => {
       homePage.style.display = 'none';
       learnPage.style.display = 'block';
+      tableDetailPage.style.display = 'none';
       document.getElementById('gameArea').style.display = 'none';
       document.getElementById('resultsArea').style.display = 'none';
       window.scrollTo(0, 0);
@@ -481,18 +687,87 @@
     // Retour vers accueil
     backHome.onclick = () => {
       learnPage.style.display = 'none';
+      tableDetailPage.style.display = 'none';
       homePage.style.display = 'block';
       document.getElementById('gameArea').style.display = 'none';
       document.getElementById('resultsArea').style.display = 'none';
       window.scrollTo(0, 0);
     };
 
-    // Clic sur une table (pour plus tard)
+    // Retour vers liste des tables
+    backToLearnBtn.onclick = () => {
+      tableDetailPage.style.display = 'none';
+      learnPage.style.display = 'block';
+      window.scrollTo(0, 0);
+    };
+
+    // Clic sur une table → afficher détail
     document.querySelectorAll('.table-card').forEach(card => {
       card.onclick = () => {
-        alert(`Tu as choisi la table de ${card.dataset.num} !\n(Astuces et exercices à développer)`);
+        currentTableNum = parseInt(card.dataset.num);
+        showTableDetail(currentTableNum);
       };
     });
+
+    // Afficher page détail d'une table
+    function showTableDetail(tableNum) {
+      learnPage.style.display = 'none';
+      tableDetailPage.style.display = 'block';
+      
+      // Mettre à jour le titre
+      document.getElementById('tableDetailTitle').textContent = `Table de ${tableNum}`;
+      
+      // Générer la grille des multiplications
+      const grid = document.getElementById('multiplicationGrid');
+      grid.innerHTML = '';
+      
+      for (let i = 1; i <= 12; i++) {
+        const card = document.createElement('div');
+        card.className = 'mult-card';
+        card.innerHTML = `
+          <div class="mult-question">${tableNum} × ${i} =</div>
+          <div class="mult-answer">${tableNum * i}</div>
+        `;
+        grid.appendChild(card);
+      }
+      
+      window.scrollTo(0, 0);
+    }
+
+    // ========== MODAL ASTUCES ==========
+    const showAstuceBtn = document.getElementById('showAstuceBtn');
+    const astuceModal = document.getElementById('astuceModal');
+    const closeAstuceModal = document.getElementById('closeAstuceModal');
+    const astuceModalTitle = document.getElementById('astuceModalTitle');
+    const astuceModalContent = document.getElementById('astuceModalContent');
+
+    // Ouvrir modal astuce
+    showAstuceBtn.onclick = () => {
+      astuceModalTitle.textContent = `Astuces Table de ${currentTableNum}`;
+      
+      // Remplir le contenu
+      astuceModalContent.innerHTML = '';
+      ASTUCES[currentTableNum].forEach(astuce => {
+        const li = document.createElement('li');
+        li.textContent = astuce;
+        astuceModalContent.appendChild(li);
+      });
+      
+      astuceModal.classList.add('active');
+    };
+
+    // Fermer modal astuce
+    closeAstuceModal.onclick = () => {
+      astuceModal.classList.remove('active');
+    };
+
+    // Fermer modal en cliquant à l'extérieur
+    astuceModal.onclick = (e) => {
+      if (e.target === astuceModal) {
+        astuceModal.classList.remove('active');
+      }
+    };
+
     // ========== FIN NAVIGATION APPRENTISSAGE ==========
 
     // ---- STOCKAGE et init paramètres (inchangé) ----
@@ -598,30 +873,27 @@
       document.querySelector('.welcome-message').style.display='none';
       document.getElementById('gameArea').style.display='block';
       document.getElementById('resultsArea').style.display='none';
-      // ========== AJOUT : masquer apprentissage ==========
       document.getElementById('homePage').style.display='none';
       document.getElementById('learnPage').style.display='none';
-      // ========== FIN AJOUT ==========
+      document.getElementById('tableDetailPage').style.display='none';
     }
     function showResults(){
       document.querySelector('.settings-panel').style.display='none';
       document.querySelector('.welcome-message').style.display='none';
       document.getElementById('gameArea').style.display='none';
       document.getElementById('resultsArea').style.display='block';
-      // ========== AJOUT : masquer apprentissage ==========
       document.getElementById('homePage').style.display='none';
       document.getElementById('learnPage').style.display='none';
-      // ========== FIN AJOUT ==========
+      document.getElementById('tableDetailPage').style.display='none';
     }
     function showSettings(){
       document.querySelector('.settings-panel').style.display='block';
       document.querySelector('.welcome-message').style.display='block';
       document.getElementById('gameArea').style.display='none';
       document.getElementById('resultsArea').style.display='none';
-      // ========== AJOUT : montrer accueil, masquer apprentissage ==========
       document.getElementById('homePage').style.display='block';
       document.getElementById('learnPage').style.display='none';
-      // ========== FIN AJOUT ==========
+      document.getElementById('tableDetailPage').style.display='none';
     }
     // Affichage question
     const progressText=document.getElementById('progressText');
