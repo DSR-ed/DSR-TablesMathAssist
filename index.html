@@ -699,7 +699,7 @@
       </section>
     </div>
 
-    <!-- ========== PAGES APPRENTISSAGE (inchangées) ========== -->
+    <!-- ========== PAGES APPRENTISSAGE ========== -->
     <div id="learnPage" class="card">
       <h2 class="learn-title">Apprentissage des Tables de 1 à 12</h2>
       <p class="learn-sub">Clique sur une table pour apprendre ses secrets !</p>
@@ -772,7 +772,7 @@
       </div>
     </div>
 
-    <!-- Toutes les autres sections restent identiques... -->
+    <!-- ========== PAGE DÉTAIL TABLE ========== -->
     <div id="tableDetailPage" class="card">
       <div class="table-detail-header">
         <h2 id="tableDetailTitle" class="table-detail-title">Table de 2</h2>
@@ -784,6 +784,7 @@
       <div id="multiplicationGrid" class="multiplication-grid"></div>
     </div>
 
+    <!-- ========== MODAL ASTUCES ========== -->
     <div id="astuceModal" class="modal-overlay">
       <div class="modal-content">
         <button id="closeAstuceModal" class="modal-close">×</button>
@@ -792,6 +793,7 @@
       </div>
     </div>
 
+    <!-- ========== ZONE DE JEU ========== -->
     <section id="gameArea" class="game-area card">
       <div class="progress-info">
         <span id="progressText">Question 1 / 30</span>
@@ -856,6 +858,7 @@
       <button id="backToSettingsBtn" class="btn-primary">Modifier les paramètres</button>
     </section>
 
+    <!-- ========== FOOTER ========== -->
     <footer class="footer">
       <div class="footer-logo">
         <img src="logofTDSR.png" alt="Logo DSR">
@@ -919,6 +922,13 @@
       ]
     };
 
+    // ========== FONCTION MESSAGE ALÉATOIRE ==========
+    function getRandomMedalMessage(medalType) {
+      const messages = MEDAL_MESSAGES[medalType];
+      const randomIndex = Math.floor(Math.random() * messages.length);
+      return messages[randomIndex];
+    }
+
     // ========== THÈME + BOUTONS DOUBLES ==========
     const themeToggle = document.getElementById('themeToggle'); // Mobile
     const themeToggleDesktop = document.getElementById('themeToggleDesktop'); // Desktop
@@ -968,7 +978,7 @@
     updateHeaderLayout();
     window.addEventListener('resize', updateHeaderLayout);
 
-    // ========== DONNÉES DES ASTUCES (inchangées) ==========
+    // ========== DONNÉES DES ASTUCES ==========
     const ASTUCES = {
       1: ["🟢 Facile ! Quand tu multiplies par 1, le nombre reste toujours pareil !", "• Exemples : 1 × 5 = 5, 1 × 8 = 8, 1 × 12 = 12", "• Astuce : Le 1 n'a pas de pouvoir magique, il ne change rien !", "• Entraîne-toi : dis \"1 fois 7 égale 7\" à voix haute"],
       2: ["🟢 C'est la table des doubles !", "• Prends le nombre et double-le : 2 × 4 = 4 + 4 = 8", "• Compte de 2 en 2 : 2, 4, 6, 8, 10, 12, 14...", "• Astuce : Imagine 2 paquets identiques d'objets", "• Tous les résultats sont des nombres pairs !"],
@@ -984,7 +994,7 @@
       12: ["🔴 La douzaine ! Compte par 12 !", "• 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144", "• Pense à une douzaine d'œufs !", "• 12 × 5 = 60 (5 douzaines d'œufs)", "• Astuce : 12 = 10 + 2, alors 12×4 = 40+8 = 48"]
     };
 
-    // Le reste du JavaScript reste identique...
+    // ========== NAVIGATION APPRENTISSAGE ==========
     const learnBtn = document.getElementById('learnBtn');
     const learnPage = document.getElementById('learnPage');
     const homePage = document.getElementById('homePage');
@@ -1037,6 +1047,7 @@
       window.scrollTo(0, 0);
     }
 
+    // ========== MODAL ASTUCES ==========
     const showAstuceBtn = document.getElementById('showAstuceBtn');
     const astuceModal = document.getElementById('astuceModal');
     const closeAstuceModal = document.getElementById('closeAstuceModal');
@@ -1058,6 +1069,7 @@
       if (e.target === astuceModal) astuceModal.classList.remove('active');
     };
 
+    // ========== PRÉFÉRENCES ==========
     const prefsKey = 'tma_prefs_v2';
     function savePrefs() {
       localStorage.setItem(prefsKey, JSON.stringify({
@@ -1098,6 +1110,7 @@
     }
     loadPrefs();
 
+    // ========== LOGIQUE DE JEU ==========
     let GAME = {};
     function getTables(){
       return Array.from(document.querySelectorAll('.tables-selector input:checked')).map(cb=>parseInt(cb.value));
@@ -1228,13 +1241,7 @@
       showSettings();
     };
     
-    // ========== FONCTION MESSAGE ALÉATOIRE ==========
-    function getRandomMedalMessage(medalType) {
-      const messages = MEDAL_MESSAGES[medalType];
-      const randomIndex = Math.floor(Math.random() * messages.length);
-      return messages[randomIndex];
-    }
-    
+    // ========== FIN DE PARTIE AVEC MESSAGES ALÉATOIRES ==========
     const medalElem = document.getElementById('medal');
     const medalText = document.getElementById('medalText');
     const medalMessage = document.getElementById('medalMessage');
