@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TablesMathAssist - DSR</title>
   <style>
-    /* Votre CSS complet */
+    /* Votre CSS complet + ajouts apprentissage */
     :root {
       --gradient-day: linear-gradient(180deg, #ffffff 0%, #e3f2fd 100%);
       --gradient-night: linear-gradient(180deg, #000000 0%, #0d47a1 100%);
@@ -33,23 +33,40 @@
       align-items: center;
       padding: 20px;
     }
-    .header {
+
+    /* ========== HEADER ET CARDS - ALIGNEMENT PARFAIT ========== */
+    .header, .card {
       width: 100%;
-      max-width: 1200px;
+      max-width: 800px;
+      background: var(--card-night);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      margin: 15px 0;
+    }
+    body.day-mode .header, body.day-mode .card { 
+      background: var(--card-day);
+    }
+
+    /* ========== HEADER DESKTOP ========== */
+    .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
       padding: 20px;
-      background: var(--card-night);
-      border-radius: 15px;
-      backdrop-filter: blur(10px);
+      margin-bottom: 30px;
     }
-    body.day-mode .header { background: var(--card-day);}
+
+    /* Desktop - Layout horizontal (par défaut) */
+    .header-top {
+      display: none; /* Caché sur desktop */
+    }
+
     .header-logo img {
       height: 60px;
       width: auto;
     }
+
     .app-title {
       font-size: 2.5rem;
       font-weight: bold;
@@ -58,36 +75,129 @@
       flex: 1;
     }
     body.day-mode .app-title { color: var(--accent-day);}
+
     .btn-theme {
       background: none;
       border: 2px solid var(--accent-night);
       border-radius: 50%;
-      width: 50px; height: 50px;
+      width: 50px; 
+      height: 50px;
       cursor: pointer;
       font-size: 1.5rem;
       transition: all .3s;
+      flex-shrink: 0;
     }
     body.day-mode .btn-theme { border-color: var(--accent-day);}
     .btn-theme:hover { transform: scale(1.1); background: var(--accent-night);}
     body.day-mode .btn-theme:hover { background: var(--accent-day);}
-    .card {
-      background: var(--card-night);
-      border-radius: 20px;
-      padding: 30px;
-      margin: 15px 0;
-      width: 100%; max-width: 800px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+
+    /* ========== MOBILE/TABLETTE - ALIGNEMENT ULTRA-PRÉCIS ========== */
+    @media (max-width: 768px) {
+      .app-container {
+        padding: 10px; /* Réduit le padding général */
+      }
+      
+      .header, .card {
+        /* FORCE l'alignement parfait */
+        width: calc(100vw - 20px); /* Largeur identique pour tous */
+        max-width: calc(100vw - 20px);
+        margin-left: 0;
+        margin-right: 0;
+        padding: 15px; /* Padding identique pour tous */
+      }
+      
+      .header {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      
+      .header-top {
+        display: flex; /* Visible sur mobile */
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+      
+      .header-logo img {
+        height: 50px;
+      }
+      
+      .app-title {
+        font-size: 1.8rem;
+        margin: 0;
+      }
+      
+      .btn-theme {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+      
+      .card {
+        padding: 20px; /* Padding différent pour les cards sur mobile */
+        margin: 10px 0; /* Margin réduite sur mobile */
+      }
     }
-    body.day-mode .card { background: var(--card-day);}
+
+    @media (max-width: 480px) {
+      .app-title {
+        font-size: 1.5rem;
+      }
+      
+      .header, .card {
+        width: calc(100vw - 10px); /* Encore plus précis sur très petit écran */
+        max-width: calc(100vw - 10px);
+      }
+    }
+    /* ========== FIN MOBILE ULTRA-PRÉCIS ========== */
+
+    .card {
+      padding: 30px;
+    }
     .welcome-message {
       text-align: center; font-size: 1.3rem; line-height: 1.6;
+      font-weight: 500;
     }
-    .settings-panel h2 {
+    .settings-panel h2, .learn-panel h2 {
       color: var(--accent-night); margin-bottom: 25px;
       font-size: 2rem; text-align: center;
     }
-    body.day-mode .settings-panel h2 { color: var(--accent-day);}
+    body.day-mode .settings-panel h2, body.day-mode .learn-panel h2 { color: var(--accent-day);}
+    
+    /* ========== NOUVEAU PAVÉ APPRENTISSAGE ========== */
+    .learn-panel {
+      text-align: center;
+    }
+    .learn-panel .welcome-section {
+      margin-bottom: 25px;
+      padding: 20px;
+      background: rgba(142, 36, 170, 0.1);
+      border-radius: 15px;
+      border: 1px solid rgba(142, 36, 170, 0.3);
+    }
+    body.day-mode .learn-panel .welcome-section {
+      background: rgba(142, 36, 170, 0.05);
+    }
+    /* ========== FIN NOUVEAU PAVÉ ========== */
+    
+    /* ========== MESSAGE MOTIVANT DANS RÉGLAGES ========== */
+    .settings-motivating-message {
+      text-align: center; 
+      font-size: 1.2rem; 
+      line-height: 1.5;
+      margin-bottom: 25px;
+      padding: 15px;
+      background: rgba(25, 118, 210, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(25, 118, 210, 0.2);
+    }
+    body.day-mode .settings-motivating-message {
+      background: rgba(25, 118, 210, 0.08);
+    }
+    /* ========== FIN MESSAGE MOTIVANT ========== */
+    
     .form-group { margin-bottom: 25px;}
     .form-label {
       display: block; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; color: var(--accent-night);
@@ -130,6 +240,181 @@
     }
     body.day-mode .btn-primary { background: var(--accent-day);}
     .btn-primary:hover { transform: translateY(-2px);}
+    
+    /* ========== STYLES APPRENTISSAGE ========== */
+    #learnPage, #tableDetailPage { display: none; }
+    .learn-title, .table-detail-title {
+      font-size: 2rem; font-weight: bold; margin-bottom: 5px; text-align: center;
+      color: var(--text-night);
+    }
+    body.day-mode .learn-title, body.day-mode .table-detail-title { color: var(--text-day); }
+    .learn-sub, .table-detail-sub {
+      font-size: 1.1rem; text-align: center; margin-bottom: 25px;
+      color: var(--text-night);
+    }
+    body.day-mode .learn-sub, body.day-mode .table-detail-sub { color: var(--text-day); }
+    .legend {
+      display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; 
+      font-weight: 600; color: var(--text-night);
+    }
+    body.day-mode .legend { color: var(--text-day); }
+    .legend span { display: flex; align-items: center; gap: 6px; }
+    .legend i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+    .grid-tables {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 18px;
+    }
+    .table-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 3px solid;
+      border-radius: 15px;
+      padding: 25px 10px;
+      text-align: center;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all .25s;
+      color: #333;
+    }
+    body.day-mode .table-card {
+      background: rgba(255, 255, 255, 0.95);
+    }
+    .table-card:hover { transform: translateY(-4px); }
+    .table-num { font-size: 2rem; margin-bottom: 8px; }
+    .diff-label { font-size: 0.9rem; font-weight: 600; }
+    .easy { border-color: #4caf50; }
+    .medium { border-color: #ff9800; }
+    .hard { border-color: #f44336; }
+
+    /* Page détail table */
+    .table-detail-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 25px;
+    }
+    .btn-astuce {
+      background: #4285f4; color: white;
+      border: none; padding: 10px 20px; font-size: 1.1rem; font-weight: bold;
+      border-radius: 10px; cursor: pointer; transition: all .3s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-astuce:hover { background: #3367d6; }
+    .btn-return {
+      background: #6c757d; color: white;
+      border: none; padding: 10px 20px; font-size: 1.1rem; font-weight: bold;
+      border-radius: 10px; cursor: pointer; transition: all .3s;
+    }
+    .btn-return:hover { background: #5a6268; }
+    .multiplication-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+    }
+    .mult-card {
+      background: #4285f4;
+      color: white;
+      border-radius: 12px;
+      padding: 20px 10px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .mult-question {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+    .mult-answer {
+      font-size: 1.8rem;
+      color: #ffd700;
+    }
+
+    /* ========== MODAL ASTUCES ULTRA CORRIGÉE ========== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.active { display: flex; }
+    
+    .modal-content {
+      /* MODE NUIT : Fond noir pur OPAQUE */
+      background: #000000;
+      opacity: 1.0;
+      border: 3px solid #00bcd4;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 90vw;
+      width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0, 255, 255, 0.4);
+    }
+    
+    /* MODE JOUR : Fond gris clair OPAQUE */
+    body.day-mode .modal-content { 
+      background: #f5f5f5;
+      opacity: 1.0;
+      border: 3px solid #1976d2;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 12px; right: 18px;
+      background: none; border: none;
+      font-size: 2rem; cursor: pointer;
+      color: #00bcd4;
+      font-weight: bold;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    body.day-mode .modal-close { color: #1976d2; }
+    .modal-close:hover {
+      color: #ff4444;
+      transform: scale(1.3);
+      background: rgba(255, 68, 68, 0.1);
+      border-radius: 50%;
+    }
+    
+    .modal-title {
+      font-size: 1.6rem; font-weight: bold;
+      margin-bottom: 20px; text-align: center;
+      color: #00bcd4;
+      padding-right: 40px;
+    }
+    body.day-mode .modal-title { color: #1976d2; }
+    
+    .astuce-list {
+      list-style: none; padding: 0; margin: 0;
+    }
+    .astuce-list li {
+      margin-bottom: 15px; 
+      padding: 12px 15px;
+      font-size: 1.1rem; 
+      line-height: 1.5;
+      /* MODE NUIT : Texte blanc pur sur fond noir */
+      color: #ffffff;
+      background: rgba(0, 188, 212, 0.1);
+      border-radius: 8px;
+      border-left: 4px solid #00bcd4;
+    }
+    
+    /* MODE JOUR : Texte noir foncé sur fond gris clair */
+    body.day-mode .astuce-list li { 
+      color: #333333;
+      background: rgba(25, 118, 210, 0.1);
+      border-left: 4px solid #1976d2;
+    }
+    /* ========== FIN MODAL ASTUCES ULTRA CORRIGÉE ========== */
+
     .game-area, .results-area { display:none; text-align:center;}
     .progress-info {
       font-size:1.2rem;margin-bottom:20px;color: var(--accent-night);}
@@ -156,11 +441,18 @@
     .cell-correct {background:transparent;}
     .cell-incorrect {background:#f44 !important;}
     .cell-missed {background:#ff0 !important;}
+    
+    /* Media queries pour autres éléments */
     @media (max-width:768px){
-      .app-title{font-size:1.8rem;} .header{padding:15px;}
-      .card{padding:20px;margin:10px;} .question{font-size:2rem;}
+      .question{font-size:2rem;}
       .answer-input{font-size:1.5rem;width:150px;}
       .results-grid th, .results-grid td {width:25px;height:25px;font-size:0.8rem;}
+      .table-num { font-size: 1.6rem; }
+      .grid-tables { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+      .multiplication-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+      .modal-content { width: 95vw; padding: 25px; }
+      .modal-title { font-size: 1.4rem; }
+      .astuce-list li { font-size: 1rem; }
     }
     .footer {margin-top:auto;text-align:center;padding:30px;}
     .footer-logo img {height:40px;margin-bottom:10px;}
@@ -170,98 +462,223 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- Header avec logo et bouton mode jour/nuit -->
+    <!-- ========== HEADER SIMPLIFIÉ ========== -->
     <header class="header">
-      <div class="header-logo">
+      <!-- Ligne du haut : Logo + Bouton (UNIQUEMENT mobile) -->
+      <div class="header-top">
+        <div class="header-logo">
+          <img src="logofTDSR.png" alt="Logo DSR" />
+        </div>
+        <button id="themeToggle" class="btn-theme"><span class="theme-icon">🌙</span></button>
+      </div>
+
+      <!-- Layout desktop : Logo | Titre | Bouton (UNIQUEMENT desktop) -->
+      <div class="header-logo" style="display: none;">
         <img src="logofTDSR.png" alt="Logo DSR" />
       </div>
+      
+      <!-- Titre (centré sous le logo sur mobile, au centre sur desktop) -->
       <h1 class="app-title">TablesMathAssist</h1>
-      <button id="themeToggle" class="btn-theme"><span class="theme-icon">🌙</span></button>
+      
+      <!-- Bouton desktop (UNIQUEMENT desktop) -->
+      <button id="themeToggleDesktop" class="btn-theme" style="display: none;"><span class="theme-icon">🌙</span></button>
     </header>
 
-    <!-- Message de bienvenue -->
-    <div class="welcome-message card">
-      <p>Choisis tes réglages et commences ton entraînement ou mieux!!! Le test et gagnes la coupe. 🏆</p>
+    <!-- ========== PAGE ACCUEIL RESTRUCTURÉE ========== -->
+    <div id="homePage">
+      <!-- Message de bienvenue MODIFIÉ -->
+      <div class="welcome-message card">
+        <p>L'application dédiée aux élèves de CM1 à la 5ème pour un apprentissage parfait des tables de multiplications de 1 à 12</p>
+      </div>
+
+      <!-- ========== NOUVEAU PAVÉ APPRENTISSAGE ========== -->
+      <section class="learn-panel card">
+        <h2>Apprends tes tables ici</h2>
+        <div class="welcome-section">
+          <p style="font-size: 1.1rem; margin-bottom: 20px;">
+            📚 Découvre les astuces et secrets de chaque table de multiplication !
+          </p>
+          <button id="learnBtn" class="btn-primary" style="background: #8e24aa;">Commencer à apprendre</button>
+        </div>
+      </section>
+
+      <!-- ========== PAVÉ RÉGLAGES MODIFIÉ ========== -->
+      <section class="settings-panel card">
+        <!-- Message motivant déplacé ici -->
+        <div class="settings-motivating-message">
+          <p>Choisis tes réglages et commences ton entraînement ou mieux!!! Le test et gagnes la coupe. 🏆</p>
+        </div>
+        
+        <h2>Réglages de ton Test</h2>
+        
+        <div class="form-group">
+          <label class="form-label">Tables à réviser :</label>
+          <div class="tables-selector">
+            <label><input type="checkbox" value="1" checked> 1</label>
+            <label><input type="checkbox" value="2" checked> 2</label>
+            <label><input type="checkbox" value="3" checked> 3</label>
+            <label><input type="checkbox" value="4" checked> 4</label>
+            <label><input type="checkbox" value="5" checked> 5</label>
+            <label><input type="checkbox" value="6" checked> 6</label>
+            <label><input type="checkbox" value="7" checked> 7</label>
+            <label><input type="checkbox" value="8" checked> 8</label>
+            <label><input type="checkbox" value="9" checked> 9</label>
+            <label><input type="checkbox" value="10" checked> 10</label>
+            <label><input type="checkbox" value="11"> 11</label>
+            <label><input type="checkbox" value="12"> 12</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" id="timeLimitLabel">Temps pour ta série de 30 questions :</label>
+          <select id="timeLimit">
+            <option value="0.5">30 secondes</option>
+            <option value="1">1 minute</option>
+            <option value="2">2 minutes</option>
+            <option value="3">3 minutes</option>
+            <option value="4">4 minutes</option>
+            <option value="5" selected>5 minutes</option>
+            <option value="6">6 minutes</option>
+            <option value="7">7 minutes</option>
+            <option value="8">8 minutes</option>
+            <option value="9">9 minutes</option>
+            <option value="10">10 minutes</option>
+            <option value="15">15 minutes</option>
+            <option value="20">20 minutes</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nombre de questions :</label>
+          <select id="questionCount">
+            <option value="10">10 questions</option>
+            <option value="20">20 questions</option>
+            <option value="30" selected>30 questions</option>
+            <option value="40">40 questions</option>
+            <option value="50">50 questions</option>
+            <option value="60">60 questions</option>
+            <option value="70">70 questions</option>
+            <option value="80">80 questions</option>
+            <option value="90">90 questions</option>
+            <option value="100">100 questions</option>
+            <option value="110">110 questions</option>
+            <option value="120">120 questions</option>
+            <option value="130">130 questions</option>
+            <option value="140">140 questions</option>
+            <option value="150">150 questions</option>
+            <option value="160">160 questions</option>
+            <option value="170">170 questions</option>
+            <option value="180">180 questions</option>
+            <option value="190">190 questions</option>
+            <option value="200">200 questions</option>
+            <option value="250">250 questions</option>
+            <option value="300">300 questions</option>
+            <option value="350">350 questions</option>
+            <option value="400">400 questions</option>
+            <option value="450">450 questions</option>
+            <option value="500">500 questions</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="noTimerMode"> Mode entraînement (sans chrono)
+          </label>
+        </div>
+        <button id="startGame" class="btn-primary">Commencer le Test</button>
+      </section>
     </div>
 
-    <!-- Zone de paramètres -->
-    <section class="settings-panel card">
-      <h2>Réglages</h2>
-      <div class="form-group">
-        <label class="form-label">Tables à réviser :</label>
-        <div class="tables-selector">
-          <label><input type="checkbox" value="1" checked> 1</label>
-          <label><input type="checkbox" value="2" checked> 2</label>
-          <label><input type="checkbox" value="3" checked> 3</label>
-          <label><input type="checkbox" value="4" checked> 4</label>
-          <label><input type="checkbox" value="5" checked> 5</label>
-          <label><input type="checkbox" value="6" checked> 6</label>
-          <label><input type="checkbox" value="7" checked> 7</label>
-          <label><input type="checkbox" value="8" checked> 8</label>
-          <label><input type="checkbox" value="9" checked> 9</label>
-          <label><input type="checkbox" value="10" checked> 10</label>
-          <label><input type="checkbox" value="11"> 11</label>
-          <label><input type="checkbox" value="12"> 12</label>
+    <!-- ========== PAGES APPRENTISSAGE (inchangées) ========== -->
+    <div id="learnPage" class="card">
+      <h2 class="learn-title">Apprentissage des Tables de 1 à 12</h2>
+      <p class="learn-sub">Clique sur une table pour apprendre ses secrets !</p>
+
+      <!-- Légende -->
+      <div class="legend">
+        <span><i style="background: #4caf50;"></i>Facile</span>
+        <span><i style="background: #ff9800;"></i>Moyen</span>
+        <span><i style="background: #f44336;"></i>Difficile</span>
+      </div>
+
+      <!-- Grille des tables -->
+      <div class="grid-tables">
+        <!-- FACILE -->
+        <div class="table-card easy" data-num="1">
+          <div class="table-num">1</div>
+          Table de 1<br><span class="diff-label">FACILE</span>
+        </div>
+        <div class="table-card easy" data-num="2">
+          <div class="table-num">2</div>
+          Table de 2<br><span class="diff-label">FACILE</span>
+        </div>
+        <div class="table-card easy" data-num="5">
+          <div class="table-num">5</div>
+          Table de 5<br><span class="diff-label">FACILE</span>
+        </div>
+        <div class="table-card easy" data-num="10">
+          <div class="table-num">10</div>
+          Table de 10<br><span class="diff-label">FACILE</span>
+        </div>
+        <!-- MOYEN -->
+        <div class="table-card medium" data-num="3">
+          <div class="table-num">3</div>
+          Table de 3<br><span class="diff-label">MOYEN</span>
+        </div>
+        <div class="table-card medium" data-num="4">
+          <div class="table-num">4</div>
+          Table de 4<br><span class="diff-label">MOYEN</span>
+        </div>
+        <div class="table-card medium" data-num="6">
+          <div class="table-num">6</div>
+          Table de 6<br><span class="diff-label">MOYEN</span>
+        </div>
+        <div class="table-card medium" data-num="9">
+          <div class="table-num">9</div>
+          Table de 9<br><span class="diff-label">MOYEN</span>
+        </div>
+        <div class="table-card medium" data-num="11">
+          <div class="table-num">11</div>
+          Table de 11<br><span class="diff-label">MOYEN</span>
+        </div>
+        <!-- DIFFICILE -->
+        <div class="table-card hard" data-num="7">
+          <div class="table-num">7</div>
+          Table de 7<br><span class="diff-label">DIFFICILE</span>
+        </div>
+        <div class="table-card hard" data-num="8">
+          <div class="table-num">8</div>
+          Table de 8<br><span class="diff-label">DIFFICILE</span>
+        </div>
+        <div class="table-card hard" data-num="12">
+          <div class="table-num">12</div>
+          Table de 12<br><span class="diff-label">DIFFICILE</span>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label" id="timeLimitLabel">Temps pour ta série de 30 questions :</label>
-        <select id="timeLimit">
-          <option value="0.5">30 secondes</option>
-          <option value="1">1 minute</option>
-          <option value="2">2 minutes</option>
-          <option value="3">3 minutes</option>
-          <option value="4">4 minutes</option>
-          <option value="5" selected>5 minutes</option>
-          <option value="6">6 minutes</option>
-          <option value="7">7 minutes</option>
-          <option value="8">8 minutes</option>
-          <option value="9">9 minutes</option>
-          <option value="10">10 minutes</option>
-          <option value="15">15 minutes</option>
-          <option value="20">20 minutes</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Nombre de questions :</label>
-        <select id="questionCount">
-          <option value="10">10 questions</option>
-          <option value="20">20 questions</option>
-          <option value="30" selected>30 questions</option>
-          <option value="40">40 questions</option>
-          <option value="50">50 questions</option>
-          <option value="60">60 questions</option>
-          <option value="70">70 questions</option>
-          <option value="80">80 questions</option>
-          <option value="90">90 questions</option>
-          <option value="100">100 questions</option>
-          <option value="110">110 questions</option>
-          <option value="120">120 questions</option>
-          <option value="130">130 questions</option>
-          <option value="140">140 questions</option>
-          <option value="150">150 questions</option>
-          <option value="160">160 questions</option>
-          <option value="170">170 questions</option>
-          <option value="180">180 questions</option>
-          <option value="190">190 questions</option>
-          <option value="200">200 questions</option>
-          <option value="250">250 questions</option>
-          <option value="300">300 questions</option>
-          <option value="350">350 questions</option>
-          <option value="400">400 questions</option>
-          <option value="450">450 questions</option>
-          <option value="500">500 questions</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>
-          <input type="checkbox" id="noTimerMode"> Mode entraînement (sans chrono)
-        </label>
-      </div>
-      <button id="startGame" class="btn-primary">Commencer le Test</button>
-    </section>
 
-    <!-- Zone de jeu -->
+      <!-- Bouton retour -->
+      <div style="text-align: center; margin-top: 35px;">
+        <button id="backHome" class="btn-primary">⬅ Retour</button>
+      </div>
+    </div>
+
+    <!-- Toutes les autres sections restent identiques... -->
+    <div id="tableDetailPage" class="card">
+      <div class="table-detail-header">
+        <h2 id="tableDetailTitle" class="table-detail-title">Table de 2</h2>
+        <div>
+          <button id="showAstuceBtn" class="btn-astuce">💡 Astuce</button>
+          <button id="backToLearnBtn" class="btn-return">← Retour</button>
+        </div>
+      </div>
+      <div id="multiplicationGrid" class="multiplication-grid"></div>
+    </div>
+
+    <div id="astuceModal" class="modal-overlay">
+      <div class="modal-content">
+        <button id="closeAstuceModal" class="modal-close">×</button>
+        <h3 id="astuceModalTitle" class="modal-title">Astuces Table de 2</h3>
+        <ul id="astuceModalContent" class="astuce-list"></ul>
+      </div>
+    </div>
+
     <section id="gameArea" class="game-area card">
       <div class="progress-info">
         <span id="progressText">Question 1 / 30</span>
@@ -278,7 +695,6 @@
       <button id="stopBtn" class="btn-primary">Arrêter</button>
     </section>
 
-    <!-- Zone résultats -->
     <section id="resultsArea" class="results-area card">
       <h2>Résultats de votre test</h2>
       <div id="medal" class="medal">🏆</div>
@@ -305,7 +721,6 @@
       <button id="backToSettingsBtn" class="btn-primary">Modifier les paramètres</button>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
       <div class="footer-logo">
         <img src="logofTDSR.png" alt="Logo DSR">
@@ -315,25 +730,147 @@
       </div>
     </footer>
   </div>
+  
   <script>
-    // ---- JS principal simplifié suivant votre logique et visuel ----
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.querySelector('.theme-icon');
-    // Thème
+    // ========== THÈME + BOUTONS DOUBLES ==========
+    const themeToggle = document.getElementById('themeToggle'); // Mobile
+    const themeToggleDesktop = document.getElementById('themeToggleDesktop'); // Desktop
+    const themeIcons = document.querySelectorAll('.theme-icon');
+    
+    // Fonction thème
     function setTheme(mode) {
       document.body.classList.toggle('day-mode', mode === 'day');
-      themeIcon.textContent = (mode === 'day') ? '☀️' : '🌙';
+      themeIcons.forEach(icon => {
+        icon.textContent = (mode === 'day') ? '☀️' : '🌙';
+      });
       localStorage.setItem('tma_theme', mode);
     }
+    
     let currentTheme = localStorage.getItem('tma_theme') || 'night';
     setTheme(currentTheme);
 
-    themeToggle.onclick = () => {
+    // Event handlers pour les deux boutons
+    function toggleTheme() {
       currentTheme = (currentTheme === 'day') ? 'night' : 'day';
       setTheme(currentTheme);
+    }
+    
+    themeToggle.onclick = toggleTheme;
+    themeToggleDesktop.onclick = toggleTheme;
+
+    // ========== AFFICHAGE CONDITIONNEL DESKTOP/MOBILE ==========
+    function updateHeaderLayout() {
+      const isMobile = window.innerWidth <= 768;
+      
+      // Éléments desktop
+      const desktopLogo = document.querySelector('.header-logo:not(.header-top .header-logo)');
+      const desktopButton = document.getElementById('themeToggleDesktop');
+      
+      if (isMobile) {
+        // Mobile : cacher les éléments desktop
+        if (desktopLogo) desktopLogo.style.display = 'none';
+        if (desktopButton) desktopButton.style.display = 'none';
+      } else {
+        // Desktop : afficher les éléments et repositionner
+        if (desktopLogo) desktopLogo.style.display = 'block';
+        if (desktopButton) desktopButton.style.display = 'flex';
+      }
+    }
+    
+    // Mise à jour au chargement et redimensionnement
+    updateHeaderLayout();
+    window.addEventListener('resize', updateHeaderLayout);
+
+    // ========== DONNÉES DES ASTUCES (inchangées) ==========
+    const ASTUCES = {
+      1: ["🟢 Facile ! Quand tu multiplies par 1, le nombre reste toujours pareil !", "• Exemples : 1 × 5 = 5, 1 × 8 = 8, 1 × 12 = 12", "• Astuce : Le 1 n'a pas de pouvoir magique, il ne change rien !", "• Entraîne-toi : dis \"1 fois 7 égale 7\" à voix haute"],
+      2: ["🟢 C'est la table des doubles !", "• Prends le nombre et double-le : 2 × 4 = 4 + 4 = 8", "• Compte de 2 en 2 : 2, 4, 6, 8, 10, 12, 14...", "• Astuce : Imagine 2 paquets identiques d'objets", "• Tous les résultats sont des nombres pairs !"],
+      3: ["🟠 Compte de 3 en 3 comme à la marelle !", "• Récite : 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36", "• Pour 3 × 4 = fais 3 + 3 + 3 + 3 = 12", "• Astuce : Saute de 3 cases à chaque fois !", "• Dessine 3 objets, puis encore 3, puis encore 3..."],
+      4: ["🟠 Double deux fois !", "• Prends le nombre, double-le, puis double encore", "• Exemple : 4 × 3 = 3 + 3 = 6, puis 6 + 6 = 12", "• Astuce : 4 = 2 + 2, alors fais deux fois la table de 2 !", "• Compte : 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48"],
+      5: ["🟢 Tous les résultats finissent par 0 ou 5 !", "• Récite : 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60", "• Règle magique : nombres pairs × 5 finissent par 0", "• Nombres impairs × 5 finissent par 5", "• Compte sur tes doigts : 5, 10 (une main complète !)"],
+      6: ["🟠 Récite la suite magique !", "• 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72", "• Compte sur tes doigts : sur chaque doigt dis 6, 12, 18...", "• Astuce : Chante cette suite comme une chanson !", "• 6 × nombre pair = résultat finit par 2, 4, 6, 8, 0"],
+      7: ["🔴 Pense aux jours de la semaine !", "• 7 jours = 1 semaine, 14 jours = 2 semaines...", "• 7 × 4 = 28 (4 semaines = 1 mois !)", "• Retiens : 7 × 8 = 56 (sept-huit = cinquante-six)", "• Compte : 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84"],
+      8: ["🔴 Double trois fois !", "• Pour 8 × 2 : 2 → 4 → 8 → 16", "• (2+2=4, puis 4+4=8, puis 8+8=16)", "• Astuce : 8 c'est 2×2×2, alors triple le doublement !", "• Compte : 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96"],
+      9: ["🟠 Magique ! Les chiffres du résultat font toujours 9 !", "• 9 × 4 = 36, et 3 + 6 = 9", "• 9 × 7 = 63, et 6 + 3 = 9", "• Astuce doigts : pour 9×3, baisse le 3e doigt = 27 !", "• Compte : 9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99, 108"],
+      10: ["🟢 Super facile ! Ajoute juste un 0 !", "• 10 × 7 = 70 (écris 7 puis 0)", "• 10 × 12 = 120 (écris 12 puis 0)", "• Astuce : 10 c'est magique, il transforme tout !", "• Compte : 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120"],
+      11: ["🟠 Pour 1 à 9, écris le chiffre deux fois !", "• 11 × 4 = 44 (écris 4 puis 4)", "• 11 × 7 = 77 (écris 7 puis 7)", "• Pour 10, 11, 12 c'est différent mais facile à retenir !", "• Compte : 11, 22, 33, 44, 55, 66, 77, 88, 99, 110, 121, 132"],
+      12: ["🔴 La douzaine ! Compte par 12 !", "• 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144", "• Pense à une douzaine d'œufs !", "• 12 × 5 = 60 (5 douzaines d'œufs)", "• Astuce : 12 = 10 + 2, alors 12×4 = 40+8 = 48"]
     };
 
-    // ---- STOCKAGE et init paramètres ----
+    // Le reste du JavaScript reste identique...
+    const learnBtn = document.getElementById('learnBtn');
+    const learnPage = document.getElementById('learnPage');
+    const homePage = document.getElementById('homePage');
+    const backHome = document.getElementById('backHome');
+    const tableDetailPage = document.getElementById('tableDetailPage');
+    const backToLearnBtn = document.getElementById('backToLearnBtn');
+    let currentTableNum = 1;
+
+    learnBtn.onclick = () => {
+      homePage.style.display = 'none';
+      learnPage.style.display = 'block';
+      tableDetailPage.style.display = 'none';
+      document.getElementById('gameArea').style.display = 'none';
+      document.getElementById('resultsArea').style.display = 'none';
+      window.scrollTo(0, 0);
+    };
+    backHome.onclick = () => {
+      learnPage.style.display = 'none';
+      tableDetailPage.style.display = 'none';
+      homePage.style.display = 'block';
+      document.getElementById('gameArea').style.display = 'none';
+      document.getElementById('resultsArea').style.display = 'none';
+      window.scrollTo(0, 0);
+    };
+    backToLearnBtn.onclick = () => {
+      tableDetailPage.style.display = 'none';
+      learnPage.style.display = 'block';
+      window.scrollTo(0, 0);
+    };
+
+    document.querySelectorAll('.table-card').forEach(card => {
+      card.onclick = () => {
+        currentTableNum = parseInt(card.dataset.num);
+        showTableDetail(currentTableNum);
+      };
+    });
+
+    function showTableDetail(tableNum) {
+      learnPage.style.display = 'none';
+      tableDetailPage.style.display = 'block';
+      document.getElementById('tableDetailTitle').textContent = `Table de ${tableNum}`;
+      const grid = document.getElementById('multiplicationGrid');
+      grid.innerHTML = '';
+      for (let i = 1; i <= 12; i++) {
+        const card = document.createElement('div');
+        card.className = 'mult-card';
+        card.innerHTML = `<div class="mult-question">${tableNum} × ${i} =</div><div class="mult-answer">${tableNum * i}</div>`;
+        grid.appendChild(card);
+      }
+      window.scrollTo(0, 0);
+    }
+
+    const showAstuceBtn = document.getElementById('showAstuceBtn');
+    const astuceModal = document.getElementById('astuceModal');
+    const closeAstuceModal = document.getElementById('closeAstuceModal');
+    const astuceModalTitle = document.getElementById('astuceModalTitle');
+    const astuceModalContent = document.getElementById('astuceModalContent');
+
+    showAstuceBtn.onclick = () => {
+      astuceModalTitle.textContent = `Astuces Table de ${currentTableNum}`;
+      astuceModalContent.innerHTML = '';
+      ASTUCES[currentTableNum].forEach(astuce => {
+        const li = document.createElement('li');
+        li.textContent = astuce;
+        astuceModalContent.appendChild(li);
+      });
+      astuceModal.classList.add('active');
+    };
+    closeAstuceModal.onclick = () => astuceModal.classList.remove('active');
+    astuceModal.onclick = (e) => {
+      if (e.target === astuceModal) astuceModal.classList.remove('active');
+    };
+
     const prefsKey = 'tma_prefs_v2';
     function savePrefs() {
       localStorage.setItem(prefsKey, JSON.stringify({
@@ -353,7 +890,6 @@
       updateTimeLimitLabel();
       updateButtonText();
     }
-    // -- DOM refs --
     const questionCount = document.getElementById('questionCount');
     const timeLimit = document.getElementById('timeLimit');
     const timeLimitLabel = document.getElementById('timeLimitLabel');
@@ -369,16 +905,13 @@
     document.querySelectorAll('.tables-selector input').forEach(cb => {
       cb.addEventListener('change', savePrefs);
     });
-    // Bouton dynamique
     const startGame = document.getElementById('startGame');
     function updateButtonText(){
       startGame.textContent = noTimerMode.checked ? "Commencer l'entraînement" : "Commencer le Test";
     }
     loadPrefs();
 
-    // ---- Logique du jeu ----
     let GAME = {};
-    // Utilitaires
     function getTables(){
       return Array.from(document.querySelectorAll('.tables-selector input:checked')).map(cb=>parseInt(cb.value));
     }
@@ -386,7 +919,6 @@
       const m = Math.floor(s/60), sec = (s%60).toString().padStart(2,'0');
       return `${m}:${sec}`;
     }
-    // Barre progression
     function updateProgressBar(){
       progressFill.style.width = ((GAME.idx)/GAME.nbQuestions*100)+'%';
       progressText.textContent = `Question ${Math.min(GAME.idx+1,GAME.nbQuestions)} / ${GAME.nbQuestions}`;
@@ -395,7 +927,6 @@
       if (GAME.noTimerMode) timeDisplay.textContent = '';
       else timeDisplay.textContent = secToMMSS(GAME.timeLeft);
     }
-    // Génération + démarrage partie
     function generateSerie(){
       let tables = GAME.tables;
       let serie = [];
@@ -406,7 +937,6 @@
       }
       return serie;
     }
-    // Démarrage
     startGame.onclick = () => {
       GAME = {
         tables: getTables(), nbQuestions: parseInt(questionCount.value), timeLimit: parseFloat(timeLimit.value)*60,
@@ -430,26 +960,36 @@
       updateProgressBar();
       savePrefs();
     };
-    // Affichage des zones
     function showGame(){
       document.querySelector('.settings-panel').style.display='none';
       document.querySelector('.welcome-message').style.display='none';
+      document.querySelector('.learn-panel').style.display='none';
       document.getElementById('gameArea').style.display='block';
       document.getElementById('resultsArea').style.display='none';
+      document.getElementById('homePage').style.display='none';
+      document.getElementById('learnPage').style.display='none';
+      document.getElementById('tableDetailPage').style.display='none';
     }
     function showResults(){
       document.querySelector('.settings-panel').style.display='none';
       document.querySelector('.welcome-message').style.display='none';
+      document.querySelector('.learn-panel').style.display='none';
       document.getElementById('gameArea').style.display='none';
       document.getElementById('resultsArea').style.display='block';
+      document.getElementById('homePage').style.display='none';
+      document.getElementById('learnPage').style.display='none';
+      document.getElementById('tableDetailPage').style.display='none';
     }
     function showSettings(){
       document.querySelector('.settings-panel').style.display='block';
       document.querySelector('.welcome-message').style.display='block';
+      document.querySelector('.learn-panel').style.display='block';
       document.getElementById('gameArea').style.display='none';
       document.getElementById('resultsArea').style.display='none';
+      document.getElementById('homePage').style.display='block';
+      document.getElementById('learnPage').style.display='none';
+      document.getElementById('tableDetailPage').style.display='none';
     }
-    // Affichage question
     const progressText=document.getElementById('progressText');
     const progressFill=document.getElementById('progressFill');
     const timeDisplay=document.getElementById('timeDisplay');
@@ -464,7 +1004,6 @@
       updateProgressBar();
       updateTimerDisplay();
     }
-    // Validation réponse
     function doValidate(){
       let ans = parseInt(answerInput.value); 
       if (isNaN(ans)) ans = null;
@@ -478,7 +1017,6 @@
     answerInput.addEventListener('keypress', e=>{
       if (e.key==="Enter") doValidate();
     });
-    // Pause & Arrêt
     pauseBtn.onclick = function(){
       if (GAME.timer) {
         clearInterval(GAME.timer);
@@ -502,8 +1040,6 @@
       if (GAME.timer) clearInterval(GAME.timer);
       showSettings();
     };
-    // Fin de partie
-    // Affichage résultats
     const medalElem = document.getElementById('medal');
     const medalText = document.getElementById('medalText');
     const finalScore = document.getElementById('finalScore');
@@ -529,9 +1065,8 @@
       missedCount.textContent = miss;
       let pct = nbQuestions===0 ? 0 : Math.round(100*good/nbQuestions);
       successPercentage.textContent = `${pct}%`;
-      // Médailles
       let medal = "🏆", medalName = "OR";
-      if (nbQuestions == 10) { // Spécial 10 questions
+      if (nbQuestions == 10) {
         if(pct>=90){medal="🏆";medalName="OR";}
         else if(pct>=80){medal="🥈";medalName="ARGENT";}
         else if(pct>=70){medal="🥉";medalName="BRONZE";}
@@ -548,10 +1083,8 @@
       document.getElementById('errorsList').innerHTML = buildErrorsList(GAME.serie, GAME.userAnswers);
     }
     function medalBlanche(){
-      // SVG blanc avec "4"
       return `<svg width="64" height="64"><circle cx="32" cy="32" r="30" fill="#fff" stroke="#ccc" stroke-width="4"/><text x="32" y="44" text-anchor="middle" font-size="40" fill="#333" font-family="Arial" font-weight="bold">4</text></svg>`;
     }
-    // Grille résultats
     function buildResultsGrid(serie, userAnswers){
       let html = '<tr><th>×</th>';
       for(let i=1;i<=12;i++) html+=`<th>${i}</th>`;
@@ -574,12 +1107,11 @@
       }
       return html;
     }
-    // Liste erreurs détaillées
     function buildErrorsList(serie, userAnswers){
       let html = '';
       for(let i=0;i<serie.length;i++){
         if (typeof userAnswers[i]==="number" && userAnswers[i]!==serie[i].r){
-          html += `<div>${serie[i].a}&times;${serie[i].b} = ${serie[i].r} <span style="color:#f44"> (réponse : ${userAnswers[i]})</span></div>`;
+          html += `<div>${serie[i].a}&times;${serie[i].b} = ${serie[i].r} <span style="color:#f44"> (réponse : ${userAnswers[i]})</span></div>`;
         } else if (userAnswers[i]==null){
           html += `<div>${serie[i].a}&times;${serie[i].b} = ${serie[i].r} <span style="color:#ff0;"> (Non répondu)</span></div>`;
         }
@@ -587,11 +1119,9 @@
       if (!html) html = "<div>Aucune erreur 👍</div>";
       return html;
     }
-    // Actions fin (nouvelle série / paramètres)
     document.getElementById('newGameBtn').onclick = () => startGame.onclick();
     document.getElementById('backToSettingsBtn').onclick = () => showSettings();
 
-    // Initial State
     showSettings();
   </script>
 </body>
