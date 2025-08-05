@@ -533,7 +533,9 @@
     /* ========== FIN PISTE DE COURSE LUDIQUE ========== */
     
     .progress-info {
-      font-size:1.2rem;margin-bottom:20px;color: var(--accent-night);}
+      font-size:1.2rem;margin-bottom:20px;color: var(--accent-night);
+      text-align: center;
+    }
     body.day-mode .progress-info{ color: var(--accent-day);}
     .progress-bar { width:100%;height:10px;
       background: var(--card-night); border-radius:5px; margin-bottom:30px; overflow:hidden;}
@@ -924,9 +926,9 @@
         <div class="time-remaining" id="timeRemaining">Temps restant: 5:00</div>
       </div>
       
+      <!-- PROGRESS INFO SIMPLIFIÉ (sans temps dupliqué) -->
       <div class="progress-info">
         <span id="progressText">Question 1 / 30</span>
-        <span id="timeDisplay">5:00</span>
       </div>
       <div class="progress-bar">
         <div id="progressFill" class="progress-fill"></div>
@@ -1068,7 +1070,7 @@
           rabbit.style.left = `${rabbitPosition + 5}px`;
         }
         
-        // Mettre à jour l'affichage du temps restant
+        // Mettre à jour l'affichage du temps restant dans la piste
         const timeRemaining = document.getElementById('timeRemaining');
         if (timeRemaining) {
           const minutes = Math.floor(GAME.timeLeft / 60);
@@ -1259,27 +1261,23 @@
     }
     loadPrefs();
 
-    // ========== LOGIQUE DE JEU MODIFIÉE ==========
+    // ========== LOGIQUE DE JEU MODIFIÉE (SANS DUPLICATION TEMPS) ==========
     let GAME = {};
     function getTables(){
       return Array.from(document.querySelectorAll('.tables-selector input:checked')).map(cb=>parseInt(cb.value));
     }
-    function secToMMSS(s) {
-      const m = Math.floor(s/60), sec = (s%60).toString().padStart(2,'0');
-      return `${m}:${sec}`;
-    }
     function updateProgressBar(){
+      const progressFill = document.getElementById('progressFill');
+      const progressText = document.getElementById('progressText');
       progressFill.style.width = ((GAME.idx)/GAME.nbQuestions*100)+'%';
       progressText.textContent = `Question ${Math.min(GAME.idx+1,GAME.nbQuestions)} / ${GAME.nbQuestions}`;
     }
     function updateTimerDisplay(){
       if (GAME.noTimerMode) {
-        timeDisplay.textContent = '';
         // Cacher la piste de course en mode entraînement
         const raceTrack = document.getElementById('raceTrack');
         if (raceTrack) raceTrack.style.display = 'none';
       } else {
-        timeDisplay.textContent = secToMMSS(GAME.timeLeft);
         // Afficher la piste de course en mode test
         const raceTrack = document.getElementById('raceTrack');
         if (raceTrack) raceTrack.style.display = 'block';
@@ -1349,9 +1347,7 @@
       document.getElementById('learnPage').style.display='none';
       document.getElementById('tableDetailPage').style.display='none';
     }
-    const progressText=document.getElementById('progressText');
-    const progressFill=document.getElementById('progressFill');
-    const timeDisplay=document.getElementById('timeDisplay');
+    
     const questionDiv=document.getElementById('question');
     const answerInput=document.getElementById('answerInput');
     const validateBtn=document.getElementById('validateBtn');
