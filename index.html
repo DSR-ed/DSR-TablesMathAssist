@@ -416,6 +416,122 @@
     /* ========== FIN MODAL ASTUCES ULTRA CORRIGÉE ========== */
 
     .game-area, .results-area { display:none; text-align:center;}
+    
+    /* ========== PISTE DE COURSE LUDIQUE ========== */
+    .race-track {
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: var(--card-night);
+      border-radius: 12px;
+      border: 2px solid var(--accent-night);
+    }
+    body.day-mode .race-track {
+      background: var(--card-day);
+      border-color: var(--accent-day);
+    }
+    
+    .race-track-title {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent-night);
+      margin-bottom: 15px;
+    }
+    body.day-mode .race-track-title {
+      color: var(--accent-day);
+    }
+    
+    .track-container {
+      position: relative;
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(90deg, #4CAF50 0%, #FFC107 50%, #F44336 100%);
+      border-radius: 25px;
+      border: 3px solid #333;
+      overflow: hidden;
+    }
+    
+    body.day-mode .track-container {
+      border-color: #666;
+    }
+    
+    .track-markers {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      pointer-events: none;
+    }
+    
+    .track-start, .track-end {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+    }
+    
+    .rabbit {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: 5px;
+      left: 5px;
+      transition: left 0.5s ease-out;
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+      animation: rabbitBounce 1s infinite ease-in-out alternate;
+    }
+    
+    @keyframes rabbitBounce {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-3px); }
+    }
+    
+    .time-remaining {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-night);
+    }
+    body.day-mode .time-remaining {
+      color: var(--text-day);
+    }
+    
+    /* Responsive pour mobile */
+    @media (max-width: 768px) {
+      .race-track {
+        padding: 12px;
+        margin-bottom: 15px;
+      }
+      
+      .track-container {
+        height: 40px;
+      }
+      
+      .rabbit {
+        width: 32px;
+        height: 32px;
+        font-size: 1.6rem;
+        top: 4px;
+        left: 4px;
+      }
+      
+      .track-start, .track-end {
+        font-size: 1rem;
+      }
+    }
+    /* ========== FIN PISTE DE COURSE LUDIQUE ========== */
+    
     .progress-info {
       font-size:1.2rem;margin-bottom:20px;color: var(--accent-night);}
     body.day-mode .progress-info{ color: var(--accent-day);}
@@ -793,8 +909,21 @@
       </div>
     </div>
 
-    <!-- ========== ZONE DE JEU ========== -->
+    <!-- ========== ZONE DE JEU AVEC PISTE DE COURSE ========== -->
     <section id="gameArea" class="game-area card">
+      <!-- NOUVELLE PISTE DE COURSE AU LIÈVRE -->
+      <div class="race-track" id="raceTrack">
+        <div class="race-track-title">Course contre la montre !</div>
+        <div class="track-container">
+          <div class="track-markers">
+            <div class="track-start">🚀</div>
+            <div class="track-end">🏁</div>
+          </div>
+          <div class="rabbit" id="rabbit">🐰</div>
+        </div>
+        <div class="time-remaining" id="timeRemaining">Temps restant: 5:00</div>
+      </div>
+      
       <div class="progress-info">
         <span id="progressText">Question 1 / 30</span>
         <span id="timeDisplay">5:00</span>
@@ -806,8 +935,6 @@
       <input type="number" id="answerInput" class="answer-input" placeholder="?">
       <br><br>
       <button id="validateBtn" class="btn-primary">Valider</button>
-      <button id="pauseBtn" class="btn-primary">Pause</button>
-      <button id="stopBtn" class="btn-primary">Arrêter</button>
     </section>
 
     <!-- ========== PAGE RÉSULTATS COMPLÈTEMENT REFAITE ========== -->
@@ -927,6 +1054,28 @@
       const messages = MEDAL_MESSAGES[medalType];
       const randomIndex = Math.floor(Math.random() * messages.length);
       return messages[randomIndex];
+    }
+
+    // ========== ANIMATION DU LIÈVRE ==========
+    function updateRabbitPosition() {
+      if (!GAME.noTimerMode && GAME.timeLimit > 0) {
+        const timeElapsed = (GAME.timeLimit - GAME.timeLeft) / GAME.timeLimit;
+        const trackWidth = document.querySelector('.track-container').offsetWidth - 40; // Largeur - taille du lièvre
+        const rabbitPosition = Math.min(timeElapsed * trackWidth, trackWidth);
+        
+        const rabbit = document.getElementById('rabbit');
+        if (rabbit) {
+          rabbit.style.left = `${rabbitPosition + 5}px`;
+        }
+        
+        // Mettre à jour l'affichage du temps restant
+        const timeRemaining = document.getElementById('timeRemaining');
+        if (timeRemaining) {
+          const minutes = Math.floor(GAME.timeLeft / 60);
+          const seconds = GAME.timeLeft % 60;
+          timeRemaining.textContent = `Temps restant: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+      }
     }
 
     // ========== THÈME + BOUTONS DOUBLES ==========
@@ -1110,7 +1259,7 @@
     }
     loadPrefs();
 
-    // ========== LOGIQUE DE JEU ==========
+    // ========== LOGIQUE DE JEU MODIFIÉE ==========
     let GAME = {};
     function getTables(){
       return Array.from(document.querySelectorAll('.tables-selector input:checked')).map(cb=>parseInt(cb.value));
@@ -1124,8 +1273,18 @@
       progressText.textContent = `Question ${Math.min(GAME.idx+1,GAME.nbQuestions)} / ${GAME.nbQuestions}`;
     }
     function updateTimerDisplay(){
-      if (GAME.noTimerMode) timeDisplay.textContent = '';
-      else timeDisplay.textContent = secToMMSS(GAME.timeLeft);
+      if (GAME.noTimerMode) {
+        timeDisplay.textContent = '';
+        // Cacher la piste de course en mode entraînement
+        const raceTrack = document.getElementById('raceTrack');
+        if (raceTrack) raceTrack.style.display = 'none';
+      } else {
+        timeDisplay.textContent = secToMMSS(GAME.timeLeft);
+        // Afficher la piste de course en mode test
+        const raceTrack = document.getElementById('raceTrack');
+        if (raceTrack) raceTrack.style.display = 'block';
+        updateRabbitPosition();
+      }
     }
     function generateSerie(){
       let tables = GAME.tables;
@@ -1217,29 +1376,6 @@
     answerInput.addEventListener('keypress', e=>{
       if (e.key==="Enter") doValidate();
     });
-    pauseBtn.onclick = function(){
-      if (GAME.timer) {
-        clearInterval(GAME.timer);
-        GAME.timer=null;
-        pauseBtn.textContent="Reprendre";
-        validateBtn.disabled = true;
-        answerInput.disabled = true;
-      } else {
-        GAME.timer = setInterval(()=>{
-          GAME.timeLeft--;
-          updateTimerDisplay();
-          if (GAME.timeLeft<=0) endGame();
-        }, 1000);
-        pauseBtn.textContent="Pause";
-        validateBtn.disabled = false;
-        answerInput.disabled = false;
-        answerInput.focus();
-      }
-    };
-    stopBtn.onclick = function(){
-      if (GAME.timer) clearInterval(GAME.timer);
-      showSettings();
-    };
     
     // ========== FIN DE PARTIE AVEC MESSAGES ALÉATOIRES ==========
     const medalElem = document.getElementById('medal');
