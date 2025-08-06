@@ -16,6 +16,10 @@
       --card-night: rgba(255, 255, 255, 0.1);
     }
     
+    * {
+      box-sizing: border-box;
+    }
+    
     html, body {
       margin: 0;
       padding: 0;
@@ -23,7 +27,6 @@
       color: var(--text-night);
       font-family: "Segoe UI", Arial, Helvetica, sans-serif;
       min-height: 100vh;
-      box-sizing: border-box;
       transition: all .3s;
     }
     
@@ -38,10 +41,9 @@
       flex-direction: column;
       align-items: center;
       padding: 20px;
-      box-sizing: border-box;
     }
     
-    /* ========== ALIGNEMENT PARFAIT HEADER/CARDS ========== */
+    /* ========== ALIGNEMENT PARFAIT HEADER/CARDS - DESKTOP ========== */
     .header, .card {
       width: 100%;
       max-width: 800px;
@@ -49,7 +51,7 @@
       border-radius: 20px;
       backdrop-filter: blur(10px);
       box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-      margin: 15px 0;
+      margin: 15px auto;
     }
     
     body.day-mode .header, body.day-mode .card { 
@@ -100,18 +102,18 @@
     .btn-theme:hover { transform: scale(1.1); background: var(--accent-night);}
     body.day-mode .btn-theme:hover { background: var(--accent-day);}
     
-    /* ========== MOBILE RESPONSIVE CORRIGÉ ========== */
+    /* ========== MOBILE RESPONSIVE CORRIGÉ - ALIGNEMENT PARFAIT ========== */
     @media (max-width: 768px) {
       .app-container {
-        padding: 15px;
+        padding: 15px; /* Marges gauche/droite pour smartphone */
       }
       
+      /* FORCER LA MÊME LARGEUR POUR HEADER ET CARDS */
       .header, .card {
-        width: calc(100vw - 30px);
-        max-width: calc(100vw - 30px);
-        margin-left: auto;
-        margin-right: auto;
-        padding: 20px;
+        width: calc(100vw - 30px); /* Largeur identique avec marges */
+        max-width: calc(100vw - 30px); /* Max-width identique */
+        margin-left: auto; /* Centrage automatique */
+        margin-right: auto; /* Centrage automatique */
         margin-top: 15px;
         margin-bottom: 15px;
       }
@@ -119,6 +121,7 @@
       .header {
         flex-direction: column;
         align-items: center;
+        padding: 20px; /* Padding uniforme */
         margin-bottom: 20px;
       }
       
@@ -144,23 +147,28 @@
         height: 40px;
         font-size: 1.2rem;
       }
+      
+      .card {
+        padding: 20px; /* Padding uniforme pour les cards */
+      }
     }
     
     @media (max-width: 480px) {
       .app-container {
-        padding: 10px;
+        padding: 12px; /* Marges réduites sur très petit écran */
       }
       
       .header, .card {
-        width: calc(100vw - 20px);
-        max-width: calc(100vw - 20px);
-        padding: 15px;
+        width: calc(100vw - 24px); /* Largeur ajustée */
+        max-width: calc(100vw - 24px);
+        padding: 18px; /* Padding ajusté */
       }
       
       .app-title {
         font-size: 1.5rem;
       }
     }
+    /* ========== FIN MOBILE RESPONSIVE CORRIGÉ ========== */
     
     .card {
       padding: 30px;
@@ -840,6 +848,17 @@
         font-size: 1.1rem;
         padding: 12px;
       }
+      
+      /* CORRECTIONS SPÉCIFIQUES HEADER MOBILE */
+      .table-detail-header {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .btn-astuce, .btn-return {
+        padding: 8px 16px;
+        font-size: 1rem;
+      }
     }
     
     .footer {margin-top:auto;text-align:center;padding:30px;}
@@ -931,9 +950,9 @@
         <div class="form-group">
           <label class="form-label">Nombre de questions :</label>
           <select id="questionCount">
-            <option value="10">10 questions</option>
+            <option value="10" selected>10 questions</option>
             <option value="20">20 questions</option>
-            <option value="30" selected>30 questions</option>
+            <option value="30">30 questions</option>
             <option value="40">40 questions</option>
             <option value="50">50 questions</option>
             <option value="60">60 questions</option>
@@ -1478,8 +1497,8 @@
       const p = JSON.parse(localStorage.getItem(prefsKey)||'null');
       if (!p) return;
       document.querySelectorAll('.tables-selector input').forEach((cb,i) => cb.checked=(p.tables||[]).includes(i+1));
-      questionCount.value = p.questionCount||"30";
-      timeLimit.value = p.timeLimit||"5";
+      questionCount.value = p.questionCount||"10";
+      timeLimit.value = p.timeLimit||"0.5";
       noTimerMode.checked = !!p.noTimerMode;
       updateTimeLimitLabel();
       updateButtonText();
