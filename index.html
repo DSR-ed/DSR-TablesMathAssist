@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TablesMathAssist - DSR</title>
+  <!-- Chart.js pour statistiques avancées -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --gradient-day: linear-gradient(180deg, #ffffff 0%, #e3f2fd 100%);
@@ -20,14 +22,18 @@
       --secondary-color: #45B7D1;
       --accent-color: #FECA57;
       --font-size: 16px;
+      --border-radius: 15px;
+      --shadow-intensity: 0.3;
     }
     
-    /* PROFILS COULEURS DYNAMIQUES */
+    /* ========== PROFILS COULEURS DYNAMIQUES AVANCÉS ========== */
     body[data-profile="CM1"] {
       --primary-color: #FF6B35;
       --secondary-color: #FFD23F;
       --accent-color: #06D6A0;
       --font-size: 18px;
+      --border-radius: 25px;
+      --shadow-intensity: 0.4;
     }
     
     body[data-profile="CM2"] {
@@ -35,6 +41,8 @@
       --secondary-color: #45B7D1;
       --accent-color: #FECA57;
       --font-size: 16px;
+      --border-radius: 20px;
+      --shadow-intensity: 0.35;
     }
     
     body[data-profile="6EME"] {
@@ -42,6 +50,8 @@
       --secondary-color: #74B9FF;
       --accent-color: #00B894;
       --font-size: 15px;
+      --border-radius: 15px;
+      --shadow-intensity: 0.25;
     }
     
     body[data-profile="5EME"] {
@@ -49,6 +59,10 @@
       --secondary-color: #636E72;
       --accent-color: #00CEC9;
       --font-size: 14px;
+      --border-radius: 10px;
+      --shadow-intensity: 0.15;
+      --gradient-night: linear-gradient(180deg, #2d3436 0%, #636e72 100%);
+      --gradient-day: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
     }
     
     body[data-profile="ADULTE"] {
@@ -56,6 +70,10 @@
       --secondary-color: #57606F;
       --accent-color: #3742FA;
       --font-size: 13px;
+      --border-radius: 8px;
+      --shadow-intensity: 0.1;
+      --gradient-night: linear-gradient(180deg, #2f3640 0%, #57606f 100%);
+      --gradient-day: linear-gradient(180deg, #ffffff 0%, #f1f2f6 100%);
     }
     
     * {
@@ -86,14 +104,14 @@
       padding: 20px;
     }
     
-    /* ========== ALIGNEMENT PARFAIT HEADER/CARDS - DESKTOP ========== */
+    /* ========== ALIGNEMENT PARFAIT HEADER/CARDS ========== */
     .header, .card {
       width: 100%;
       max-width: 800px;
       background: var(--card-night);
-      border-radius: 20px;
+      border-radius: var(--border-radius);
       backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 32px rgba(0,0,0,var(--shadow-intensity));
       margin: 15px auto;
     }
     
@@ -125,6 +143,35 @@
       color: var(--primary-color);
       text-align: center;
       flex: 1;
+      transition: all 0.3s ease;
+    }
+    
+    /* ANIMATIONS TITRE PAR PROFIL */
+    body[data-profile="CM1"] .app-title:hover {
+      animation: titleBounce 0.6s ease-in-out;
+    }
+    
+    body[data-profile="CM2"] .app-title:hover {
+      animation: titlePulse 0.8s ease-in-out;
+    }
+    
+    body[data-profile="6EME"] .app-title:hover {
+      animation: titleGlow 1s ease-in-out;
+    }
+    
+    @keyframes titleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes titlePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    @keyframes titleGlow {
+      0%, 100% { text-shadow: 0 0 10px var(--primary-color); }
+      50% { text-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--primary-color); }
     }
     
     .btn-theme, .btn-settings {
@@ -172,6 +219,12 @@
     
     .settings-modal-overlay.active {
       display: flex;
+      animation: modalSlideIn 0.3s ease-out;
+    }
+    
+    @keyframes modalSlideIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
     }
     
     .settings-modal-content {
@@ -181,7 +234,7 @@
       width: 90%;
       max-height: 80vh;
       overflow-y: auto;
-      border-radius: 15px;
+      border-radius: var(--border-radius);
       padding: 25px;
       position: relative;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
@@ -218,11 +271,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
     }
     
     .settings-modal-close:hover {
       color: #f44336;
-      transform: scale(1.1);
+      transform: scale(1.2) rotate(90deg);
+      background: rgba(244, 67, 54, 0.1);
     }
     
     .settings-section {
@@ -250,25 +306,55 @@
       gap: 12px;
       padding: 15px;
       border: 2px solid #e0e0e0;
-      border-radius: 10px;
+      border-radius: var(--border-radius);
       cursor: pointer;
       transition: all 0.3s ease;
       background: #fafafa;
+      position: relative;
+      overflow: hidden;
     }
     
     .profile-option:hover {
       background: #f0f0f0;
       border-color: #c0c0c0;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .profile-option:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .profile-option:hover:before {
+      left: 100%;
     }
     
     .profile-option input[type="radio"] {
       margin-top: 2px;
       transform: scale(1.2);
+      accent-color: var(--primary-color);
+    }
+    
+    .profile-option input[type="radio"]:checked + .profile-info {
+      animation: profileSelected 0.5s ease-out;
+    }
+    
+    @keyframes profileSelected {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
     }
     
     .profile-option input[type="radio"]:checked + .profile-info .profile-label {
       font-weight: bold;
+      color: var(--primary-color);
     }
     
     .profile-info {
@@ -279,6 +365,7 @@
       font-weight: 600;
       font-size: 1.1rem;
       margin-bottom: 4px;
+      transition: all 0.3s ease;
     }
     
     .profile-description {
@@ -300,12 +387,13 @@
       cursor: pointer;
       margin-top: 12px;
       padding: 10px;
-      border-radius: 8px;
-      transition: background 0.3s ease;
+      border-radius: var(--border-radius);
+      transition: all 0.3s ease;
     }
     
     .toggle-option:hover {
       background: #f5f5f5;
+      transform: translateX(5px);
     }
     
     .toggle-slider {
@@ -314,7 +402,7 @@
       border-radius: 13px;
       background: #ccc;
       position: relative;
-      transition: background 0.3s ease;
+      transition: all 0.3s ease;
     }
     
     .toggle-slider::before {
@@ -326,7 +414,7 @@
       position: absolute;
       top: 2px;
       left: 2px;
-      transition: transform 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     
@@ -335,7 +423,7 @@
     }
     
     input[type="checkbox"]:checked + .toggle-slider::before {
-      transform: translateX(24px);
+      transform: translateX(24px) scale(1.1);
     }
     
     input[type="checkbox"] {
@@ -353,12 +441,14 @@
     
     .btn-save, .btn-cancel {
       border: none;
-      border-radius: 8px;
+      border-radius: var(--border-radius);
       padding: 12px 24px;
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
     
     .btn-save {
@@ -368,7 +458,8 @@
     
     .btn-save:hover {
       background: #43a047;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
     }
     
     .btn-cancel {
@@ -378,10 +469,79 @@
     
     .btn-cancel:hover {
       background: #e53935;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+    }
+    
+    /* ========== STATISTIQUES AVANCÉES ADULTE/ENSEIGNANT ========== */
+    .stats-dashboard {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    
+    body[data-profile="ADULTE"] .stats-dashboard {
+      display: grid;
+    }
+    
+    .stats-card {
+      background: var(--card-night);
+      border: 1px solid var(--primary-color);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    body.day-mode .stats-card {
+      background: var(--card-day);
+    }
+    
+    .stats-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .stats-card h3 {
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .chart-container {
+      position: relative;
+      height: 200px;
+    }
+    
+    .export-buttons {
+      display: none;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    body[data-profile="ADULTE"] .export-buttons {
+      display: flex;
+    }
+    
+    .btn-export {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-export:hover {
+      background: var(--secondary-color);
       transform: translateY(-1px);
     }
     
-    /* ========== MOBILE RESPONSIVE CORRIGÉ - ALIGNEMENT PARFAIT ========== */
+    /* ========== MOBILE RESPONSIVE ========== */
     @media (max-width: 768px) {
       .app-container {
         padding: 15px;
@@ -449,6 +609,11 @@
         width: 100%;
         padding: 14px;
       }
+      
+      .stats-dashboard {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
     }
     
     @media (max-width: 480px) {
@@ -493,7 +658,7 @@
       margin-bottom: 25px;
       padding: 20px;
       background: rgba(142, 36, 170, 0.1);
-      border-radius: 15px;
+      border-radius: var(--border-radius);
       border: 1px solid rgba(142, 36, 170, 0.3);
     }
     
@@ -508,7 +673,7 @@
       margin-bottom: 25px;
       padding: 15px;
       background: rgba(25, 118, 210, 0.1);
-      border-radius: 12px;
+      border-radius: var(--border-radius);
       border: 1px solid rgba(25, 118, 210, 0.2);
     }
     
@@ -539,14 +704,17 @@
       font-size: 1.1rem; 
       cursor: pointer; 
       padding: 8px; 
-      border-radius: 8px;
+      border-radius: var(--border-radius);
       transition: all .3s;
       border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
     }
     
     .tables-selector label:hover {
       background: rgba(78, 205, 196, 0.1);
       border-color: var(--primary-color);
+      transform: translateY(-2px);
     }
     
     .tables-selector input[type="checkbox"] {
@@ -560,15 +728,49 @@
       color: var(--primary-color);
     }
     
+    /* ANIMATIONS CHECKBOX PAR PROFIL */
+    body[data-profile="CM1"] .tables-selector input[type="checkbox"]:checked + span {
+      animation: checkboxBounce 0.4s ease-out;
+    }
+    
+    body[data-profile="CM2"] .tables-selector input[type="checkbox"]:checked + span {
+      animation: checkboxPulse 0.5s ease-out;
+    }
+    
+    body[data-profile="6EME"] .tables-selector input[type="checkbox"]:checked + span {
+      animation: checkboxGlow 0.6s ease-out;
+    }
+    
+    @keyframes checkboxBounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+    
+    @keyframes checkboxPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    @keyframes checkboxGlow {
+      0%, 100% { text-shadow: none; }
+      50% { text-shadow: 0 0 8px var(--primary-color); }
+    }
+    
     select {
       width: 100%; 
       padding: 12px;
       font-size: 1.1rem;
       border: 2px solid var(--primary-color);
-      border-radius: 10px;
+      border-radius: var(--border-radius);
       background: var(--card-night);
       color: var(--text-night);
       cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    select:hover {
+      border-color: var(--secondary-color);
+      transform: translateY(-1px);
     }
     
     body.day-mode select {
@@ -584,15 +786,52 @@
       padding: 15px 30px; 
       font-size: 1.3rem; 
       font-weight: bold;
-      border-radius: 15px;
+      border-radius: var(--border-radius);
       cursor: pointer; 
       transition: all .3s;
       margin: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-primary:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .btn-primary:hover:before {
+      left: 100%;
     }
     
     .btn-primary:hover { 
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    
+    /* ANIMATIONS BOUTONS PAR PROFIL */
+    body[data-profile="CM1"] .btn-primary:hover {
+      animation: buttonBounce 0.6s ease-in-out;
+    }
+    
+    body[data-profile="CM2"] .btn-primary:hover {
+      animation: buttonRipple 0.8s ease-out;
+    }
+    
+    @keyframes buttonBounce {
+      0%, 100% { transform: translateY(-3px); }
+      50% { transform: translateY(-8px) scale(1.05); }
+    }
+    
+    @keyframes buttonRipple {
+      0% { box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+      50% { box-shadow: 0 6px 20px rgba(0,0,0,0.3), 0 0 0 10px rgba(78, 205, 196, 0.2); }
+      100% { box-shadow: 0 6px 20px rgba(0,0,0,0.3), 0 0 0 20px transparent; }
     }
     
     /* ========== PAGES APPRENTISSAGE ========== */
@@ -643,26 +882,65 @@
     .table-card {
       background: rgba(255, 255, 255, 0.9);
       border: 3px solid;
-      border-radius: 15px;
+      border-radius: var(--border-radius);
       padding: 25px 10px;
       text-align: center;
       font-weight: bold;
       cursor: pointer;
-      transition: all .25s;
+      transition: all .3s;
       color: #333;
+      position: relative;
+      overflow: hidden;
     }
     
     body.day-mode .table-card {
       background: rgba(255, 255, 255, 0.95);
     }
     
-    .table-card:hover { transform: translateY(-4px); }
+    .table-card:hover { 
+      transform: translateY(-6px); 
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
     .table-card.hidden { display: none; }
     .table-num { font-size: 2rem; margin-bottom: 8px; }
     .diff-label { font-size: 0.9rem; font-weight: 600; }
     .easy { border-color: #4caf50; }
     .medium { border-color: #ff9800; }
     .hard { border-color: #f44336; }
+    
+    /* ANIMATIONS TABLE-CARDS PAR PROFIL */
+    body[data-profile="CM1"] .table-card:hover {
+      animation: cardBounce 0.5s ease-in-out;
+    }
+    
+    body[data-profile="CM2"] .table-card:hover {
+      animation: cardScale 0.4s ease-out;
+    }
+    
+    body[data-profile="6EME"] .table-card:hover {
+      animation: cardGlow 0.6s ease-in-out;
+    }
+    
+    @keyframes cardBounce {
+      0%, 100% { transform: translateY(-6px); }
+      50% { transform: translateY(-12px); }
+    }
+    
+    @keyframes cardScale {
+      0%, 100% { transform: translateY(-6px) scale(1); }
+      50% { transform: translateY(-6px) scale(1.05); }
+    }
+    
+    @keyframes cardGlow {
+      0%, 100% { 
+        transform: translateY(-6px); 
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      }
+      50% { 
+        transform: translateY(-6px); 
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 20px var(--primary-color);
+      }
+    }
     
     /* Page détail table */
     .table-detail-header {
@@ -679,7 +957,7 @@
       padding: 10px 20px; 
       font-size: 1.1rem; 
       font-weight: bold;
-      border-radius: 10px; 
+      border-radius: var(--border-radius); 
       cursor: pointer; 
       transition: all .3s;
       display: flex; 
@@ -696,7 +974,7 @@
       padding: 10px 20px; 
       font-size: 1.1rem; 
       font-weight: bold;
-      border-radius: 10px; 
+      border-radius: var(--border-radius); 
       cursor: pointer; 
       transition: all .3s;
     }
@@ -712,11 +990,17 @@
     .mult-card {
       background: var(--primary-color);
       color: white;
-      border-radius: 12px;
+      border-radius: var(--border-radius);
       padding: 20px 10px;
       text-align: center;
       font-weight: bold;
       font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .mult-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
     
     .mult-question {
@@ -741,13 +1025,21 @@
       justify-content: center;
     }
     
-    .modal-overlay.active { display: flex; }
+    .modal-overlay.active { 
+      display: flex; 
+      animation: modalFadeIn 0.3s ease-out;
+    }
+    
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
     
     .modal-content {
       background: #000000;
       opacity: 1.0;
       border: 3px solid var(--primary-color);
-      border-radius: 15px;
+      border-radius: var(--border-radius);
       padding: 30px;
       max-width: 90vw;
       width: 500px;
@@ -755,6 +1047,12 @@
       overflow-y: auto;
       position: relative;
       box-shadow: 0 10px 40px rgba(0, 255, 255, 0.4);
+      animation: modalSlideUp 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    @keyframes modalSlideUp {
+      from { transform: translateY(50px) scale(0.9); }
+      to { transform: translateY(0) scale(1); }
     }
     
     body.day-mode .modal-content { 
@@ -777,13 +1075,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
     }
     
     .modal-close:hover {
       color: #ff4444;
-      transform: scale(1.3);
+      transform: scale(1.3) rotate(90deg);
       background: rgba(255, 68, 68, 0.1);
-      border-radius: 50%;
     }
     
     .modal-title {
@@ -808,8 +1107,26 @@
       line-height: 1.5;
       color: #ffffff;
       background: rgba(0, 188, 212, 0.1);
-      border-radius: 8px;
+      border-radius: var(--border-radius);
       border-left: 4px solid var(--primary-color);
+      transition: all 0.3s ease;
+      animation: astuceSlideIn 0.5s ease-out backwards;
+    }
+    
+    .astuce-list li:nth-child(1) { animation-delay: 0.1s; }
+    .astuce-list li:nth-child(2) { animation-delay: 0.2s; }
+    .astuce-list li:nth-child(3) { animation-delay: 0.3s; }
+    .astuce-list li:nth-child(4) { animation-delay: 0.4s; }
+    .astuce-list li:nth-child(5) { animation-delay: 0.5s; }
+    
+    @keyframes astuceSlideIn {
+      from { transform: translateX(-20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    .astuce-list li:hover {
+      transform: translateX(5px);
+      background: rgba(0, 188, 212, 0.15);
     }
     
     body.day-mode .astuce-list li { 
@@ -818,19 +1135,41 @@
       border-left: 4px solid var(--primary-color);
     }
     
+    body.day-mode .astuce-list li:hover {
+      background: rgba(25, 118, 210, 0.15);
+    }
+    
     .game-area, .results-area { 
       display:none; 
       text-align:center;
     }
     
-    /* ========== PISTE DE COURSE LUDIQUE ========== */
+    /* ========== PISTE DE COURSE LUDIQUE AVEC ANIMATIONS PROFILS ========== */
     .race-track {
       width: 100%;
       margin-bottom: 20px;
       padding: 15px;
       background: var(--card-night);
-      border-radius: 12px;
+      border-radius: var(--border-radius);
       border: 2px solid var(--primary-color);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .race-track:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      animation: trackShimmer 3s infinite;
+    }
+    
+    @keyframes trackShimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
     }
     
     body.day-mode .race-track {
@@ -894,7 +1233,7 @@
       filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
     }
     
-    /* ANIMATIONS SPÉCIFIQUES PAR PROFIL */
+    /* ANIMATIONS SPÉCIFIQUES PAR PROFIL POUR LE LAPIN */
     body[data-profile="CM1"] .rabbit {
       animation: rabbitBounce 0.8s infinite ease-in-out alternate;
     }
@@ -907,24 +1246,33 @@
       animation: rabbitFade 1.5s infinite ease-in-out alternate;
     }
     
-    body[data-profile="5EME"] .rabbit,
+    body[data-profile="5EME"] .rabbit {
+      animation: rabbitSubtle 2s infinite ease-in-out;
+    }
+    
     body[data-profile="ADULTE"] .rabbit {
       animation: none;
+      filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
     }
     
     @keyframes rabbitBounce {
-      0% { transform: translateY(0px); }
-      100% { transform: translateY(-5px); }
+      0% { transform: translateY(0px) rotate(-5deg); }
+      100% { transform: translateY(-8px) rotate(5deg); }
     }
     
     @keyframes rabbitScale {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.1); }
+      0% { transform: scale(1) rotate(0deg); }
+      100% { transform: scale(1.15) rotate(10deg); }
     }
     
     @keyframes rabbitFade {
-      0% { opacity: 0.8; }
-      100% { opacity: 1; }
+      0% { opacity: 0.8; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5)); }
+      100% { opacity: 1; filter: drop-shadow(2px 2px 8px rgba(108, 92, 231, 0.7)); }
+    }
+    
+    @keyframes rabbitSubtle {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-2px); }
     }
     
     .time-remaining {
@@ -948,20 +1296,40 @@
     
     .progress-bar { 
       width:100%;
-      height:10px;
+      height:12px;
       background: var(--card-night); 
-      border-radius:5px; 
+      border-radius: 6px; 
       margin-bottom:30px; 
       overflow:hidden;
+      border: 1px solid var(--primary-color);
     }
     
-    body.day-mode .progress-bar {background:var(--card-day);}
+    body.day-mode .progress-bar {
+      background:var(--card-day);
+    }
     
     .progress-fill{
       height:100%;
-      background: var(--primary-color);
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
       width:0%;
-      transition:width .3s;
+      transition:width .5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
+    }
+    
+    .progress-fill:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20px;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+      animation: progressShine 1.5s infinite;
+    }
+    
+    @keyframes progressShine {
+      0% { transform: translateX(-20px); }
+      100% { transform: translateX(20px); }
     }
     
     .question { 
@@ -969,6 +1337,36 @@
       font-weight: bold; 
       margin: 30px 0; 
       color: var(--primary-color);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    /* ANIMATIONS QUESTIONS PAR PROFIL */
+    body[data-profile="CM1"] .question {
+      animation: questionBounce 2s infinite ease-in-out;
+    }
+    
+    body[data-profile="CM2"] .question {
+      animation: questionPulse 2.5s infinite ease-in-out;
+    }
+    
+    body[data-profile="6EME"] .question {
+      animation: questionGlow 3s infinite ease-in-out;
+    }
+    
+    @keyframes questionBounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    @keyframes questionPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+    
+    @keyframes questionGlow {
+      0%, 100% { text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+      50% { text-shadow: 2px 2px 4px rgba(0,0,0,0.1), 0 0 10px var(--primary-color); }
     }
     
     .answer-input { 
@@ -976,11 +1374,19 @@
       padding:15px; 
       text-align:center; 
       border:3px solid var(--primary-color);
-      border-radius:15px; 
+      border-radius: var(--border-radius); 
       background:var(--card-night); 
       color:var(--text-night); 
       width:200px; 
       margin:20px 0;
+      transition: all 0.3s ease;
+    }
+    
+    .answer-input:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
     
     body.day-mode .answer-input{
@@ -989,14 +1395,29 @@
       color:var(--text-day);
     }
     
-    .medal { font-size:4rem;margin:20px 0;}
+    .medal { 
+      font-size:4rem;
+      margin:20px 0;
+      animation: medalSpin 2s infinite linear;
+    }
     
-    /* ========== PAGE RÉSULTATS ========== */
+    @keyframes medalSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* ========== PAGE RÉSULTATS AVEC ANIMATIONS ========== */
     .results-area h2 {
       color: var(--primary-color); 
       margin-bottom: 25px;
       font-size: 2rem; 
       text-align: center;
+      animation: resultsTitleSlide 0.8s ease-out;
+    }
+    
+    @keyframes resultsTitleSlide {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
     
     .medal-message {
@@ -1005,8 +1426,14 @@
       text-align: center;
       margin: 20px 0 30px 0;
       padding: 15px;
-      border-radius: 12px;
+      border-radius: var(--border-radius);
       line-height: 1.4;
+      animation: messageSlideIn 1s ease-out 0.5s both;
+    }
+    
+    @keyframes messageSlideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
     
     .medal-message.gold {
@@ -1043,10 +1470,22 @@
     .score-block {
       background: var(--card-night);
       border: 2px solid var(--primary-color);
-      border-radius: 12px;
+      border-radius: var(--border-radius);
       padding: 20px;
       text-align: center;
       transition: all 0.3s ease;
+      animation: scoreBlockPop 0.6s ease-out both;
+    }
+    
+    .score-block:nth-child(1) { animation-delay: 0.2s; }
+    .score-block:nth-child(2) { animation-delay: 0.4s; }
+    .score-block:nth-child(3) { animation-delay: 0.6s; }
+    .score-block:nth-child(4) { animation-delay: 0.8s; }
+    .score-block:nth-child(5) { animation-delay: 1s; }
+    
+    @keyframes scoreBlockPop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
     
     body.day-mode .score-block {
@@ -1055,8 +1494,8 @@
     }
     
     .score-block:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     }
     
     .score-label {
@@ -1090,6 +1529,7 @@
       height:35px; 
       text-align:center; 
       font-weight:bold;
+      transition: all 0.3s ease;
     }
     
     .results-grid th { 
@@ -1097,9 +1537,27 @@
       color:white;
     }
     
+    .results-grid td:hover {
+      transform: scale(1.1);
+      z-index: 10;
+      position: relative;
+    }
+    
     .cell-correct {background:transparent;}
-    .cell-incorrect {background:#f44 !important;}
-    .cell-missed {background:#ff0 !important;}
+    .cell-incorrect {background:#f44 !important; animation: cellError 0.5s ease-out;}
+    .cell-missed {background:#ff0 !important; animation: cellMissed 0.5s ease-out;}
+    
+    @keyframes cellError {
+      0% { background: transparent; }
+      50% { background: #f44; transform: scale(1.2); }
+      100% { background: #f44; transform: scale(1); }
+    }
+    
+    @keyframes cellMissed {
+      0% { background: transparent; }
+      50% { background: #ff0; transform: scale(1.2); }
+      100% { background: #ff0; transform: scale(1); }
+    }
     
     /* Media queries pour autres éléments */
     @media (max-width:768px){
@@ -1161,6 +1619,11 @@
         padding: 8px 16px;
         font-size: 1rem;
       }
+      
+      .stats-dashboard {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
     }
     
     .footer {margin-top:auto;text-align:center;padding:30px;}
@@ -1218,7 +1681,7 @@
               <input type="radio" name="userProfile" value="CM1">
               <div class="profile-info">
                 <div class="profile-label cm1-color">CM1 (9-10 ans)</div>
-                <div class="profile-description">Tables 2, 3, 4, 5 prioritaires + autres jusqu'à 10 • Interface colorée et ludique</div>
+                <div class="profile-description">Tables 2, 3, 4, 5 prioritaires + autres jusqu'à 10 • Interface colorée et ludique • Animations bouncy</div>
               </div>
             </label>
             
@@ -1226,7 +1689,7 @@
               <input type="radio" name="userProfile" value="CM2" checked>
               <div class="profile-info">
                 <div class="profile-label cm2-color">CM2 (10-11 ans)</div>
-                <div class="profile-description">Toutes les tables • Interface moderne</div>
+                <div class="profile-description">Toutes les tables • Interface moderne • Animations scale</div>
               </div>
             </label>
             
@@ -1234,7 +1697,7 @@
               <input type="radio" name="userProfile" value="6EME">
               <div class="profile-info">
                 <div class="profile-label sixieme-color">6ème (11-12 ans)</div>
-                <div class="profile-description">Révisions collège • Interface élégante</div>
+                <div class="profile-description">Révisions collège • Interface élégante • Animations glow</div>
               </div>
             </label>
             
@@ -1242,7 +1705,7 @@
               <input type="radio" name="userProfile" value="5EME">
               <div class="profile-info">
                 <div class="profile-label cinquieme-color">5ème (12-13 ans)</div>
-                <div class="profile-description">Perfectionnement • Design épuré</div>
+                <div class="profile-description">Perfectionnement • Design épuré • Animations subtiles</div>
               </div>
             </label>
             
@@ -1250,7 +1713,7 @@
               <input type="radio" name="userProfile" value="ADULTE">
               <div class="profile-info">
                 <div class="profile-label adulte-color">Adulte/Enseignant</div>
-                <div class="profile-description">Mode professionnel • Statistiques avancées</div>
+                <div class="profile-description">Mode professionnel • Statistiques avancées • Sans animations</div>
               </div>
             </label>
           </div>
@@ -1296,6 +1759,23 @@
           <button id="learnBtn" class="btn-primary" style="background: #8e24aa;">Commencer à apprendre</button>
         </div>
       </section>
+
+      <!-- ========== STATISTIQUES AVANCÉES MODE ADULTE ========== -->
+      <div class="stats-dashboard">
+        <div class="stats-card">
+          <h3>📊 Performances générales</h3>
+          <div class="chart-container">
+            <canvas id="performanceChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="stats-card">
+          <h3>📈 Évolution temporelle</h3>
+          <div class="chart-container">
+            <canvas id="evolutionChart"></canvas>
+          </div>
+        </div>
+      </div>
 
       <section class="settings-panel card">
         <div class="settings-motivating-message">
@@ -1380,6 +1860,13 @@
         </div>
         
         <button id="startGame" class="btn-primary">Commencer le Test</button>
+        
+        <!-- BOUTONS EXPORT MODE ADULTE -->
+        <div class="export-buttons">
+          <button class="btn-export" id="exportCSV">📊 Export CSV</button>
+          <button class="btn-export" id="exportPDF">📄 Export PDF</button>
+          <button class="btn-export" id="modeClasse">👥 Mode Classe</button>
+        </div>
       </section>
     </div>
 
@@ -1564,7 +2051,7 @@
   </div>
   
   <script>
-    // ========== CONFIGURATION PROFILS ADAPTATIFS ==========
+    // ========== CONFIGURATION PROFILS ADAPTATIFS AVANCÉS ==========
     const profileConfigs = {
       CM1: {
         tables: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -1572,7 +2059,8 @@
         fontSize: '18px',
         animations: true,
         sounds: true,
-        animationStyle: 'bounce'
+        animationStyle: 'bounce',
+        soundProfile: 'cheerful'
       },
       CM2: {
         tables: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -1580,7 +2068,8 @@
         fontSize: '16px',
         animations: true,
         sounds: true,
-        animationStyle: 'scale'
+        animationStyle: 'scale',
+        soundProfile: 'encouraging'
       },
       "6EME": {
         tables: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -1588,15 +2077,17 @@
         fontSize: '15px',
         animations: true,
         sounds: true,
-        animationStyle: 'fade'
+        animationStyle: 'glow',
+        soundProfile: 'modern'
       },
       "5EME": {
         tables: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         colors: { primary: '#2D3436', secondary: '#636E72', accent: '#00CEC9' },
         fontSize: '14px',
-        animations: false,
+        animations: true,
         sounds: false,
-        animationStyle: 'subtle'
+        animationStyle: 'subtle',
+        soundProfile: 'minimal'
       },
       ADULTE: {
         tables: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -1604,9 +2095,272 @@
         fontSize: '13px',
         animations: false,
         sounds: false,
-        animationStyle: 'none'
+        animationStyle: 'none',
+        soundProfile: 'none',
+        advancedStats: true,
+        exportFeatures: true,
+        classMode: true
       }
     };
+
+    // ========== SYSTÈME SONORE ADAPTATIF ==========
+    let audioContext = null;
+    let soundBank = {};
+
+    function initAudioSystem() {
+      try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        console.log('🔊 Système audio initialisé');
+      } catch (error) {
+        console.warn('⚠️ Audio non supporté:', error);
+      }
+    }
+
+    function createBeepSound(frequency, duration, type = 'sine') {
+      if (!audioContext) return;
+      
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+      oscillator.type = type;
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + duration);
+    }
+
+    function playSuccessSound(profile) {
+      if (!window.tmaSoundsEnabled) return;
+      
+      const config = profileConfigs[profile] || profileConfigs.CM2;
+      
+      switch (config.soundProfile) {
+        case 'cheerful':
+          // Série joyeuse pour CM1
+          createBeepSound(523, 0.2, 'square'); // Do
+          setTimeout(() => createBeepSound(659, 0.2, 'square'), 100); // Mi
+          setTimeout(() => createBeepSound(784, 0.3, 'square'), 200); // Sol
+          break;
+          
+        case 'encouraging':
+          // Accord encourageant pour CM2
+          createBeepSound(440, 0.3, 'sine'); // La
+          setTimeout(() => createBeepSound(554, 0.3, 'sine'), 150); // Do#
+          break;
+          
+        case 'modern':
+          // Son moderne pour 6ème
+          createBeepSound(330, 0.2, 'triangle');
+          setTimeout(() => createBeepSound(440, 0.25, 'sawtooth'), 100);
+          break;
+          
+        case 'minimal':
+          // Son discret pour 5ème
+          createBeepSound(440, 0.15, 'sine');
+          break;
+          
+        default:
+          // Pas de son pour Adulte
+          break;
+      }
+    }
+
+    function playErrorSound(profile) {
+      if (!window.tmaSoundsEnabled) return;
+      
+      const config = profileConfigs[profile] || profileConfigs.CM2;
+      
+      if (config.soundProfile !== 'none' && config.soundProfile !== 'minimal') {
+        createBeepSound(200, 0.3, 'sawtooth'); // Son d'erreur grave
+      }
+    }
+
+    function playValidationSound(profile) {
+      if (!window.tmaSoundsEnabled) return;
+      
+      const config = profileConfigs[profile] || profileConfigs.CM2;
+      
+      switch (config.soundProfile) {
+        case 'cheerful':
+        case 'encouraging':
+          createBeepSound(800, 0.1, 'sine');
+          break;
+          
+        case 'modern':
+          createBeepSound(600, 0.1, 'triangle');
+          break;
+          
+        default:
+          break;
+      }
+    }
+
+    // ========== STATISTIQUES AVANCÉES MODE ADULTE ==========
+    let performanceChart = null;
+    let evolutionChart = null;
+    let statsData = {
+      sessions: [],
+      tablePerformance: {},
+      timeAnalysis: {},
+      errorPatterns: []
+    };
+
+    function initAdvancedStats() {
+      if (document.body.getAttribute('data-profile') === 'ADULTE') {
+        initPerformanceChart();
+        initEvolutionChart();
+        loadStatsData();
+      }
+    }
+
+    function initPerformanceChart() {
+      const ctx = document.getElementById('performanceChart');
+      if (!ctx) return;
+      
+      performanceChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['Table 1', 'Table 2', 'Table 3', 'Table 4', 'Table 5', 'Table 6', 'Table 7', 'Table 8', 'Table 9', 'Table 10', 'Table 11', 'Table 12'],
+          datasets: [{
+            label: 'Taux de réussite (%)',
+            data: [95, 88, 82, 79, 92, 75, 68, 71, 77, 98, 73, 69],
+            backgroundColor: 'rgba(47, 54, 64, 0.1)',
+            borderColor: '#2F3640',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              beginAtZero: true,
+              max: 100
+            }
+          }
+        }
+      });
+    }
+
+    function initEvolutionChart() {
+      const ctx = document.getElementById('evolutionChart');
+      if (!ctx) return;
+      
+      evolutionChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Session 1', 'Session 2', 'Session 3', 'Session 4', 'Session 5', 'Session 6', 'Session 7'],
+          datasets: [{
+            label: 'Score moyen (%)',
+            data: [65, 71, 78, 82, 88, 85, 91],
+            borderColor: '#3742FA',
+            backgroundColor: 'rgba(55, 66, 250, 0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100
+            }
+          }
+        }
+      });
+    }
+
+    function updateStatsCharts(gameResults) {
+      if (!performanceChart || !evolutionChart) return;
+      
+      // Mettre à jour les données des graphiques
+      const tableStats = calculateTablePerformance(gameResults);
+      performanceChart.data.datasets[0].data = tableStats;
+      performanceChart.update();
+      
+      // Ajouter nouvelle session à l'évolution
+      const sessionScore = Math.round(gameResults.score / gameResults.total * 100);
+      evolutionChart.data.datasets[0].data.push(sessionScore);
+      evolutionChart.data.labels.push(`Session ${evolutionChart.data.labels.length + 1}`);
+      
+      // Garder seulement les 10 dernières sessions
+      if (evolutionChart.data.labels.length > 10) {
+        evolutionChart.data.labels.shift();
+        evolutionChart.data.datasets[0].data.shift();
+      }
+      
+      evolutionChart.update();
+    }
+
+    function calculateTablePerformance(results) {
+      const tableStats = new Array(12).fill(0);
+      const tableCounts = new Array(12).fill(0);
+      
+      results.questions.forEach((q, index) => {
+        const tableIndex = q.a - 1;
+        tableCounts[tableIndex]++;
+        
+        if (results.answers[index] === q.result) {
+          tableStats[tableIndex]++;
+        }
+      });
+      
+      return tableStats.map((correct, i) => 
+        tableCounts[i] > 0 ? Math.round((correct / tableCounts[i]) * 100) : 0
+      );
+    }
+
+    function saveStatsData() {
+      localStorage.setItem('tma_advanced_stats', JSON.stringify(statsData));
+    }
+
+    function loadStatsData() {
+      const saved = localStorage.getItem('tma_advanced_stats');
+      if (saved) {
+        statsData = JSON.parse(saved);
+      }
+    }
+
+    // ========== EXPORT FONCTIONNALITÉS ==========
+    function exportToCSV() {
+      if (!statsData.sessions.length) {
+        alert('Aucune donnée à exporter');
+        return;
+      }
+      
+      let csv = 'Session,Date,Score,Bonnes Reponses,Mauvaises Reponses,Temps Total\n';
+      
+      statsData.sessions.forEach((session, index) => {
+        csv += `${index + 1},${session.date},${session.score}%,${session.correct},${session.incorrect},${session.duration}s\n`;
+      });
+      
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'tablesmathassist_stats.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
+      
+      showNotification('📊 Statistiques exportées en CSV !');
+    }
+
+    function exportToPDF() {
+      // Simulation d'export PDF
+      showNotification('📄 Export PDF en cours de développement...');
+    }
+
+    function activateClassMode() {
+      showNotification('👥 Mode Classe activé ! Fonctionnalité en développement...');
+    }
 
     // ========== GESTION MODAL PARAMÈTRES ==========
     const settingsModal = document.getElementById('settingsModal');
@@ -1618,6 +2372,11 @@
     const soundsEnabledInput = document.getElementById('soundsEnabled');
     const animationsEnabledInput = document.getElementById('animationsEnabled');
 
+    // Event listeners pour boutons export
+    document.getElementById('exportCSV')?.addEventListener('click', exportToCSV);
+    document.getElementById('exportPDF')?.addEventListener('click', exportToPDF);
+    document.getElementById('modeClasse')?.addEventListener('click', activateClassMode);
+
     // Clés localStorage pour le système de paramètres
     const LS_PROFILE = 'tma_profile';
     const LS_SOUNDS = 'tma_sounds';
@@ -1627,6 +2386,10 @@
       loadCurrentSettings();
       settingsModal.classList.add('active');
       document.body.style.overflow = 'hidden';
+      
+      // Son d'ouverture selon le profil
+      const profile = document.body.getAttribute('data-profile') || 'CM2';
+      playValidationSound(profile);
     }
 
     function closeSettings() {
@@ -1665,11 +2428,14 @@
       // Appliquer les changements
       applyProfileSettings(selectedProfile);
       
-      // Notification de succès
-      showNotification('Paramètres sauvegardés ! 🎉');
+      // Son de succès selon le profil
+      playSuccessSound(selectedProfile);
       
-      // Fermer le modal
-      closeSettings();
+      // Notification de succès avec animation
+      showNotification('🎉 Paramètres sauvegardés avec succès !');
+      
+      // Fermer le modal avec délai pour voir l'animation
+      setTimeout(closeSettings, 300);
     }
 
     function applyProfileSettings(profile) {
@@ -1679,8 +2445,8 @@
       document.body.setAttribute('data-profile', profile);
       
       // Définir les variables globales
-      window.tmaAnimationsEnabled = (localStorage.getItem(LS_ANIMATIONS) !== 'false');
-      window.tmaSoundsEnabled = (localStorage.getItem(LS_SOUNDS) !== 'false');
+      window.tmaAnimationsEnabled = (localStorage.getItem(LS_ANIMATIONS) !== 'false') && config.animations;
+      window.tmaSoundsEnabled = (localStorage.getItem(LS_SOUNDS) !== 'false') && config.sounds;
       
       // Mettre à jour la visibilité des tables
       updateVisibleTables(config.tables);
@@ -1688,7 +2454,12 @@
       // Forcer la mise à jour des checkboxes selon le profil
       updateTablesCheckboxesByProfile(profile);
       
-      console.log('Profil appliqué:', profile);
+      // Initialiser les statistiques avancées si profil Adulte
+      if (profile === 'ADULTE') {
+        setTimeout(initAdvancedStats, 100);
+      }
+      
+      console.log('✅ Profil appliqué:', profile, 'Sons:', window.tmaSoundsEnabled, 'Animations:', window.tmaAnimationsEnabled);
     }
 
     function updateVisibleTables(allowedTables) {
@@ -1737,15 +2508,16 @@
         position: fixed;
         top: 20px;
         right: 20px;
-        background: #4CAF50;
+        background: linear-gradient(135deg, #4CAF50, #45a049);
         color: white;
         padding: 15px 20px;
-        border-radius: 8px;
+        border-radius: 12px;
         z-index: 3000;
         font-size: 1rem;
         font-weight: bold;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        animation: slideInFromRight 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        animation: notificationSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        max-width: 300px;
       `;
       notification.textContent = message;
       
@@ -1753,13 +2525,13 @@
         const style = document.createElement('style');
         style.id = 'notification-styles';
         style.textContent = `
-          @keyframes slideInFromRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+          @keyframes notificationSlideIn {
+            from { transform: translateX(400px) rotate(10deg); opacity: 0; }
+            to { transform: translateX(0) rotate(0); opacity: 1; }
           }
-          @keyframes slideOutToRight {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
+          @keyframes notificationSlideOut {
+            from { transform: translateX(0) scale(1); opacity: 1; }
+            to { transform: translateX(400px) scale(0.8); opacity: 0; }
           }
         `;
         document.head.appendChild(style);
@@ -1768,13 +2540,13 @@
       document.body.appendChild(notification);
       
       setTimeout(() => {
-        notification.style.animation = 'slideOutToRight 0.3s ease';
+        notification.style.animation = 'notificationSlideOut 0.4s ease-in';
         setTimeout(() => {
           if (notification.parentNode) {
             notification.parentNode.removeChild(notification);
           }
-        }, 300);
-      }, 3000);
+        }, 400);
+      }, 3500);
     }
 
     // Event listeners pour le modal paramètres
@@ -1890,6 +2662,10 @@
     function toggleTheme() {
       currentTheme = (currentTheme === 'day') ? 'night' : 'day';
       setTheme(currentTheme);
+      
+      // Son de changement de thème
+      const profile = document.body.getAttribute('data-profile') || 'CM2';
+      playValidationSound(profile);
     }
     
     themeToggle.onclick = toggleTheme;
@@ -2039,6 +2815,10 @@
       document.getElementById('gameArea').style.display = 'none';
       document.getElementById('resultsArea').style.display = 'none';
       window.scrollTo(0, 0);
+      
+      // Son de navigation
+      const profile = document.body.getAttribute('data-profile') || 'CM2';
+      playValidationSound(profile);
     };
     
     backHome.onclick = () => {
@@ -2048,18 +2828,30 @@
       document.getElementById('gameArea').style.display = 'none';
       document.getElementById('resultsArea').style.display = 'none';
       window.scrollTo(0, 0);
+      
+      // Son de navigation
+      const profile = document.body.getAttribute('data-profile') || 'CM2';
+      playValidationSound(profile);
     };
     
     backToLearnBtn.onclick = () => {
       tableDetailPage.style.display = 'none';
       learnPage.style.display = 'block';
       window.scrollTo(0, 0);
+      
+      // Son de navigation
+      const profile = document.body.getAttribute('data-profile') || 'CM2';
+      playValidationSound(profile);
     };
 
     document.querySelectorAll('.table-card').forEach(card => {
       card.onclick = () => {
         currentTableNum = parseInt(card.dataset.num);
         showTableDetail(currentTableNum);
+        
+        // Son de sélection
+        const profile = document.body.getAttribute('data-profile') || 'CM2';
+        playValidationSound(profile);
       };
     });
 
@@ -2094,6 +2886,10 @@
         astuceModalContent.appendChild(li);
       });
       astuceModal.classList.add('active');
+      
+      // Son d'ouverture astuce
+      const profile = document.body.getAttribute('data-profile') || 'CM2';
+      playValidationSound(profile);
     };
     
     closeAstuceModal.onclick = () => astuceModal.classList.remove('active');
@@ -2146,6 +2942,11 @@
     document.querySelectorAll('.tables-selector input[type="checkbox"]').forEach(cb => {
       cb.addEventListener('change', (e) => {
         console.log(`Checkbox ${e.target.value} changed to:`, e.target.checked);
+        
+        // Son de validation selon profil
+        const profile = document.body.getAttribute('data-profile') || 'CM2';
+        playValidationSound(profile);
+        
         savePrefs();
       });
     });
@@ -2231,6 +3032,10 @@
       updateTimerDisplay();
       updateProgressBar();
       savePrefs();
+      
+      // Son de début de jeu
+      const profile = document.body.getAttribute('data-profile') || 'CM2';
+      playSuccessSound(profile);
     };
     
     function showGame(){
@@ -2283,7 +3088,16 @@
       let ans = parseInt(answerInput.value); 
       if (isNaN(ans)) ans = null;
       GAME.userAnswers.push(ans);
-      if (ans === GAME.serie[GAME.idx].r) GAME.score++;
+      
+      const profile = document.body.getAttribute('data-profile') || 'CM2';
+      
+      if (ans === GAME.serie[GAME.idx].r) {
+        GAME.score++;
+        playSuccessSound(profile);
+      } else {
+        playErrorSound(profile);
+      }
+      
       GAME.idx++;
       if (GAME.idx>=GAME.nbQuestions) endGame();
       else showQuestion();
@@ -2294,7 +3108,7 @@
     answerInput.addEventListener('keypress', e=>{
       if (e.key==="Enter") doValidate();
     });
-    
+
     // ========== FIN DE PARTIE AVEC MESSAGES ALÉATOIRES ==========
     const medalElem = document.getElementById('medal');
     const medalText = document.getElementById('medalText');
@@ -2351,6 +3165,38 @@
       
       document.getElementById('resultsGrid').innerHTML = buildResultsGrid(GAME.serie, GAME.userAnswers);
       document.getElementById('errorsList').innerHTML = buildErrorsList(GAME.serie, GAME.userAnswers);
+      
+      // Son de fin selon résultat
+      const profile = document.body.getAttribute('data-profile') || 'CM2';
+      if (medalType === 'gold') {
+        playSuccessSound(profile);
+      }
+      
+      // Sauvegarder les résultats pour les statistiques
+      const gameResults = {
+        score: good,
+        total: nbQuestions,
+        questions: GAME.serie,
+        answers: GAME.userAnswers,
+        date: new Date().toISOString(),
+        duration: GAME.noTimerMode ? 0 : (GAME.timeLimit - GAME.timeLeft)
+      };
+      
+      // Mettre à jour les statistiques avancées (mode Adulte)
+      if (document.body.getAttribute('data-profile') === 'ADULTE') {
+        updateStatsCharts(gameResults);
+        
+        // Ajouter aux données de session
+        statsData.sessions.push({
+          date: new Date().toLocaleDateString(),
+          score: pct,
+          correct: good,
+          incorrect: bad,
+          duration: gameResults.duration
+        });
+        
+        saveStatsData();
+      }
     }
     
     function medalBlanche(){
@@ -2398,6 +3244,9 @@
 
     // ========== INITIALISATION AU CHARGEMENT ==========
     document.addEventListener('DOMContentLoaded', () => {
+      // Initialiser le système audio
+      initAudioSystem();
+      
       // Charger les paramètres sauvegardés au démarrage
       const savedProfile = localStorage.getItem(LS_PROFILE) || 'CM2';
       applyProfileSettings(savedProfile);
@@ -2405,12 +3254,19 @@
       // Afficher la page d'accueil
       showSettings();
       
-      console.log('Application initialisée avec le profil:', savedProfile);
+      console.log('🚀 Application TablesMathAssist initialisée avec le profil:', savedProfile);
     });
     
     // Application immédiate du profil par défaut
     const initialProfile = localStorage.getItem(LS_PROFILE) || 'CM2';
     applyProfileSettings(initialProfile);
+
+    // Initialiser le système audio avec interaction utilisateur
+    document.addEventListener('click', () => {
+      if (!audioContext) {
+        initAudioSystem();
+      }
+    }, { once: true });
   </script>
 </body>
 </html>
