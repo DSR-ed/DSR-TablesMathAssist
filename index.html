@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TablesMathAssist - DSR</title>
   <style>
-    /* Votre CSS complet + ajouts apprentissage */
     :root {
       --gradient-day: linear-gradient(180deg, #ffffff 0%, #e3f2fd 100%);
       --gradient-night: linear-gradient(180deg, #000000 0%, #0d47a1 100%);
@@ -16,16 +15,26 @@
       --card-day: rgba(0, 0, 0, 0.05);
       --card-night: rgba(255, 255, 255, 0.1);
     }
-    body {
-      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      margin: 0;
+      padding: 0;
       background: var(--gradient-night);
       color: var(--text-night);
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      min-height: 100vh;
       transition: all .3s;
     }
+    
     body.day-mode {
       background: var(--gradient-day);
       color: var(--text-day);
     }
+    
     .app-container {
       min-height: 100vh;
       display: flex;
@@ -33,8 +42,8 @@
       align-items: center;
       padding: 20px;
     }
-
-    /* ========== HEADER ET CARDS - ALIGNEMENT PARFAIT ========== */
+    
+    /* ========== ALIGNEMENT PARFAIT HEADER/CARDS - DESKTOP ========== */
     .header, .card {
       width: 100%;
       max-width: 800px;
@@ -42,12 +51,13 @@
       border-radius: 20px;
       backdrop-filter: blur(10px);
       box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-      margin: 15px 0;
+      margin: 15px auto;
     }
+    
     body.day-mode .header, body.day-mode .card { 
       background: var(--card-day);
     }
-
+    
     /* ========== HEADER DESKTOP ========== */
     .header {
       display: flex;
@@ -56,17 +66,16 @@
       padding: 20px;
       margin-bottom: 30px;
     }
-
-    /* Desktop - Layout horizontal (par défaut) */
+    
     .header-top {
-      display: none; /* Caché sur desktop */
+      display: none;
     }
-
+    
     .header-logo img {
       height: 60px;
       width: auto;
     }
-
+    
     .app-title {
       font-size: 2.5rem;
       font-weight: bold;
@@ -74,8 +83,9 @@
       text-align: center;
       flex: 1;
     }
+    
     body.day-mode .app-title { color: var(--accent-day);}
-
+    
     .btn-theme {
       background: none;
       border: 2px solid var(--accent-night);
@@ -87,33 +97,36 @@
       transition: all .3s;
       flex-shrink: 0;
     }
+    
     body.day-mode .btn-theme { border-color: var(--accent-day);}
     .btn-theme:hover { transform: scale(1.1); background: var(--accent-night);}
     body.day-mode .btn-theme:hover { background: var(--accent-day);}
-
-    /* ========== MOBILE/TABLETTE - ALIGNEMENT ULTRA-PRÉCIS ========== */
+    
+    /* ========== MOBILE RESPONSIVE CORRIGÉ - ALIGNEMENT PARFAIT ========== */
     @media (max-width: 768px) {
       .app-container {
-        padding: 10px; /* Réduit le padding général */
+        padding: 15px; /* Marges gauche/droite pour smartphone */
       }
       
+      /* FORCER LA MÊME LARGEUR POUR HEADER ET CARDS */
       .header, .card {
-        /* FORCE l'alignement parfait */
-        width: calc(100vw - 20px); /* Largeur identique pour tous */
-        max-width: calc(100vw - 20px);
-        margin-left: 0;
-        margin-right: 0;
-        padding: 15px; /* Padding identique pour tous */
+        width: calc(100vw - 30px); /* Largeur identique avec marges */
+        max-width: calc(100vw - 30px); /* Max-width identique */
+        margin-left: auto; /* Centrage automatique */
+        margin-right: auto; /* Centrage automatique */
+        margin-top: 15px;
+        margin-bottom: 15px;
       }
       
       .header {
         flex-direction: column;
         align-items: center;
+        padding: 20px; /* Padding uniforme */
         margin-bottom: 20px;
       }
       
       .header-top {
-        display: flex; /* Visible sur mobile */
+        display: flex;
         width: 100%;
         justify-content: space-between;
         align-items: center;
@@ -136,40 +149,53 @@
       }
       
       .card {
-        padding: 20px; /* Padding différent pour les cards sur mobile */
-        margin: 10px 0; /* Margin réduite sur mobile */
+        padding: 20px; /* Padding uniforme pour les cards */
       }
     }
-
+    
     @media (max-width: 480px) {
-      .app-title {
-        font-size: 1.5rem;
+      .app-container {
+        padding: 12px; /* Marges réduites sur très petit écran */
       }
       
       .header, .card {
-        width: calc(100vw - 10px); /* Encore plus précis sur très petit écran */
-        max-width: calc(100vw - 10px);
+        width: calc(100vw - 24px); /* Largeur ajustée */
+        max-width: calc(100vw - 24px);
+        padding: 18px; /* Padding ajusté */
+      }
+      
+      .app-title {
+        font-size: 1.5rem;
       }
     }
-    /* ========== FIN MOBILE ULTRA-PRÉCIS ========== */
-
+    /* ========== FIN MOBILE RESPONSIVE CORRIGÉ ========== */
+    
     .card {
       padding: 30px;
     }
+    
     .welcome-message {
-      text-align: center; font-size: 1.3rem; line-height: 1.6;
+      text-align: center; 
+      font-size: 1.3rem; 
+      line-height: 1.6;
       font-weight: 500;
     }
-    .settings-panel h2, .learn-panel h2 {
-      color: var(--accent-night); margin-bottom: 25px;
-      font-size: 2rem; text-align: center;
-    }
-    body.day-mode .settings-panel h2, body.day-mode .learn-panel h2 { color: var(--accent-day);}
     
-    /* ========== NOUVEAU PAVÉ APPRENTISSAGE ========== */
+    .settings-panel h2, .learn-panel h2 {
+      color: var(--accent-night); 
+      margin-bottom: 25px;
+      font-size: 2rem; 
+      text-align: center;
+    }
+    
+    body.day-mode .settings-panel h2, body.day-mode .learn-panel h2 { 
+      color: var(--accent-day);
+    }
+    
     .learn-panel {
       text-align: center;
     }
+    
     .learn-panel .welcome-section {
       margin-bottom: 25px;
       padding: 20px;
@@ -177,12 +203,11 @@
       border-radius: 15px;
       border: 1px solid rgba(142, 36, 170, 0.3);
     }
+    
     body.day-mode .learn-panel .welcome-section {
       background: rgba(142, 36, 170, 0.05);
     }
-    /* ========== FIN NOUVEAU PAVÉ ========== */
     
-    /* ========== MESSAGE MOTIVANT DANS RÉGLAGES ========== */
     .settings-motivating-message {
       text-align: center; 
       font-size: 1.2rem; 
@@ -193,32 +218,53 @@
       border-radius: 12px;
       border: 1px solid rgba(25, 118, 210, 0.2);
     }
+    
     body.day-mode .settings-motivating-message {
       background: rgba(25, 118, 210, 0.08);
     }
-    /* ========== FIN MESSAGE MOTIVANT ========== */
     
     .form-group { margin-bottom: 25px;}
+    
     .form-label {
-      display: block; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; color: var(--accent-night);
+      display: block; 
+      font-size: 1.2rem; 
+      font-weight: bold; 
+      margin-bottom: 10px; 
+      color: var(--accent-night);
     }
+    
     body.day-mode .form-label { color: var(--accent-day);}
+    
     .tables-selector {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 10px; margin-top: 10px;
+      gap: 10px; 
+      margin-top: 10px;
     }
+    
     .tables-selector label {
-      display: flex; align-items: center; font-size: 1.1rem; cursor: pointer; padding: 8px; border-radius: 8px;
+      display: flex; 
+      align-items: center; 
+      font-size: 1.1rem; 
+      cursor: pointer; 
+      padding: 8px; 
+      border-radius: 8px;
       transition: background .3s;
     }
+    
     .tables-selector input[type="checkbox"] {
-      margin-right: 8px; transform: scale(1.2);
+      margin-right: 8px; 
+      transform: scale(1.2);
       accent-color: var(--accent-night);
     }
-    body.day-mode .tables-selector input[type="checkbox"] { accent-color: var(--accent-day);}
+    
+    body.day-mode .tables-selector input[type="checkbox"] { 
+      accent-color: var(--accent-day);
+    }
+    
     select {
-      width: 100%; padding: 12px;
+      width: 100%; 
+      padding: 12px;
       font-size: 1.1rem;
       border: 2px solid var(--accent-night);
       border-radius: 10px;
@@ -226,45 +272,74 @@
       color: var(--text-night);
       cursor: pointer;
     }
+    
     body.day-mode select {
       border-color: var(--accent-day);
       background: var(--card-day);
       color: var(--text-day);
     }
+    
     .btn-primary {
-      background: var(--accent-night); color: white;
-      border: none; padding: 15px 30px; font-size: 1.3rem; font-weight: bold;
+      background: var(--accent-night); 
+      color: white;
+      border: none; 
+      padding: 15px 30px; 
+      font-size: 1.3rem; 
+      font-weight: bold;
       border-radius: 15px;
-      cursor: pointer; transition: all .3s;
+      cursor: pointer; 
+      transition: all .3s;
       margin: 10px;
     }
+    
     body.day-mode .btn-primary { background: var(--accent-day);}
     .btn-primary:hover { transform: translateY(-2px);}
     
-    /* ========== STYLES APPRENTISSAGE ========== */
+    /* ========== PAGES APPRENTISSAGE ========== */
     #learnPage, #tableDetailPage { display: none; }
+    
     .learn-title, .table-detail-title {
-      font-size: 2rem; font-weight: bold; margin-bottom: 5px; text-align: center;
+      font-size: 2rem; 
+      font-weight: bold; 
+      margin-bottom: 5px; 
+      text-align: center;
       color: var(--text-night);
     }
-    body.day-mode .learn-title, body.day-mode .table-detail-title { color: var(--text-day); }
+    
+    body.day-mode .learn-title, body.day-mode .table-detail-title { 
+      color: var(--text-day); 
+    }
+    
     .learn-sub, .table-detail-sub {
-      font-size: 1.1rem; text-align: center; margin-bottom: 25px;
+      font-size: 1.1rem; 
+      text-align: center; 
+      margin-bottom: 25px;
       color: var(--text-night);
     }
-    body.day-mode .learn-sub, body.day-mode .table-detail-sub { color: var(--text-day); }
-    .legend {
-      display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; 
-      font-weight: 600; color: var(--text-night);
+    
+    body.day-mode .learn-sub, body.day-mode .table-detail-sub { 
+      color: var(--text-day); 
     }
+    
+    .legend {
+      display: flex; 
+      justify-content: center; 
+      gap: 20px; 
+      margin-bottom: 25px; 
+      font-weight: 600; 
+      color: var(--text-night);
+    }
+    
     body.day-mode .legend { color: var(--text-day); }
     .legend span { display: flex; align-items: center; gap: 6px; }
     .legend i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+    
     .grid-tables {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 18px;
     }
+    
     .table-card {
       background: rgba(255, 255, 255, 0.9);
       border: 3px solid;
@@ -276,39 +351,63 @@
       transition: all .25s;
       color: #333;
     }
+    
     body.day-mode .table-card {
       background: rgba(255, 255, 255, 0.95);
     }
+    
     .table-card:hover { transform: translateY(-4px); }
     .table-num { font-size: 2rem; margin-bottom: 8px; }
     .diff-label { font-size: 0.9rem; font-weight: 600; }
     .easy { border-color: #4caf50; }
     .medium { border-color: #ff9800; }
     .hard { border-color: #f44336; }
-
+    
     /* Page détail table */
     .table-detail-header {
-      display: flex; justify-content: space-between; align-items: center;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
       margin-bottom: 25px;
     }
+    
     .btn-astuce {
-      background: #4285f4; color: white;
-      border: none; padding: 10px 20px; font-size: 1.1rem; font-weight: bold;
-      border-radius: 10px; cursor: pointer; transition: all .3s;
-      display: flex; align-items: center; gap: 8px;
+      background: #4285f4; 
+      color: white;
+      border: none; 
+      padding: 10px 20px; 
+      font-size: 1.1rem; 
+      font-weight: bold;
+      border-radius: 10px; 
+      cursor: pointer; 
+      transition: all .3s;
+      display: flex; 
+      align-items: center; 
+      gap: 8px;
     }
+    
     .btn-astuce:hover { background: #3367d6; }
+    
     .btn-return {
-      background: #6c757d; color: white;
-      border: none; padding: 10px 20px; font-size: 1.1rem; font-weight: bold;
-      border-radius: 10px; cursor: pointer; transition: all .3s;
+      background: #6c757d; 
+      color: white;
+      border: none; 
+      padding: 10px 20px; 
+      font-size: 1.1rem; 
+      font-weight: bold;
+      border-radius: 10px; 
+      cursor: pointer; 
+      transition: all .3s;
     }
+    
     .btn-return:hover { background: #5a6268; }
+    
     .multiplication-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 15px;
     }
+    
     .mult-card {
       background: #4285f4;
       color: white;
@@ -318,16 +417,18 @@
       font-weight: bold;
       font-size: 1.1rem;
     }
+    
     .mult-question {
       font-size: 1.2rem;
       margin-bottom: 8px;
     }
+    
     .mult-answer {
       font-size: 1.8rem;
       color: #ffd700;
     }
-
-    /* ========== MODAL ASTUCES ULTRA CORRIGÉE ========== */
+    
+    /* ========== MODAL ASTUCES ========== */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -338,10 +439,10 @@
       align-items: center;
       justify-content: center;
     }
+    
     .modal-overlay.active { display: flex; }
     
     .modal-content {
-      /* MODE NUIT : Fond noir pur OPAQUE */
       background: #000000;
       opacity: 1.0;
       border: 3px solid #00bcd4;
@@ -355,7 +456,6 @@
       box-shadow: 0 10px 40px rgba(0, 255, 255, 0.4);
     }
     
-    /* MODE JOUR : Fond gris clair OPAQUE */
     body.day-mode .modal-content { 
       background: #f5f5f5;
       opacity: 1.0;
@@ -376,7 +476,9 @@
       align-items: center;
       justify-content: center;
     }
+    
     body.day-mode .modal-close { color: #1976d2; }
+    
     .modal-close:hover {
       color: #ff4444;
       transform: scale(1.3);
@@ -385,65 +487,340 @@
     }
     
     .modal-title {
-      font-size: 1.6rem; font-weight: bold;
-      margin-bottom: 20px; text-align: center;
+      font-size: 1.6rem; 
+      font-weight: bold;
+      margin-bottom: 20px; 
+      text-align: center;
       color: #00bcd4;
       padding-right: 40px;
     }
+    
     body.day-mode .modal-title { color: #1976d2; }
     
     .astuce-list {
-      list-style: none; padding: 0; margin: 0;
+      list-style: none; 
+      padding: 0; 
+      margin: 0;
     }
+    
     .astuce-list li {
       margin-bottom: 15px; 
       padding: 12px 15px;
       font-size: 1.1rem; 
       line-height: 1.5;
-      /* MODE NUIT : Texte blanc pur sur fond noir */
       color: #ffffff;
       background: rgba(0, 188, 212, 0.1);
       border-radius: 8px;
       border-left: 4px solid #00bcd4;
     }
     
-    /* MODE JOUR : Texte noir foncé sur fond gris clair */
     body.day-mode .astuce-list li { 
       color: #333333;
       background: rgba(25, 118, 210, 0.1);
       border-left: 4px solid #1976d2;
     }
-    /* ========== FIN MODAL ASTUCES ULTRA CORRIGÉE ========== */
-
-    .game-area, .results-area { display:none; text-align:center;}
+    
+    .game-area, .results-area { 
+      display:none; 
+      text-align:center;
+    }
+    
+    /* ========== PISTE DE COURSE LUDIQUE ========== */
+    .race-track {
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: var(--card-night);
+      border-radius: 12px;
+      border: 2px solid var(--accent-night);
+    }
+    
+    body.day-mode .race-track {
+      background: var(--card-day);
+      border-color: var(--accent-day);
+    }
+    
+    .race-track-title {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent-night);
+      margin-bottom: 15px;
+    }
+    
+    body.day-mode .race-track-title {
+      color: var(--accent-day);
+    }
+    
+    .track-container {
+      position: relative;
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(90deg, #4CAF50 0%, #FFC107 50%, #F44336 100%);
+      border-radius: 25px;
+      border: 3px solid #333;
+      overflow: hidden;
+    }
+    
+    body.day-mode .track-container {
+      border-color: #666;
+    }
+    
+    .track-markers {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      pointer-events: none;
+    }
+    
+    .track-start, .track-end {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+    }
+    
+    .rabbit {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: 5px;
+      left: 5px;
+      transition: left 0.5s ease-out;
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+      animation: rabbitBounce 1s infinite ease-in-out alternate;
+    }
+    
+    @keyframes rabbitBounce {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-3px); }
+    }
+    
+    .time-remaining {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-night);
+    }
+    
+    body.day-mode .time-remaining {
+      color: var(--text-day);
+    }
+    
     .progress-info {
-      font-size:1.2rem;margin-bottom:20px;color: var(--accent-night);}
+      font-size:1.2rem;
+      margin-bottom:20px;
+      color: var(--accent-night);
+      text-align: center;
+    }
+    
     body.day-mode .progress-info{ color: var(--accent-day);}
-    .progress-bar { width:100%;height:10px;
-      background: var(--card-night); border-radius:5px; margin-bottom:30px; overflow:hidden;}
+    
+    .progress-bar { 
+      width:100%;
+      height:10px;
+      background: var(--card-night); 
+      border-radius:5px; 
+      margin-bottom:30px; 
+      overflow:hidden;
+    }
+    
     body.day-mode .progress-bar {background:var(--card-day);}
-    .progress-fill{height:100%;background:var(--accent-night);width:0%;transition:width .3s;}
+    
+    .progress-fill{
+      height:100%;
+      background:var(--accent-night);
+      width:0%;
+      transition:width .3s;
+    }
+    
     body.day-mode .progress-fill{background:var(--accent-day);}
-    .question { font-size: 3rem; font-weight: bold; margin: 30px 0; color: var(--accent-night);}
+    
+    .question { 
+      font-size: 3rem; 
+      font-weight: bold; 
+      margin: 30px 0; 
+      color: var(--accent-night);
+    }
+    
     body.day-mode .question{ color: var(--accent-day);}
-    .answer-input { font-size:2rem; padding:15px; text-align:center; border:3px solid var(--accent-night);
-      border-radius:15px; background:var(--card-night); color:var(--text-night); width:200px; margin:20px 0;}
-    body.day-mode .answer-input{border-color:var(--accent-day);background:var(--card-day);color:var(--text-day);}
+    
+    .answer-input { 
+      font-size:2rem; 
+      padding:15px; 
+      text-align:center; 
+      border:3px solid var(--accent-night);
+      border-radius:15px; 
+      background:var(--card-night); 
+      color:var(--text-night); 
+      width:200px; 
+      margin:20px 0;
+    }
+    
+    body.day-mode .answer-input{
+      border-color:var(--accent-day);
+      background:var(--card-day);
+      color:var(--text-day);
+    }
+    
     .medal { font-size:4rem;margin:20px 0;}
+    
+    /* ========== PAGE RÉSULTATS ========== */
+    .results-area h2 {
+      color: var(--accent-night); 
+      margin-bottom: 25px;
+      font-size: 2rem; 
+      text-align: center;
+    }
+    
+    body.day-mode .results-area h2 { color: var(--accent-day);}
+    
+    .medal-message {
+      font-size: 1.3rem;
+      font-weight: 600;
+      text-align: center;
+      margin: 20px 0 30px 0;
+      padding: 15px;
+      border-radius: 12px;
+      line-height: 1.4;
+    }
+    
+    .medal-message.gold {
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #8B4513;
+      border: 2px solid #DAA520;
+    }
+    
+    .medal-message.silver {
+      background: linear-gradient(135deg, #C0C0C0, #A8A8A8);
+      color: #2F4F4F;
+      border: 2px solid #999999;
+    }
+    
+    .medal-message.bronze {
+      background: linear-gradient(135deg, #CD7F32, #B8860B);
+      color: #FFFFFF;
+      border: 2px solid #A0522D;
+    }
+    
+    .medal-message.paper {
+      background: linear-gradient(135deg, #F5F5F5, #E0E0E0);
+      color: #555555;
+      border: 2px solid #CCCCCC;
+    }
+    
+    .score-blocks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 30px 0;
+    }
+    
+    .score-block {
+      background: var(--card-night);
+      border: 2px solid var(--accent-night);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    body.day-mode .score-block {
+      background: var(--card-day);
+      border-color: var(--accent-day);
+    }
+    
+    .score-block:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .score-label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent-night);
+      margin-bottom: 8px;
+    }
+    
+    body.day-mode .score-label {
+      color: var(--accent-day);
+    }
+    
+    .score-value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--text-night);
+    }
+    
+    body.day-mode .score-value {
+      color: var(--text-day);
+    }
+    
     .results-grid {overflow-x:auto; margin:30px 0;}
+    
     .results-grid table {
-      margin:0 auto; border-collapse:collapse; font-size:0.9rem;}
+      margin:0 auto; 
+      border-collapse:collapse; 
+      font-size:0.9rem;
+    }
+    
     .results-grid th, .results-grid td {
-      border:1px solid var(--accent-night); width:35px; height:35px; text-align:center; font-weight:bold;}
-    body.day-mode .results-grid th,body.day-mode .results-grid td {border-color: var(--accent-day);}
-    .results-grid th { background:var(--accent-night);color:white;}
+      border:1px solid var(--accent-night); 
+      width:35px; 
+      height:35px; 
+      text-align:center; 
+      font-weight:bold;
+    }
+    
+    body.day-mode .results-grid th,body.day-mode .results-grid td {
+      border-color: var(--accent-day);
+    }
+    
+    .results-grid th { 
+      background:var(--accent-night);
+      color:white;
+    }
+    
     body.day-mode .results-grid th { background:var(--accent-day);}
+    
     .cell-correct {background:transparent;}
     .cell-incorrect {background:#f44 !important;}
     .cell-missed {background:#ff0 !important;}
     
     /* Media queries pour autres éléments */
     @media (max-width:768px){
+      .race-track {
+        padding: 12px;
+        margin-bottom: 15px;
+      }
+      
+      .track-container {
+        height: 40px;
+      }
+      
+      .rabbit {
+        width: 32px;
+        height: 32px;
+        font-size: 1.6rem;
+        top: 4px;
+        left: 4px;
+      }
+      
+      .track-start, .track-end {
+        font-size: 1rem;
+      }
+      
       .question{font-size:2rem;}
       .answer-input{font-size:1.5rem;width:150px;}
       .results-grid th, .results-grid td {width:25px;height:25px;font-size:0.8rem;}
@@ -453,7 +830,37 @@
       .modal-content { width: 95vw; padding: 25px; }
       .modal-title { font-size: 1.4rem; }
       .astuce-list li { font-size: 1rem; }
+      
+      .score-blocks {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+      }
+      
+      .score-block {
+        padding: 15px;
+      }
+      
+      .score-value {
+        font-size: 1.5rem;
+      }
+      
+      .medal-message {
+        font-size: 1.1rem;
+        padding: 12px;
+      }
+      
+      /* CORRECTIONS SPÉCIFIQUES HEADER MOBILE */
+      .table-detail-header {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .btn-astuce, .btn-return {
+        padding: 8px 16px;
+        font-size: 1rem;
+      }
     }
+    
     .footer {margin-top:auto;text-align:center;padding:30px;}
     .footer-logo img {height:40px;margin-bottom:10px;}
     .footer-text {font-size:0.9rem;opacity:0.8;}
@@ -462,9 +869,8 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- ========== HEADER SIMPLIFIÉ ========== -->
+    <!-- ========== HEADER ========== -->
     <header class="header">
-      <!-- Ligne du haut : Logo + Bouton (UNIQUEMENT mobile) -->
       <div class="header-top">
         <div class="header-logo">
           <img src="logofTDSR.png" alt="Logo DSR" />
@@ -472,26 +878,21 @@
         <button id="themeToggle" class="btn-theme"><span class="theme-icon">🌙</span></button>
       </div>
 
-      <!-- Layout desktop : Logo | Titre | Bouton (UNIQUEMENT desktop) -->
       <div class="header-logo" style="display: none;">
         <img src="logofTDSR.png" alt="Logo DSR" />
       </div>
       
-      <!-- Titre (centré sous le logo sur mobile, au centre sur desktop) -->
       <h1 class="app-title">TablesMathAssist</h1>
       
-      <!-- Bouton desktop (UNIQUEMENT desktop) -->
       <button id="themeToggleDesktop" class="btn-theme" style="display: none;"><span class="theme-icon">🌙</span></button>
     </header>
 
-    <!-- ========== PAGE ACCUEIL RESTRUCTURÉE ========== -->
+    <!-- ========== PAGE ACCUEIL ========== -->
     <div id="homePage">
-      <!-- Message de bienvenue MODIFIÉ -->
       <div class="welcome-message card">
         <p>L'application dédiée aux élèves de CM1 à la 5ème pour un apprentissage parfait des tables de multiplications de 1 à 12</p>
       </div>
 
-      <!-- ========== NOUVEAU PAVÉ APPRENTISSAGE ========== -->
       <section class="learn-panel card">
         <h2>Apprends tes tables ici</h2>
         <div class="welcome-section">
@@ -502,9 +903,7 @@
         </div>
       </section>
 
-      <!-- ========== PAVÉ RÉGLAGES MODIFIÉ ========== -->
       <section class="settings-panel card">
-        <!-- Message motivant déplacé ici -->
         <div class="settings-motivating-message">
           <p>Choisis tes réglages et commences ton entraînement ou mieux!!! Le test et gagnes la coupe. 🏆</p>
         </div>
@@ -528,6 +927,7 @@
             <label><input type="checkbox" value="12"> 12</label>
           </div>
         </div>
+        
         <div class="form-group">
           <label class="form-label" id="timeLimitLabel">Temps pour ta série de 30 questions :</label>
           <select id="timeLimit">
@@ -546,12 +946,13 @@
             <option value="20">20 minutes</option>
           </select>
         </div>
+        
         <div class="form-group">
           <label class="form-label">Nombre de questions :</label>
           <select id="questionCount">
-            <option value="10">10 questions</option>
+            <option value="10" selected>10 questions</option>
             <option value="20">20 questions</option>
-            <option value="30" selected>30 questions</option>
+            <option value="30">30 questions</option>
             <option value="40">40 questions</option>
             <option value="50">50 questions</option>
             <option value="60">60 questions</option>
@@ -577,30 +978,29 @@
             <option value="500">500 questions</option>
           </select>
         </div>
+        
         <div class="form-group">
           <label>
             <input type="checkbox" id="noTimerMode"> Mode entraînement (sans chrono)
           </label>
         </div>
+        
         <button id="startGame" class="btn-primary">Commencer le Test</button>
       </section>
     </div>
 
-    <!-- ========== PAGES APPRENTISSAGE (inchangées) ========== -->
+    <!-- ========== PAGE APPRENTISSAGE ========== -->
     <div id="learnPage" class="card">
       <h2 class="learn-title">Apprentissage des Tables de 1 à 12</h2>
       <p class="learn-sub">Clique sur une table pour apprendre ses secrets !</p>
 
-      <!-- Légende -->
       <div class="legend">
         <span><i style="background: #4caf50;"></i>Facile</span>
         <span><i style="background: #ff9800;"></i>Moyen</span>
         <span><i style="background: #f44336;"></i>Difficile</span>
       </div>
 
-      <!-- Grille des tables -->
       <div class="grid-tables">
-        <!-- FACILE -->
         <div class="table-card easy" data-num="1">
           <div class="table-num">1</div>
           Table de 1<br><span class="diff-label">FACILE</span>
@@ -617,7 +1017,6 @@
           <div class="table-num">10</div>
           Table de 10<br><span class="diff-label">FACILE</span>
         </div>
-        <!-- MOYEN -->
         <div class="table-card medium" data-num="3">
           <div class="table-num">3</div>
           Table de 3<br><span class="diff-label">MOYEN</span>
@@ -638,7 +1037,6 @@
           <div class="table-num">11</div>
           Table de 11<br><span class="diff-label">MOYEN</span>
         </div>
-        <!-- DIFFICILE -->
         <div class="table-card hard" data-num="7">
           <div class="table-num">7</div>
           Table de 7<br><span class="diff-label">DIFFICILE</span>
@@ -653,13 +1051,12 @@
         </div>
       </div>
 
-      <!-- Bouton retour -->
       <div style="text-align: center; margin-top: 35px;">
         <button id="backHome" class="btn-primary">⬅ Retour</button>
       </div>
     </div>
 
-    <!-- Toutes les autres sections restent identiques... -->
+    <!-- ========== PAGE DÉTAIL TABLE ========== -->
     <div id="tableDetailPage" class="card">
       <div class="table-detail-header">
         <h2 id="tableDetailTitle" class="table-detail-title">Table de 2</h2>
@@ -671,6 +1068,7 @@
       <div id="multiplicationGrid" class="multiplication-grid"></div>
     </div>
 
+    <!-- ========== MODAL ASTUCES ========== -->
     <div id="astuceModal" class="modal-overlay">
       <div class="modal-content">
         <button id="closeAstuceModal" class="modal-close">×</button>
@@ -679,10 +1077,22 @@
       </div>
     </div>
 
+    <!-- ========== PAGE DE JEU ========== -->
     <section id="gameArea" class="game-area card">
+      <div class="race-track" id="raceTrack">
+        <div class="race-track-title">Course contre la montre !</div>
+        <div class="track-container">
+          <div class="track-markers">
+            <div class="track-start">🚀</div>
+            <div class="track-end">🏁</div>
+          </div>
+          <div class="rabbit" id="rabbit">🐰</div>
+        </div>
+        <div class="time-remaining" id="timeRemaining">Temps restant: 5:00</div>
+      </div>
+      
       <div class="progress-info">
         <span id="progressText">Question 1 / 30</span>
-        <span id="timeDisplay">5:00</span>
       </div>
       <div class="progress-bar">
         <div id="progressFill" class="progress-fill"></div>
@@ -691,36 +1101,64 @@
       <input type="number" id="answerInput" class="answer-input" placeholder="?">
       <br><br>
       <button id="validateBtn" class="btn-primary">Valider</button>
-      <button id="pauseBtn" class="btn-primary">Pause</button>
-      <button id="stopBtn" class="btn-primary">Arrêter</button>
     </section>
 
+    <!-- ========== PAGE RÉSULTATS ========== -->
     <section id="resultsArea" class="results-area card">
-      <h2>Résultats de votre test</h2>
+      <h2>Résultats de ton test</h2>
       <div id="medal" class="medal">🏆</div>
       <div id="medalText">OR</div>
-      <div class="results-grid">
-        <div class="result-item"><div>Score global :</div><div id="finalScore" class="result-value">0/30</div></div>
-        <div class="result-item"><div>Bonnes réponses :</div><div id="correctCount" class="result-value">0</div></div>
-        <div class="result-item"><div>Mauvaises réponses :</div><div id="incorrectCount" class="result-value">0</div></div>
-        <div class="result-item"><div>Non répondues :</div><div id="missedCount" class="result-value">0</div></div>
+      
+      <div id="medalMessage" class="medal-message"></div>
+      
+      <div class="score-blocks">
+        <div class="score-block">
+          <div class="score-label">Score global</div>
+          <div id="finalScore" class="score-value">0/30</div>
+        </div>
+        <div class="score-block">
+          <div class="score-label">Bonnes réponses</div>
+          <div id="correctCount" class="score-value">0</div>
+        </div>
+        <div class="score-block">
+          <div class="score-label">Mauvaises réponses</div>
+          <div id="incorrectCount" class="score-value">0</div>
+        </div>
+        <div class="score-block">
+          <div class="score-label">Non répondues</div>
+          <div id="missedCount" class="score-value">0</div>
+        </div>
+        <div class="score-block">
+          <div class="score-label">Pourcentage de réussite</div>
+          <div id="successPercentage" class="score-value">0%</div>
+        </div>
       </div>
-      <div class="result-item"><div>Pourcentage de réussite :</div><div id="successPercentage" class="result-value">0%</div></div>
+      
       <h3>Grille des résultats 12×12 :</h3>
       <div class="results-grid">
         <table id="resultsGrid"></table>
       </div>
+      
       <div style="margin:20px 0;">
-        <div style="display:inline-block;margin:0 10px;"><span style="display:inline-block;width:20px;height:20px;background:transparent;border:1px solid #666;margin-right:5px;"></span>Réponse correcte</div>
-        <div style="display:inline-block;margin:0 10px;"><span style="display:inline-block;width:20px;height:20px;background:#f44;margin-right:5px;"></span>Réponse incorrecte</div>
-        <div style="display:inline-block;margin:0 10px;"><span style="display:inline-block;width:20px;height:20px;background:#ff0;margin-right:5px;"></span>Non répondu</div>
+        <div style="display:inline-block;margin:0 10px;">
+          <span style="display:inline-block;width:20px;height:20px;background:transparent;border:1px solid #666;margin-right:5px;"></span>Réponse correcte
+        </div>
+        <div style="display:inline-block;margin:0 10px;">
+          <span style="display:inline-block;width:20px;height:20px;background:#f44;margin-right:5px;"></span>Réponse incorrecte
+        </div>
+        <div style="display:inline-block;margin:0 10px;">
+          <span style="display:inline-block;width:20px;height:20px;background:#ff0;margin-right:5px;"></span>Non répondu
+        </div>
       </div>
+      
       <h3>Liste détaillée des erreurs :</h3>
       <div id="errorsList"></div>
+      
       <button id="newGameBtn" class="btn-primary">Nouvelle série</button>
       <button id="backToSettingsBtn" class="btn-primary">Modifier les paramètres</button>
     </section>
 
+    <!-- ========== FOOTER ========== -->
     <footer class="footer">
       <div class="footer-logo">
         <img src="logofTDSR.png" alt="Logo DSR">
@@ -732,12 +1170,91 @@
   </div>
   
   <script>
+    // ========== PHRASES ALÉATOIRES POUR MÉDAILLES ==========
+    const MEDAL_MESSAGES = {
+      gold: [
+        "Tu as gagné la coupe OR, félicitations tu as réussi une vraie prouesse !",
+        "Incroyable ! Tu maîtrises parfaitement tes tables, c'est de l'OR pur !",
+        "Champion(ne) ! Ton résultat est exceptionnel, tu mérites cette médaille d'OR !",
+        "Bravo ! Tu es un(e) véritable expert(e) des tables de multiplication !",
+        "Extraordinaire ! Tu as atteint l'excellence, cette médaille d'OR est bien méritée !",
+        "Fantastique ! Ton niveau est remarquable, tu peux être fier(e) de toi !",
+        "Exceptionnel ! Tu as démontré une maîtrise parfaite, félicitations !",
+        "Impressionnant ! Tes efforts ont payé, tu es au sommet !",
+        "Magnifique ! Tu as brillé comme de l'or, continue comme ça !",
+        "Parfait ! Tu es un(e) champion(ne) des mathématiques !"
+      ],
+      silver: [
+        "Très bien ! Tu as décroché la médaille d'ARGENT, c'est un excellent résultat !",
+        "Bravo ! Ton travail sérieux t'a mené à cette belle médaille d'ARGENT !",
+        "Super ! Tu es sur la bonne voie, cette médaille d'ARGENT le prouve !",
+        "Félicitations ! Ton niveau est très bon, tu peux être fier(e) !",
+        "Bien joué ! Cette médaille d'ARGENT récompense tes efforts !",
+        "Excellent travail ! Tu maîtrises bien tes tables, continue !",
+        "Très bon résultat ! Cette médaille d'ARGENT est méritée !",
+        "Bravo ! Tu progresses bien, cette médaille le confirme !",
+        "Super performance ! Tu es en bonne voie vers l'excellence !",
+        "Très bien ! Tes révisions portent leurs fruits !"
+      ],
+      bronze: [
+        "Bien ! Tu as obtenu la médaille de BRONZE, c'est un bon début !",
+        "Pas mal ! Cette médaille de BRONZE montre que tu progresses !",
+        "Bravo ! Tu as travaillé et cette médaille de BRONZE le récompense !",
+        "C'est un bon résultat ! Continue tes efforts pour progresser !",
+        "Bien joué ! Cette médaille de BRONZE est encourageante !",
+        "Tu y arrives ! Tes efforts commencent à payer !",
+        "Correct ! Tu es sur le bon chemin, persévère !",
+        "Pas mal du tout ! Continue à t'entraîner !",
+        "C'est bien ! Tu peux encore mieux faire, courage !",
+        "Bon travail ! Cette médaille te motive pour la suite !"
+      ],
+      paper: [
+        "Ne te décourage pas ! Avec plus d'entraînement, tu vas y arriver !",
+        "Courage ! Les tables demandent de la pratique, continue !",
+        "Pas grave ! Chaque erreur est une leçon, recommence !",
+        "Allez ! Avec de la persévérance, tu vas progresser !",
+        "C'est en forgeant qu'on devient forgeron, continue !",
+        "Ne baisse pas les bras ! La réussite demande du temps !",
+        "Courage ! Retravailles tes tables et tu vas y arriver !",
+        "Pas de panique ! Avec plus d'entraînement, ça viendra !",
+        "Continue ! Chaque tentative te rapproche du succès !",
+        "Persévère ! Les mathématiques s'apprennent avec la pratique !"
+      ]
+    };
+
+    // ========== FONCTION MESSAGE ALÉATOIRE ==========
+    function getRandomMedalMessage(medalType) {
+      const messages = MEDAL_MESSAGES[medalType];
+      const randomIndex = Math.floor(Math.random() * messages.length);
+      return messages[randomIndex];
+    }
+
+    // ========== ANIMATION DU LIÈVRE ==========
+    function updateRabbitPosition() {
+      if (!GAME.noTimerMode && GAME.timeLimit > 0) {
+        const timeElapsed = (GAME.timeLimit - GAME.timeLeft) / GAME.timeLimit;
+        const trackWidth = document.querySelector('.track-container').offsetWidth - 40;
+        const rabbitPosition = Math.min(timeElapsed * trackWidth, trackWidth);
+        
+        const rabbit = document.getElementById('rabbit');
+        if (rabbit) {
+          rabbit.style.left = `${rabbitPosition + 5}px`;
+        }
+        
+        const timeRemaining = document.getElementById('timeRemaining');
+        if (timeRemaining) {
+          const minutes = Math.floor(GAME.timeLeft / 60);
+          const seconds = GAME.timeLeft % 60;
+          timeRemaining.textContent = `Temps restant: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+      }
+    }
+
     // ========== THÈME + BOUTONS DOUBLES ==========
-    const themeToggle = document.getElementById('themeToggle'); // Mobile
-    const themeToggleDesktop = document.getElementById('themeToggleDesktop'); // Desktop
+    const themeToggle = document.getElementById('themeToggle');
+    const themeToggleDesktop = document.getElementById('themeToggleDesktop');
     const themeIcons = document.querySelectorAll('.theme-icon');
     
-    // Fonction thème
     function setTheme(mode) {
       document.body.classList.toggle('day-mode', mode === 'day');
       themeIcons.forEach(icon => {
@@ -749,7 +1266,6 @@
     let currentTheme = localStorage.getItem('tma_theme') || 'night';
     setTheme(currentTheme);
 
-    // Event handlers pour les deux boutons
     function toggleTheme() {
       currentTheme = (currentTheme === 'day') ? 'night' : 'day';
       setTheme(currentTheme);
@@ -761,43 +1277,132 @@
     // ========== AFFICHAGE CONDITIONNEL DESKTOP/MOBILE ==========
     function updateHeaderLayout() {
       const isMobile = window.innerWidth <= 768;
-      
-      // Éléments desktop
       const desktopLogo = document.querySelector('.header-logo:not(.header-top .header-logo)');
       const desktopButton = document.getElementById('themeToggleDesktop');
       
       if (isMobile) {
-        // Mobile : cacher les éléments desktop
         if (desktopLogo) desktopLogo.style.display = 'none';
         if (desktopButton) desktopButton.style.display = 'none';
       } else {
-        // Desktop : afficher les éléments et repositionner
         if (desktopLogo) desktopLogo.style.display = 'block';
         if (desktopButton) desktopButton.style.display = 'flex';
       }
     }
     
-    // Mise à jour au chargement et redimensionnement
     updateHeaderLayout();
     window.addEventListener('resize', updateHeaderLayout);
 
-    // ========== DONNÉES DES ASTUCES (inchangées) ==========
+    // ========== NOUVELLES ASTUCES COMPLÈTES ==========
     const ASTUCES = {
-      1: ["🟢 Facile ! Quand tu multiplies par 1, le nombre reste toujours pareil !", "• Exemples : 1 × 5 = 5, 1 × 8 = 8, 1 × 12 = 12", "• Astuce : Le 1 n'a pas de pouvoir magique, il ne change rien !", "• Entraîne-toi : dis \"1 fois 7 égale 7\" à voix haute"],
-      2: ["🟢 C'est la table des doubles !", "• Prends le nombre et double-le : 2 × 4 = 4 + 4 = 8", "• Compte de 2 en 2 : 2, 4, 6, 8, 10, 12, 14...", "• Astuce : Imagine 2 paquets identiques d'objets", "• Tous les résultats sont des nombres pairs !"],
-      3: ["🟠 Compte de 3 en 3 comme à la marelle !", "• Récite : 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36", "• Pour 3 × 4 = fais 3 + 3 + 3 + 3 = 12", "• Astuce : Saute de 3 cases à chaque fois !", "• Dessine 3 objets, puis encore 3, puis encore 3..."],
-      4: ["🟠 Double deux fois !", "• Prends le nombre, double-le, puis double encore", "• Exemple : 4 × 3 = 3 + 3 = 6, puis 6 + 6 = 12", "• Astuce : 4 = 2 + 2, alors fais deux fois la table de 2 !", "• Compte : 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48"],
-      5: ["🟢 Tous les résultats finissent par 0 ou 5 !", "• Récite : 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60", "• Règle magique : nombres pairs × 5 finissent par 0", "• Nombres impairs × 5 finissent par 5", "• Compte sur tes doigts : 5, 10 (une main complète !)"],
-      6: ["🟠 Récite la suite magique !", "• 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72", "• Compte sur tes doigts : sur chaque doigt dis 6, 12, 18...", "• Astuce : Chante cette suite comme une chanson !", "• 6 × nombre pair = résultat finit par 2, 4, 6, 8, 0"],
-      7: ["🔴 Pense aux jours de la semaine !", "• 7 jours = 1 semaine, 14 jours = 2 semaines...", "• 7 × 4 = 28 (4 semaines = 1 mois !)", "• Retiens : 7 × 8 = 56 (sept-huit = cinquante-six)", "• Compte : 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84"],
-      8: ["🔴 Double trois fois !", "• Pour 8 × 2 : 2 → 4 → 8 → 16", "• (2+2=4, puis 4+4=8, puis 8+8=16)", "• Astuce : 8 c'est 2×2×2, alors triple le doublement !", "• Compte : 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96"],
-      9: ["🟠 Magique ! Les chiffres du résultat font toujours 9 !", "• 9 × 4 = 36, et 3 + 6 = 9", "• 9 × 7 = 63, et 6 + 3 = 9", "• Astuce doigts : pour 9×3, baisse le 3e doigt = 27 !", "• Compte : 9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99, 108"],
-      10: ["🟢 Super facile ! Ajoute juste un 0 !", "• 10 × 7 = 70 (écris 7 puis 0)", "• 10 × 12 = 120 (écris 12 puis 0)", "• Astuce : 10 c'est magique, il transforme tout !", "• Compte : 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120"],
-      11: ["🟠 Pour 1 à 9, écris le chiffre deux fois !", "• 11 × 4 = 44 (écris 4 puis 4)", "• 11 × 7 = 77 (écris 7 puis 7)", "• Pour 10, 11, 12 c'est différent mais facile à retenir !", "• Compte : 11, 22, 33, 44, 55, 66, 77, 88, 99, 110, 121, 132"],
-      12: ["🔴 La douzaine ! Compte par 12 !", "• 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144", "• Pense à une douzaine d'œufs !", "• 12 × 5 = 60 (5 douzaines d'œufs)", "• Astuce : 12 = 10 + 2, alors 12×4 = 40+8 = 48"]
+      1: [
+        "🟢 C'est très facile ! Quand tu multiplies par 1, le nombre ne change jamais !",
+        "• Tu vois, 1 × 5 = 5, comme si tu avais 1 paquet de 5 bonbons = 5 bonbons",
+        "• C'est pareil avec tous les nombres : 1 × 8 = 8, 1 × 12 = 12",
+        "• Astuce : Le nombre 1 est comme un miroir, il ne change rien au nombre !",
+        "• Pour t'entraîner : dis tout haut '1 fois 7 égale 7' plusieurs fois"
+      ],
+      
+      2: [
+        "🟢 La table de 2, c'est très simple : tu doubles le nombre !",
+        "• Doubler, ça veut dire prendre deux fois la même chose",
+        "• Par exemple : 2 × 4, c'est comme avoir 4 + 4 = 8",
+        "• Tu peux compter de 2 en 2 : 2, 4, 6, 8, 10, 12, 14, 16, 18, 20...",
+        "• Astuce magique : tous les résultats finissent par 0, 2, 4, 6 ou 8 !",
+        "• Imagine 2 paquets identiques de biscuits, combien as-tu en tout ?"
+      ],
+      
+      3: [
+        "🟠 Pour la table de 3, compte de 3 en 3 comme en sautant à la marelle !",
+        "• Récite cette suite magique : 3, 6, 9, 12, 15, 18, 21, 24, 27, 30...",
+        "• Pour calculer 3 × 4, imagine 4 paquets de 3 bonbons chacun",
+        "• Tu peux aussi faire 3 + 3 + 3 + 3 = 12",
+        "• Astuce amusante : dessine 3 ronds, puis encore 3, puis encore 3...",
+        "• C'est comme faire 3 pas, puis 3 pas, puis 3 pas !"
+      ],
+      
+      4: [
+        "🟠 La table de 4, c'est comme doubler deux fois !",
+        "• D'abord tu doubles le nombre, puis tu doubles encore le résultat",
+        "• Exemple : 4 × 3 → d'abord 3 + 3 = 6, puis 6 + 6 = 12",
+        "• Tu peux réciter : 4, 8, 12, 16, 20, 24, 28, 32, 36, 40...",
+        "• Astuce : 4, c'est 2 + 2, alors fais deux fois la table de 2 !",
+        "• Pense à 4 roues sur une voiture, combien de roues sur plusieurs voitures ?"
+      ],
+      
+      5: [
+        "🟢 Super facile ! Tous les résultats de la table de 5 finissent par 0 ou 5 !",
+        "• Récite : 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60...",
+        "• Règle magique : nombre pair × 5 = résultat qui finit par 0",
+        "• Règle magique : nombre impair × 5 = résultat qui finit par 5", 
+        "• Compte sur tes doigts : une main complète = 5 !",
+        "• Pense aux pièces de 5 centimes dans ta tirelire !"
+      ],
+      
+      6: [
+        "🟠 Pour la table de 6, apprends cette suite comme une chanson !",
+        "• Chante : 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72...",
+        "• Utilise tes doigts : sur chaque doigt, dis 6, 12, 18, 24, 30, 36...",
+        "• Astuce : 6 × nombre pair donne un résultat qui finit par 2, 4, 6, 8 ou 0",
+        "• Pense aux œufs : une boîte de 6 œufs, combien d'œufs dans plusieurs boîtes ?",
+        "• Pour retenir : invente une petite chanson avec ces nombres !"
+      ],
+      
+      7: [
+        "🔴 Pense aux jours de la semaine pour retenir la table de 7 !",
+        "• Il y a 7 jours dans une semaine, 14 jours dans 2 semaines...",
+        "• Souviens-toi : 7 × 4 = 28 (c'est 4 semaines, presque 1 mois !)",
+        "• Truc pour retenir : 7 × 8 = 56 (sept-huit font cinquante-six)",
+        "• Récite : 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84...",
+        "• Compte les jours sur un calendrier pour t'aider !"
+      ],
+      
+      8: [
+        "🔴 La table de 8, c'est comme doubler 3 fois de suite !",
+        "• Pour 8 × 2 : prends 2, double-le (2+2=4), double encore (4+4=8), double encore (8+8=16)",
+        "• Astuce : 8 c'est 2×2×2, alors triple le doublement !",
+        "• Récite : 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96...",
+        "• Pense aux pattes d'une araignée : 8 pattes sur une araignée !",
+        "• Pour t'aider : écris la table et colorie-la pour mieux la retenir"
+      ],
+      
+      9: [
+        "🟠 La table de 9 a un secret magique incroyable !",
+        "• Secret : additionne les chiffres du résultat, tu obtiens toujours 9 !",
+        "• Exemple : 9 × 4 = 36, et 3 + 6 = 9 !",
+        "• Autre exemple : 9 × 7 = 63, et 6 + 3 = 9 !",
+        "• Astuce avec les doigts : pour 9×3, baisse ton 3ème doigt, lis 27 !",
+        "• Récite : 9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99, 108..."
+      ],
+      
+      10: [
+        "🟢 La plus facile de toutes ! Tu ajoutes juste un 0 !",
+        "• 10 × 7 = 70 (écris 7 puis ajoute 0)",
+        "• 10 × 12 = 120 (écris 12 puis ajoute 0)",
+        "• Astuce magique : le 10 transforme tous les nombres !",
+        "• Récite : 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120...",
+        "• Pense aux pièces de 10 centimes ou aux billets de 10 euros !"
+      ],
+      
+      11: [
+        "🟠 Pour les nombres de 1 à 9, écris le chiffre deux fois !",
+        "• 11 × 4 = 44 (écris 4, puis encore 4)",
+        "• 11 × 7 = 77 (écris 7, puis encore 7)",
+        "• Attention : pour 10, 11, 12 c'est différent mais facile à retenir !",
+        "• Récite : 11, 22, 33, 44, 55, 66, 77, 88, 99, 110, 121, 132...",
+        "• Astuce visuelle : tous les résultats jusqu'à 9 ont des chiffres jumeaux !"
+      ],
+      
+      12: [
+        "🔴 La table de 12, c'est la table des douzaines !",
+        "• Une douzaine = 12, comme une boîte de 12 œufs !",
+        "• Récite : 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144...",
+        "• 12 × 5 = 60 (5 douzaines d'œufs font 60 œufs)",
+        "• Astuce : 12 = 10 + 2, alors 12×4 = (10×4) + (2×4) = 40+8 = 48",
+        "• Pense aux heures sur une horloge : 12 heures !"
+      ]
     };
 
-    // Le reste du JavaScript reste identique...
+    // ========== NAVIGATION APPRENTISSAGE ==========
     const learnBtn = document.getElementById('learnBtn');
     const learnPage = document.getElementById('learnPage');
     const homePage = document.getElementById('homePage');
@@ -814,6 +1419,7 @@
       document.getElementById('resultsArea').style.display = 'none';
       window.scrollTo(0, 0);
     };
+    
     backHome.onclick = () => {
       learnPage.style.display = 'none';
       tableDetailPage.style.display = 'none';
@@ -822,6 +1428,7 @@
       document.getElementById('resultsArea').style.display = 'none';
       window.scrollTo(0, 0);
     };
+    
     backToLearnBtn.onclick = () => {
       tableDetailPage.style.display = 'none';
       learnPage.style.display = 'block';
@@ -850,6 +1457,7 @@
       window.scrollTo(0, 0);
     }
 
+    // ========== MODAL ASTUCES ==========
     const showAstuceBtn = document.getElementById('showAstuceBtn');
     const astuceModal = document.getElementById('astuceModal');
     const closeAstuceModal = document.getElementById('closeAstuceModal');
@@ -866,12 +1474,16 @@
       });
       astuceModal.classList.add('active');
     };
+    
     closeAstuceModal.onclick = () => astuceModal.classList.remove('active');
+    
     astuceModal.onclick = (e) => {
       if (e.target === astuceModal) astuceModal.classList.remove('active');
     };
 
+    // ========== PRÉFÉRENCES ==========
     const prefsKey = 'tma_prefs_v2';
+    
     function savePrefs() {
       localStorage.setItem(prefsKey, JSON.stringify({
         tables: getTables(),
@@ -880,53 +1492,72 @@
         noTimerMode: noTimerMode.checked
       }));
     }
+    
     function loadPrefs() {
       const p = JSON.parse(localStorage.getItem(prefsKey)||'null');
       if (!p) return;
       document.querySelectorAll('.tables-selector input').forEach((cb,i) => cb.checked=(p.tables||[]).includes(i+1));
-      questionCount.value = p.questionCount||"30";
-      timeLimit.value = p.timeLimit||"5";
+      questionCount.value = p.questionCount||"10";
+      timeLimit.value = p.timeLimit||"0.5";
       noTimerMode.checked = !!p.noTimerMode;
       updateTimeLimitLabel();
       updateButtonText();
     }
+    
     const questionCount = document.getElementById('questionCount');
     const timeLimit = document.getElementById('timeLimit');
     const timeLimitLabel = document.getElementById('timeLimitLabel');
     const noTimerMode = document.getElementById('noTimerMode');
+    
     function updateTimeLimitLabel() {
       timeLimitLabel.textContent = `Temps pour ta série de ${questionCount.value} questions :`;
     }
+    
     questionCount.addEventListener('change', ()=> {
-      updateTimeLimitLabel(); savePrefs();
+      updateTimeLimitLabel(); 
+      savePrefs();
     });
+    
     timeLimit.addEventListener('change', savePrefs);
     noTimerMode.addEventListener('change', ()=>{updateButtonText();savePrefs();});
+    
     document.querySelectorAll('.tables-selector input').forEach(cb => {
       cb.addEventListener('change', savePrefs);
     });
+    
     const startGame = document.getElementById('startGame');
+    
     function updateButtonText(){
       startGame.textContent = noTimerMode.checked ? "Commencer l'entraînement" : "Commencer le Test";
     }
+    
     loadPrefs();
 
+    // ========== LOGIQUE DE JEU ==========
     let GAME = {};
+    
     function getTables(){
       return Array.from(document.querySelectorAll('.tables-selector input:checked')).map(cb=>parseInt(cb.value));
     }
-    function secToMMSS(s) {
-      const m = Math.floor(s/60), sec = (s%60).toString().padStart(2,'0');
-      return `${m}:${sec}`;
-    }
+    
     function updateProgressBar(){
+      const progressFill = document.getElementById('progressFill');
+      const progressText = document.getElementById('progressText');
       progressFill.style.width = ((GAME.idx)/GAME.nbQuestions*100)+'%';
       progressText.textContent = `Question ${Math.min(GAME.idx+1,GAME.nbQuestions)} / ${GAME.nbQuestions}`;
     }
+    
     function updateTimerDisplay(){
-      if (GAME.noTimerMode) timeDisplay.textContent = '';
-      else timeDisplay.textContent = secToMMSS(GAME.timeLeft);
+      if (GAME.noTimerMode) {
+        const raceTrack = document.getElementById('raceTrack');
+        if (raceTrack) raceTrack.style.display = 'none';
+      } else {
+        const raceTrack = document.getElementById('raceTrack');
+        if (raceTrack) raceTrack.style.display = 'block';
+        updateRabbitPosition();
+      }
     }
+    
     function generateSerie(){
       let tables = GAME.tables;
       let serie = [];
@@ -937,18 +1568,33 @@
       }
       return serie;
     }
+    
     startGame.onclick = () => {
       GAME = {
-        tables: getTables(), nbQuestions: parseInt(questionCount.value), timeLimit: parseFloat(timeLimit.value)*60,
+        tables: getTables(), 
+        nbQuestions: parseInt(questionCount.value), 
+        timeLimit: parseFloat(timeLimit.value)*60,
         noTimerMode: noTimerMode.checked,
-        idx:0, score:0, timer:null, timeLeft:0, serie:[], userAnswers:[]
+        idx:0, 
+        score:0, 
+        timer:null, 
+        timeLeft:0, 
+        serie:[], 
+        userAnswers:[]
       };
-      if (GAME.tables.length===0) {alert('Sélectionnez au moins une table'); return;}
+      
+      if (GAME.tables.length===0) {
+        alert('Sélectionnez au moins une table'); 
+        return;
+      }
+      
       GAME.serie = generateSerie();
       GAME.timeLeft = GAME.noTimerMode?0:GAME.timeLimit;
       GAME.userAnswers = [];
+      
       showGame();
       showQuestion();
+      
       if (!GAME.noTimerMode) {
         GAME.timer = setInterval(()=>{
           GAME.timeLeft--;
@@ -956,10 +1602,12 @@
           if (GAME.timeLeft<=0) endGame();
         }, 1000);
       }
+      
       updateTimerDisplay();
       updateProgressBar();
       savePrefs();
     };
+    
     function showGame(){
       document.querySelector('.settings-panel').style.display='none';
       document.querySelector('.welcome-message').style.display='none';
@@ -970,6 +1618,7 @@
       document.getElementById('learnPage').style.display='none';
       document.getElementById('tableDetailPage').style.display='none';
     }
+    
     function showResults(){
       document.querySelector('.settings-panel').style.display='none';
       document.querySelector('.welcome-message').style.display='none';
@@ -980,6 +1629,7 @@
       document.getElementById('learnPage').style.display='none';
       document.getElementById('tableDetailPage').style.display='none';
     }
+    
     function showSettings(){
       document.querySelector('.settings-panel').style.display='block';
       document.querySelector('.welcome-message').style.display='block';
@@ -990,12 +1640,11 @@
       document.getElementById('learnPage').style.display='none';
       document.getElementById('tableDetailPage').style.display='none';
     }
-    const progressText=document.getElementById('progressText');
-    const progressFill=document.getElementById('progressFill');
-    const timeDisplay=document.getElementById('timeDisplay');
+    
     const questionDiv=document.getElementById('question');
     const answerInput=document.getElementById('answerInput');
     const validateBtn=document.getElementById('validateBtn');
+    
     function showQuestion(){
       let q=GAME.serie[GAME.idx];
       questionDiv.textContent = `${q.a} × ${q.b} = ?`;
@@ -1004,6 +1653,7 @@
       updateProgressBar();
       updateTimerDisplay();
     }
+    
     function doValidate(){
       let ans = parseInt(answerInput.value); 
       if (isNaN(ans)) ans = null;
@@ -1013,78 +1663,75 @@
       if (GAME.idx>=GAME.nbQuestions) endGame();
       else showQuestion();
     }
+    
     validateBtn.onclick = doValidate;
+    
     answerInput.addEventListener('keypress', e=>{
       if (e.key==="Enter") doValidate();
     });
-    pauseBtn.onclick = function(){
-      if (GAME.timer) {
-        clearInterval(GAME.timer);
-        GAME.timer=null;
-        pauseBtn.textContent="Reprendre";
-        validateBtn.disabled = true;
-        answerInput.disabled = true;
-      } else {
-        GAME.timer = setInterval(()=>{
-          GAME.timeLeft--;
-          updateTimerDisplay();
-          if (GAME.timeLeft<=0) endGame();
-        }, 1000);
-        pauseBtn.textContent="Pause";
-        validateBtn.disabled = false;
-        answerInput.disabled = false;
-        answerInput.focus();
-      }
-    };
-    stopBtn.onclick = function(){
-      if (GAME.timer) clearInterval(GAME.timer);
-      showSettings();
-    };
+    
+    // ========== FIN DE PARTIE AVEC MESSAGES ALÉATOIRES ==========
     const medalElem = document.getElementById('medal');
     const medalText = document.getElementById('medalText');
+    const medalMessage = document.getElementById('medalMessage');
     const finalScore = document.getElementById('finalScore');
     const correctCount = document.getElementById('correctCount');
     const incorrectCount = document.getElementById('incorrectCount');
     const missedCount = document.getElementById('missedCount');
     const successPercentage = document.getElementById('successPercentage');
+    
     function endGame(){
       if (GAME.timer) clearInterval(GAME.timer);
       showResults();
+      
       let answered = GAME.userAnswers.length;
       let nbQuestions = GAME.nbQuestions;
       let good = 0, bad = 0, miss=0;
+      
       for(let i=0;i<nbQuestions;i++){
         if (typeof GAME.userAnswers[i]==="number") {
           if (GAME.userAnswers[i]===GAME.serie[i].r) good++;
           else bad++;
         } else miss++;
       }
+      
       finalScore.textContent = `${good}/${nbQuestions}`;
       correctCount.textContent = good;
       incorrectCount.textContent = bad;
       missedCount.textContent = miss;
       let pct = nbQuestions===0 ? 0 : Math.round(100*good/nbQuestions);
       successPercentage.textContent = `${pct}%`;
-      let medal = "🏆", medalName = "OR";
+      
+      // Déterminer médaille et message aléatoire
+      let medal = "🏆", medalName = "OR", medalType = "gold";
+      
       if (nbQuestions == 10) {
-        if(pct>=90){medal="🏆";medalName="OR";}
-        else if(pct>=80){medal="🥈";medalName="ARGENT";}
-        else if(pct>=70){medal="🥉";medalName="BRONZE";}
-        else{medal=medalBlanche();medalName="PAPIER";}
+        if(pct>=90){medal="🏆";medalName="OR";medalType="gold";}
+        else if(pct>=80){medal="🥈";medalName="ARGENT";medalType="silver";}
+        else if(pct>=70){medal="🥉";medalName="BRONZE";medalType="bronze";}
+        else{medal=medalBlanche();medalName="PAPIER";medalType="paper";}
       } else {
-        if(pct>=98){medal="🏆";medalName="OR";}
-        else if(pct>=95){medal="🥈";medalName="ARGENT";}
-        else if(pct>=90){medal="🥉";medalName="BRONZE";}
-        else{medal=medalBlanche();medalName="PAPIER";}
+        if(pct>=98){medal="🏆";medalName="OR";medalType="gold";}
+        else if(pct>=95){medal="🥈";medalName="ARGENT";medalType="silver";}
+        else if(pct>=90){medal="🥉";medalName="BRONZE";medalType="bronze";}
+        else{medal=medalBlanche();medalName="PAPIER";medalType="paper";}
       }
+      
       medalElem.innerHTML = medal;
       medalText.innerHTML = medalName;
+      
+      // Afficher message aléatoire avec style approprié
+      medalMessage.textContent = getRandomMedalMessage(medalType);
+      medalMessage.className = `medal-message ${medalType}`;
+      
       document.getElementById('resultsGrid').innerHTML = buildResultsGrid(GAME.serie, GAME.userAnswers);
       document.getElementById('errorsList').innerHTML = buildErrorsList(GAME.serie, GAME.userAnswers);
     }
+    
     function medalBlanche(){
       return `<svg width="64" height="64"><circle cx="32" cy="32" r="30" fill="#fff" stroke="#ccc" stroke-width="4"/><text x="32" y="44" text-anchor="middle" font-size="40" fill="#333" font-family="Arial" font-weight="bold">4</text></svg>`;
     }
+    
     function buildResultsGrid(serie, userAnswers){
       let html = '<tr><th>×</th>';
       for(let i=1;i<=12;i++) html+=`<th>${i}</th>`;
@@ -1107,6 +1754,7 @@
       }
       return html;
     }
+    
     function buildErrorsList(serie, userAnswers){
       let html = '';
       for(let i=0;i<serie.length;i++){
@@ -1119,6 +1767,7 @@
       if (!html) html = "<div>Aucune erreur 👍</div>";
       return html;
     }
+    
     document.getElementById('newGameBtn').onclick = () => startGame.onclick();
     document.getElementById('backToSettingsBtn').onclick = () => showSettings();
 
