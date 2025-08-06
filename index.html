@@ -22,6 +22,42 @@
       --font-size: 16px;
     }
     
+    /* PROFILS COULEURS DYNAMIQUES */
+    body[data-profile="CM1"] {
+      --primary-color: #FF6B35;
+      --secondary-color: #FFD23F;
+      --accent-color: #06D6A0;
+      --font-size: 18px;
+    }
+    
+    body[data-profile="CM2"] {
+      --primary-color: #4ECDC4;
+      --secondary-color: #45B7D1;
+      --accent-color: #FECA57;
+      --font-size: 16px;
+    }
+    
+    body[data-profile="6EME"] {
+      --primary-color: #6C5CE7;
+      --secondary-color: #74B9FF;
+      --accent-color: #00B894;
+      --font-size: 15px;
+    }
+    
+    body[data-profile="5EME"] {
+      --primary-color: #2D3436;
+      --secondary-color: #636E72;
+      --accent-color: #00CEC9;
+      --font-size: 14px;
+    }
+    
+    body[data-profile="ADULTE"] {
+      --primary-color: #2F3640;
+      --secondary-color: #57606F;
+      --accent-color: #3742FA;
+      --font-size: 13px;
+    }
+    
     * {
       box-sizing: border-box;
     }
@@ -86,16 +122,14 @@
     .app-title {
       font-size: 2.5rem;
       font-weight: bold;
-      color: var(--accent-night);
+      color: var(--primary-color);
       text-align: center;
       flex: 1;
     }
     
-    body.day-mode .app-title { color: var(--accent-day);}
-    
     .btn-theme, .btn-settings {
       background: none;
-      border: 2px solid var(--accent-night);
+      border: 2px solid var(--primary-color);
       border-radius: 50%;
       width: 50px; 
       height: 50px;
@@ -109,15 +143,9 @@
       margin-left: 10px;
     }
     
-    body.day-mode .btn-theme, body.day-mode .btn-settings { 
-      border-color: var(--accent-day);
-    }
     .btn-theme:hover, .btn-settings:hover { 
       transform: scale(1.1); 
-      background: var(--accent-night);
-    }
-    body.day-mode .btn-theme:hover, body.day-mode .btn-settings:hover { 
-      background: var(--accent-day);
+      background: var(--primary-color);
     }
     
     .btn-settings .gear-icon {
@@ -356,15 +384,14 @@
     /* ========== MOBILE RESPONSIVE CORRIGÉ - ALIGNEMENT PARFAIT ========== */
     @media (max-width: 768px) {
       .app-container {
-        padding: 15px; /* Marges gauche/droite pour smartphone */
+        padding: 15px;
       }
       
-      /* FORCER LA MÊME LARGEUR POUR HEADER ET CARDS */
       .header, .card {
-        width: calc(100vw - 30px); /* Largeur identique avec marges */
-        max-width: calc(100vw - 30px); /* Max-width identique */
-        margin-left: auto; /* Centrage automatique */
-        margin-right: auto; /* Centrage automatique */
+        width: calc(100vw - 30px);
+        max-width: calc(100vw - 30px);
+        margin-left: auto;
+        margin-right: auto;
         margin-top: 15px;
         margin-bottom: 15px;
       }
@@ -372,7 +399,7 @@
       .header {
         flex-direction: column;
         align-items: center;
-        padding: 20px; /* Padding uniforme */
+        padding: 20px;
         margin-bottom: 20px;
       }
       
@@ -401,7 +428,7 @@
       }
       
       .card {
-        padding: 20px; /* Padding uniforme pour les cards */
+        padding: 20px;
       }
       
       .settings-modal-content {
@@ -426,20 +453,19 @@
     
     @media (max-width: 480px) {
       .app-container {
-        padding: 12px; /* Marges réduites sur très petit écran */
+        padding: 12px;
       }
       
       .header, .card {
-        width: calc(100vw - 24px); /* Largeur ajustée */
+        width: calc(100vw - 24px);
         max-width: calc(100vw - 24px);
-        padding: 18px; /* Padding ajusté */
+        padding: 18px;
       }
       
       .app-title {
         font-size: 1.5rem;
       }
     }
-    /* ========== FIN MOBILE RESPONSIVE CORRIGÉ ========== */
     
     .card {
       padding: 30px;
@@ -453,14 +479,10 @@
     }
     
     .settings-panel h2, .learn-panel h2 {
-      color: var(--accent-night); 
+      color: var(--primary-color); 
       margin-bottom: 25px;
       font-size: 2rem; 
       text-align: center;
-    }
-    
-    body.day-mode .settings-panel h2, body.day-mode .learn-panel h2 { 
-      color: var(--accent-day);
     }
     
     .learn-panel {
@@ -501,10 +523,8 @@
       font-size: 1.2rem; 
       font-weight: bold; 
       margin-bottom: 10px; 
-      color: var(--accent-night);
+      color: var(--primary-color);
     }
-    
-    body.day-mode .form-label { color: var(--accent-day);}
     
     .tables-selector {
       display: grid;
@@ -520,24 +540,31 @@
       cursor: pointer; 
       padding: 8px; 
       border-radius: 8px;
-      transition: background .3s;
+      transition: all .3s;
+      border: 2px solid transparent;
+    }
+    
+    .tables-selector label:hover {
+      background: rgba(78, 205, 196, 0.1);
+      border-color: var(--primary-color);
     }
     
     .tables-selector input[type="checkbox"] {
       margin-right: 8px; 
       transform: scale(1.2);
-      accent-color: var(--accent-night);
+      accent-color: var(--primary-color);
     }
     
-    body.day-mode .tables-selector input[type="checkbox"] { 
-      accent-color: var(--accent-day);
+    .tables-selector input[type="checkbox"]:checked + span {
+      font-weight: bold;
+      color: var(--primary-color);
     }
     
     select {
       width: 100%; 
       padding: 12px;
       font-size: 1.1rem;
-      border: 2px solid var(--accent-night);
+      border: 2px solid var(--primary-color);
       border-radius: 10px;
       background: var(--card-night);
       color: var(--text-night);
@@ -545,13 +572,13 @@
     }
     
     body.day-mode select {
-      border-color: var(--accent-day);
+      border-color: var(--primary-color);
       background: var(--card-day);
       color: var(--text-day);
     }
     
     .btn-primary {
-      background: var(--accent-night); 
+      background: var(--primary-color); 
       color: white;
       border: none; 
       padding: 15px 30px; 
@@ -563,8 +590,10 @@
       margin: 10px;
     }
     
-    body.day-mode .btn-primary { background: var(--accent-day);}
-    .btn-primary:hover { transform: translateY(-2px);}
+    .btn-primary:hover { 
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
     
     /* ========== PAGES APPRENTISSAGE ========== */
     #learnPage, #tableDetailPage { display: none; }
@@ -628,6 +657,7 @@
     }
     
     .table-card:hover { transform: translateY(-4px); }
+    .table-card.hidden { display: none; }
     .table-num { font-size: 2rem; margin-bottom: 8px; }
     .diff-label { font-size: 0.9rem; font-weight: 600; }
     .easy { border-color: #4caf50; }
@@ -680,7 +710,7 @@
     }
     
     .mult-card {
-      background: #4285f4;
+      background: var(--primary-color);
       color: white;
       border-radius: 12px;
       padding: 20px 10px;
@@ -716,7 +746,7 @@
     .modal-content {
       background: #000000;
       opacity: 1.0;
-      border: 3px solid #00bcd4;
+      border: 3px solid var(--primary-color);
       border-radius: 15px;
       padding: 30px;
       max-width: 90vw;
@@ -729,8 +759,9 @@
     
     body.day-mode .modal-content { 
       background: #f5f5f5;
+      color: #333;
       opacity: 1.0;
-      border: 3px solid #1976d2;
+      border: 3px solid var(--primary-color);
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
     }
     
@@ -739,7 +770,7 @@
       top: 12px; right: 18px;
       background: none; border: none;
       font-size: 2rem; cursor: pointer;
-      color: #00bcd4;
+      color: var(--primary-color);
       font-weight: bold;
       width: 35px;
       height: 35px;
@@ -747,8 +778,6 @@
       align-items: center;
       justify-content: center;
     }
-    
-    body.day-mode .modal-close { color: #1976d2; }
     
     .modal-close:hover {
       color: #ff4444;
@@ -762,11 +791,9 @@
       font-weight: bold;
       margin-bottom: 20px; 
       text-align: center;
-      color: #00bcd4;
+      color: var(--primary-color);
       padding-right: 40px;
     }
-    
-    body.day-mode .modal-title { color: #1976d2; }
     
     .astuce-list {
       list-style: none; 
@@ -782,13 +809,13 @@
       color: #ffffff;
       background: rgba(0, 188, 212, 0.1);
       border-radius: 8px;
-      border-left: 4px solid #00bcd4;
+      border-left: 4px solid var(--primary-color);
     }
     
     body.day-mode .astuce-list li { 
       color: #333333;
       background: rgba(25, 118, 210, 0.1);
-      border-left: 4px solid #1976d2;
+      border-left: 4px solid var(--primary-color);
     }
     
     .game-area, .results-area { 
@@ -803,24 +830,20 @@
       padding: 15px;
       background: var(--card-night);
       border-radius: 12px;
-      border: 2px solid var(--accent-night);
+      border: 2px solid var(--primary-color);
     }
     
     body.day-mode .race-track {
       background: var(--card-day);
-      border-color: var(--accent-day);
+      border-color: var(--primary-color);
     }
     
     .race-track-title {
       text-align: center;
       font-size: 1rem;
       font-weight: 600;
-      color: var(--accent-night);
+      color: var(--primary-color);
       margin-bottom: 15px;
-    }
-    
-    body.day-mode .race-track-title {
-      color: var(--accent-day);
     }
     
     .track-container {
@@ -869,12 +892,39 @@
       left: 5px;
       transition: left 0.5s ease-out;
       filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
-      animation: rabbitBounce 1s infinite ease-in-out alternate;
+    }
+    
+    /* ANIMATIONS SPÉCIFIQUES PAR PROFIL */
+    body[data-profile="CM1"] .rabbit {
+      animation: rabbitBounce 0.8s infinite ease-in-out alternate;
+    }
+    
+    body[data-profile="CM2"] .rabbit {
+      animation: rabbitScale 1s infinite ease-in-out alternate;
+    }
+    
+    body[data-profile="6EME"] .rabbit {
+      animation: rabbitFade 1.5s infinite ease-in-out alternate;
+    }
+    
+    body[data-profile="5EME"] .rabbit,
+    body[data-profile="ADULTE"] .rabbit {
+      animation: none;
     }
     
     @keyframes rabbitBounce {
       0% { transform: translateY(0px); }
-      100% { transform: translateY(-3px); }
+      100% { transform: translateY(-5px); }
+    }
+    
+    @keyframes rabbitScale {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
+    
+    @keyframes rabbitFade {
+      0% { opacity: 0.8; }
+      100% { opacity: 1; }
     }
     
     .time-remaining {
@@ -892,11 +942,9 @@
     .progress-info {
       font-size:1.2rem;
       margin-bottom:20px;
-      color: var(--accent-night);
+      color: var(--primary-color);
       text-align: center;
     }
-    
-    body.day-mode .progress-info{ color: var(--accent-day);}
     
     .progress-bar { 
       width:100%;
@@ -911,27 +959,23 @@
     
     .progress-fill{
       height:100%;
-      background:var(--accent-night);
+      background: var(--primary-color);
       width:0%;
       transition:width .3s;
     }
-    
-    body.day-mode .progress-fill{background:var(--accent-day);}
     
     .question { 
       font-size: 3rem; 
       font-weight: bold; 
       margin: 30px 0; 
-      color: var(--accent-night);
+      color: var(--primary-color);
     }
-    
-    body.day-mode .question{ color: var(--accent-day);}
     
     .answer-input { 
       font-size:2rem; 
       padding:15px; 
       text-align:center; 
-      border:3px solid var(--accent-night);
+      border:3px solid var(--primary-color);
       border-radius:15px; 
       background:var(--card-night); 
       color:var(--text-night); 
@@ -940,7 +984,7 @@
     }
     
     body.day-mode .answer-input{
-      border-color:var(--accent-day);
+      border-color: var(--primary-color);
       background:var(--card-day);
       color:var(--text-day);
     }
@@ -949,13 +993,11 @@
     
     /* ========== PAGE RÉSULTATS ========== */
     .results-area h2 {
-      color: var(--accent-night); 
+      color: var(--primary-color); 
       margin-bottom: 25px;
       font-size: 2rem; 
       text-align: center;
     }
-    
-    body.day-mode .results-area h2 { color: var(--accent-day);}
     
     .medal-message {
       font-size: 1.3rem;
@@ -1000,7 +1042,7 @@
     
     .score-block {
       background: var(--card-night);
-      border: 2px solid var(--accent-night);
+      border: 2px solid var(--primary-color);
       border-radius: 12px;
       padding: 20px;
       text-align: center;
@@ -1009,7 +1051,7 @@
     
     body.day-mode .score-block {
       background: var(--card-day);
-      border-color: var(--accent-day);
+      border-color: var(--primary-color);
     }
     
     .score-block:hover {
@@ -1020,12 +1062,8 @@
     .score-label {
       font-size: 1rem;
       font-weight: 600;
-      color: var(--accent-night);
+      color: var(--primary-color);
       margin-bottom: 8px;
-    }
-    
-    body.day-mode .score-label {
-      color: var(--accent-day);
     }
     
     .score-value {
@@ -1047,23 +1085,17 @@
     }
     
     .results-grid th, .results-grid td {
-      border:1px solid var(--accent-night); 
+      border:1px solid var(--primary-color); 
       width:35px; 
       height:35px; 
       text-align:center; 
       font-weight:bold;
     }
     
-    body.day-mode .results-grid th,body.day-mode .results-grid td {
-      border-color: var(--accent-day);
-    }
-    
     .results-grid th { 
-      background:var(--accent-night);
+      background: var(--primary-color);
       color:white;
     }
-    
-    body.day-mode .results-grid th { background:var(--accent-day);}
     
     .cell-correct {background:transparent;}
     .cell-incorrect {background:#f44 !important;}
@@ -1120,7 +1152,6 @@
         padding: 12px;
       }
       
-      /* CORRECTIONS SPÉCIFIQUES HEADER MOBILE */
       .table-detail-header {
         flex-direction: column;
         gap: 10px;
@@ -1187,12 +1218,12 @@
               <input type="radio" name="userProfile" value="CM1">
               <div class="profile-info">
                 <div class="profile-label cm1-color">CM1 (9-10 ans)</div>
-                <div class="profile-description">Tables 1 à 10 • Interface colorée et ludique</div>
+                <div class="profile-description">Tables 2, 3, 4, 5 prioritaires + autres jusqu'à 10 • Interface colorée et ludique</div>
               </div>
             </label>
             
             <label class="profile-option">
-              <input type="radio" name="userProfile" value="CM2">
+              <input type="radio" name="userProfile" value="CM2" checked>
               <div class="profile-info">
                 <div class="profile-label cm2-color">CM2 (10-11 ans)</div>
                 <div class="profile-description">Toutes les tables • Interface moderne</div>
@@ -1276,30 +1307,30 @@
         <div class="form-group">
           <label class="form-label">Tables à réviser :</label>
           <div class="tables-selector">
-            <label><input type="checkbox" value="1" checked> 1</label>
-            <label><input type="checkbox" value="2" checked> 2</label>
-            <label><input type="checkbox" value="3" checked> 3</label>
-            <label><input type="checkbox" value="4" checked> 4</label>
-            <label><input type="checkbox" value="5" checked> 5</label>
-            <label><input type="checkbox" value="6" checked> 6</label>
-            <label><input type="checkbox" value="7" checked> 7</label>
-            <label><input type="checkbox" value="8" checked> 8</label>
-            <label><input type="checkbox" value="9" checked> 9</label>
-            <label><input type="checkbox" value="10" checked> 10</label>
-            <label><input type="checkbox" value="11"> 11</label>
-            <label><input type="checkbox" value="12"> 12</label>
+            <label><input type="checkbox" value="1" checked><span>1</span></label>
+            <label><input type="checkbox" value="2" checked><span>2</span></label>
+            <label><input type="checkbox" value="3" checked><span>3</span></label>
+            <label><input type="checkbox" value="4" checked><span>4</span></label>
+            <label><input type="checkbox" value="5" checked><span>5</span></label>
+            <label><input type="checkbox" value="6" checked><span>6</span></label>
+            <label><input type="checkbox" value="7" checked><span>7</span></label>
+            <label><input type="checkbox" value="8" checked><span>8</span></label>
+            <label><input type="checkbox" value="9" checked><span>9</span></label>
+            <label><input type="checkbox" value="10" checked><span>10</span></label>
+            <label><input type="checkbox" value="11"><span>11</span></label>
+            <label><input type="checkbox" value="12"><span>12</span></label>
           </div>
         </div>
         
         <div class="form-group">
-          <label class="form-label" id="timeLimitLabel">Temps pour ta série de 30 questions :</label>
+          <label class="form-label" id="timeLimitLabel">Temps pour ta série de 10 questions :</label>
           <select id="timeLimit">
             <option value="0.5">30 secondes</option>
-            <option value="1">1 minute</option>
+            <option value="1" selected>1 minute</option>
             <option value="2">2 minutes</option>
             <option value="3">3 minutes</option>
             <option value="4">4 minutes</option>
-            <option value="5" selected>5 minutes</option>
+            <option value="5">5 minutes</option>
             <option value="6">6 minutes</option>
             <option value="7">7 minutes</option>
             <option value="8">8 minutes</option>
@@ -1644,11 +1675,8 @@
     function applyProfileSettings(profile) {
       const config = profileConfigs[profile] || profileConfigs.CM2;
       
-      // Appliquer les couleurs et la typographie
-      document.documentElement.style.setProperty('--primary-color', config.colors.primary);
-      document.documentElement.style.setProperty('--secondary-color', config.colors.secondary);
-      document.documentElement.style.setProperty('--accent-color', config.colors.accent);
-      document.documentElement.style.setProperty('--font-size', config.fontSize);
+      // Appliquer l'attribut data-profile au body
+      document.body.setAttribute('data-profile', profile);
       
       // Définir les variables globales
       window.tmaAnimationsEnabled = (localStorage.getItem(LS_ANIMATIONS) !== 'false');
@@ -1657,11 +1685,10 @@
       // Mettre à jour la visibilité des tables
       updateVisibleTables(config.tables);
       
-      // Ajouter l'attribut data-profile au body pour le CSS
-      document.body.setAttribute('data-profile', profile);
+      // Forcer la mise à jour des checkboxes selon le profil
+      updateTablesCheckboxesByProfile(profile);
       
-      // Appliquer le style d'animation
-      document.body.setAttribute('data-animation-style', config.animationStyle);
+      console.log('Profil appliqué:', profile);
     }
 
     function updateVisibleTables(allowedTables) {
@@ -1669,15 +1696,42 @@
       tableCards.forEach(card => {
         const tableNum = parseInt(card.dataset.num);
         if (allowedTables.includes(tableNum)) {
-          card.style.display = 'block';
+          card.classList.remove('hidden');
         } else {
-          card.style.display = 'none';
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    function updateTablesCheckboxesByProfile(profile) {
+      const config = profileConfigs[profile] || profileConfigs.CM2;
+      const checkboxes = document.querySelectorAll('.tables-selector input[type="checkbox"]');
+      
+      checkboxes.forEach(checkbox => {
+        const tableNum = parseInt(checkbox.value);
+        if (profile === 'CM1') {
+          // CM1 : Tables 2,3,4,5 prioritaires + autres jusqu'à 10
+          if ([2,3,4,5].includes(tableNum)) {
+            checkbox.checked = true;
+          } else if (tableNum <= 10) {
+            checkbox.checked = false; // Disponibles mais non cochées par défaut
+          } else {
+            checkbox.checked = false;
+            checkbox.disabled = true; // Tables 11-12 désactivées
+          }
+        } else {
+          // Autres profils : toutes les tables disponibles
+          checkbox.disabled = false;
+          if (config.tables.includes(tableNum)) {
+            checkbox.checked = (tableNum <= 10); // Tables 1-10 cochées par défaut
+          } else {
+            checkbox.checked = false;
+          }
         }
       });
     }
 
     function showNotification(message) {
-      // Créer une notification temporaire
       const notification = document.createElement('div');
       notification.style.cssText = `
         position: fixed;
@@ -1695,7 +1749,6 @@
       `;
       notification.textContent = message;
       
-      // Ajouter les keyframes pour l'animation
       if (!document.querySelector('#notification-styles')) {
         const style = document.createElement('style');
         style.id = 'notification-styles';
@@ -2066,7 +2119,7 @@
       if (!p) return;
       document.querySelectorAll('.tables-selector input').forEach((cb,i) => cb.checked=(p.tables||[]).includes(i+1));
       questionCount.value = p.questionCount||"10";
-      timeLimit.value = p.timeLimit||"0.5";
+      timeLimit.value = p.timeLimit||"1";
       noTimerMode.checked = !!p.noTimerMode;
       updateTimeLimitLabel();
       updateButtonText();
@@ -2089,8 +2142,12 @@
     timeLimit.addEventListener('change', savePrefs);
     noTimerMode.addEventListener('change', () => {updateButtonText();savePrefs();});
     
-    document.querySelectorAll('.tables-selector input').forEach(cb => {
-      cb.addEventListener('change', savePrefs);
+    // ========== CORRECTION CHECKBOXES TABLES ==========
+    document.querySelectorAll('.tables-selector input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', (e) => {
+        console.log(`Checkbox ${e.target.value} changed to:`, e.target.checked);
+        savePrefs();
+      });
     });
     
     const startGame = document.getElementById('startGame');
@@ -2339,7 +2396,7 @@
     document.getElementById('newGameBtn').onclick = () => startGame.onclick();
     document.getElementById('backToSettingsBtn').onclick = () => showSettings();
 
-    // ========== INITIALISATION ==========
+    // ========== INITIALISATION AU CHARGEMENT ==========
     document.addEventListener('DOMContentLoaded', () => {
       // Charger les paramètres sauvegardés au démarrage
       const savedProfile = localStorage.getItem(LS_PROFILE) || 'CM2';
@@ -2347,7 +2404,13 @@
       
       // Afficher la page d'accueil
       showSettings();
+      
+      console.log('Application initialisée avec le profil:', savedProfile);
     });
+    
+    // Application immédiate du profil par défaut
+    const initialProfile = localStorage.getItem(LS_PROFILE) || 'CM2';
+    applyProfileSettings(initialProfile);
   </script>
 </body>
 </html>
