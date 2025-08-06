@@ -14,6 +14,12 @@
       --accent-night: #00bcd4;
       --card-day: rgba(0, 0, 0, 0.05);
       --card-night: rgba(255, 255, 255, 0.1);
+      
+      /* VARIABLES PROFILS ADAPTATIFS */
+      --primary-color: #4ECDC4;
+      --secondary-color: #45B7D1;
+      --accent-color: #FECA57;
+      --font-size: 16px;
     }
     
     * {
@@ -28,6 +34,7 @@
       font-family: "Segoe UI", Arial, Helvetica, sans-serif;
       min-height: 100vh;
       transition: all .3s;
+      font-size: var(--font-size);
     }
     
     body.day-mode {
@@ -86,7 +93,7 @@
     
     body.day-mode .app-title { color: var(--accent-day);}
     
-    .btn-theme {
+    .btn-theme, .btn-settings {
       background: none;
       border: 2px solid var(--accent-night);
       border-radius: 50%;
@@ -96,11 +103,255 @@
       font-size: 1.5rem;
       transition: all .3s;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 10px;
     }
     
-    body.day-mode .btn-theme { border-color: var(--accent-day);}
-    .btn-theme:hover { transform: scale(1.1); background: var(--accent-night);}
-    body.day-mode .btn-theme:hover { background: var(--accent-day);}
+    body.day-mode .btn-theme, body.day-mode .btn-settings { 
+      border-color: var(--accent-day);
+    }
+    .btn-theme:hover, .btn-settings:hover { 
+      transform: scale(1.1); 
+      background: var(--accent-night);
+    }
+    body.day-mode .btn-theme:hover, body.day-mode .btn-settings:hover { 
+      background: var(--accent-day);
+    }
+    
+    .btn-settings .gear-icon {
+      transition: transform 0.5s ease;
+    }
+    .btn-settings:hover .gear-icon {
+      transform: rotate(180deg);
+    }
+
+    /* ========== MODAL PARAMÈTRES ========== */
+    .settings-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .settings-modal-overlay.active {
+      display: flex;
+    }
+    
+    .settings-modal-content {
+      background: #ffffff;
+      color: #333;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      border-radius: 15px;
+      padding: 25px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    
+    .settings-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #eee;
+    }
+    
+    .settings-modal-header h2 {
+      margin: 0;
+      font-size: 1.6rem;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .settings-modal-close {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #999;
+      line-height: 1;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .settings-modal-close:hover {
+      color: #f44336;
+      transform: scale(1.1);
+    }
+    
+    .settings-section {
+      margin-bottom: 25px;
+    }
+    
+    .settings-section h3 {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+      border-left: 4px solid var(--primary-color);
+      padding-left: 12px;
+    }
+    
+    .profile-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .profile-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #fafafa;
+    }
+    
+    .profile-option:hover {
+      background: #f0f0f0;
+      border-color: #c0c0c0;
+      transform: translateY(-1px);
+    }
+    
+    .profile-option input[type="radio"] {
+      margin-top: 2px;
+      transform: scale(1.2);
+    }
+    
+    .profile-option input[type="radio"]:checked + .profile-info .profile-label {
+      font-weight: bold;
+    }
+    
+    .profile-info {
+      flex: 1;
+    }
+    
+    .profile-label {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+    
+    .profile-description {
+      font-size: 0.9rem;
+      color: #666;
+      line-height: 1.3;
+    }
+    
+    .cm1-color { color: #FF6B35; }
+    .cm2-color { color: #4ECDC4; }
+    .sixieme-color { color: #6C5CE7; }
+    .cinquieme-color { color: #2D3436; }
+    .adulte-color { color: #2F3640; }
+    
+    .toggle-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+    
+    .toggle-option:hover {
+      background: #f5f5f5;
+    }
+    
+    .toggle-slider {
+      width: 50px;
+      height: 26px;
+      border-radius: 13px;
+      background: #ccc;
+      position: relative;
+      transition: background 0.3s ease;
+    }
+    
+    .toggle-slider::before {
+      content: '';
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: white;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    input[type="checkbox"]:checked + .toggle-slider {
+      background: #4CAF50;
+    }
+    
+    input[type="checkbox"]:checked + .toggle-slider::before {
+      transform: translateX(24px);
+    }
+    
+    input[type="checkbox"] {
+      display: none;
+    }
+    
+    .settings-modal-footer {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+    
+    .btn-save, .btn-cancel {
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-save {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .btn-save:hover {
+      background: #43a047;
+      transform: translateY(-1px);
+    }
+    
+    .btn-cancel {
+      background: #f44336;
+      color: white;
+    }
+    
+    .btn-cancel:hover {
+      background: #e53935;
+      transform: translateY(-1px);
+    }
     
     /* ========== MOBILE RESPONSIVE CORRIGÉ - ALIGNEMENT PARFAIT ========== */
     @media (max-width: 768px) {
@@ -142,14 +393,34 @@
         margin: 0;
       }
       
-      .btn-theme {
+      .btn-theme, .btn-settings {
         width: 40px;
         height: 40px;
         font-size: 1.2rem;
+        margin-left: 8px;
       }
       
       .card {
         padding: 20px; /* Padding uniforme pour les cards */
+      }
+      
+      .settings-modal-content {
+        width: 95%;
+        max-height: 90vh;
+        padding: 20px;
+      }
+      
+      .profile-option {
+        padding: 12px;
+      }
+      
+      .settings-modal-footer {
+        flex-direction: column;
+      }
+      
+      .btn-save, .btn-cancel {
+        width: 100%;
+        padding: 14px;
       }
     }
     
@@ -875,7 +1146,14 @@
         <div class="header-logo">
           <img src="logofTDSR.png" alt="Logo DSR" />
         </div>
-        <button id="themeToggle" class="btn-theme"><span class="theme-icon">🌙</span></button>
+        <div style="display: flex; gap: 8px;">
+          <button id="settingsButtonMobile" class="btn-settings">
+            <span class="gear-icon">⚙️</span>
+          </button>
+          <button id="themeToggle" class="btn-theme">
+            <span class="theme-icon">🌙</span>
+          </button>
+        </div>
       </div>
 
       <div class="header-logo" style="display: none;">
@@ -884,8 +1162,93 @@
       
       <h1 class="app-title">TablesMathAssist</h1>
       
-      <button id="themeToggleDesktop" class="btn-theme" style="display: none;"><span class="theme-icon">🌙</span></button>
+      <div style="display: none; gap: 10px;">
+        <button id="settingsButtonDesktop" class="btn-settings">
+          <span class="gear-icon">⚙️</span>
+        </button>
+        <button id="themeToggleDesktop" class="btn-theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+      </div>
     </header>
+
+    <!-- ========== MODAL PARAMÈTRES ========== -->
+    <div id="settingsModal" class="settings-modal-overlay">
+      <div class="settings-modal-content">
+        <div class="settings-modal-header">
+          <h2>⚙️ Paramètres</h2>
+          <button class="settings-modal-close" id="closeSettingsModal">&times;</button>
+        </div>
+
+        <div class="settings-section">
+          <h3>👤 Profil utilisateur</h3>
+          <div class="profile-options">
+            <label class="profile-option">
+              <input type="radio" name="userProfile" value="CM1">
+              <div class="profile-info">
+                <div class="profile-label cm1-color">CM1 (9-10 ans)</div>
+                <div class="profile-description">Tables 1 à 10 • Interface colorée et ludique</div>
+              </div>
+            </label>
+            
+            <label class="profile-option">
+              <input type="radio" name="userProfile" value="CM2">
+              <div class="profile-info">
+                <div class="profile-label cm2-color">CM2 (10-11 ans)</div>
+                <div class="profile-description">Toutes les tables • Interface moderne</div>
+              </div>
+            </label>
+            
+            <label class="profile-option">
+              <input type="radio" name="userProfile" value="6EME">
+              <div class="profile-info">
+                <div class="profile-label sixieme-color">6ème (11-12 ans)</div>
+                <div class="profile-description">Révisions collège • Interface élégante</div>
+              </div>
+            </label>
+            
+            <label class="profile-option">
+              <input type="radio" name="userProfile" value="5EME">
+              <div class="profile-info">
+                <div class="profile-label cinquieme-color">5ème (12-13 ans)</div>
+                <div class="profile-description">Perfectionnement • Design épuré</div>
+              </div>
+            </label>
+            
+            <label class="profile-option">
+              <input type="radio" name="userProfile" value="ADULTE">
+              <div class="profile-info">
+                <div class="profile-label adulte-color">Adulte/Enseignant</div>
+                <div class="profile-description">Mode professionnel • Statistiques avancées</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>🔊 Préférences audio</h3>
+          <label class="toggle-option">
+            <input type="checkbox" id="soundsEnabled" checked>
+            <span class="toggle-slider"></span>
+            <span>Activer les sons et encouragements vocaux</span>
+          </label>
+        </div>
+
+        <div class="settings-section">
+          <h3>✨ Effets visuels</h3>
+          <label class="toggle-option">
+            <input type="checkbox" id="animationsEnabled" checked>
+            <span class="toggle-slider"></span>
+            <span>Activer les animations et transitions</span>
+          </label>
+        </div>
+
+        <div class="settings-modal-footer">
+          <button class="btn-save" id="saveSettingsBtn">💾 Sauvegarder</button>
+          <button class="btn-cancel" id="cancelSettingsBtn">❌ Annuler</button>
+        </div>
+      </div>
+    </div>
 
     <!-- ========== PAGE ACCUEIL ========== -->
     <div id="homePage">
@@ -1170,6 +1533,211 @@
   </div>
   
   <script>
+    // ========== CONFIGURATION PROFILS ADAPTATIFS ==========
+    const profileConfigs = {
+      CM1: {
+        tables: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        colors: { primary: '#FF6B35', secondary: '#FFD23F', accent: '#06D6A0' },
+        fontSize: '18px',
+        animations: true,
+        sounds: true,
+        animationStyle: 'bounce'
+      },
+      CM2: {
+        tables: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        colors: { primary: '#4ECDC4', secondary: '#45B7D1', accent: '#FECA57' },
+        fontSize: '16px',
+        animations: true,
+        sounds: true,
+        animationStyle: 'scale'
+      },
+      "6EME": {
+        tables: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        colors: { primary: '#6C5CE7', secondary: '#74B9FF', accent: '#00B894' },
+        fontSize: '15px',
+        animations: true,
+        sounds: true,
+        animationStyle: 'fade'
+      },
+      "5EME": {
+        tables: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        colors: { primary: '#2D3436', secondary: '#636E72', accent: '#00CEC9' },
+        fontSize: '14px',
+        animations: false,
+        sounds: false,
+        animationStyle: 'subtle'
+      },
+      ADULTE: {
+        tables: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        colors: { primary: '#2F3640', secondary: '#57606F', accent: '#3742FA' },
+        fontSize: '13px',
+        animations: false,
+        sounds: false,
+        animationStyle: 'none'
+      }
+    };
+
+    // ========== GESTION MODAL PARAMÈTRES ==========
+    const settingsModal = document.getElementById('settingsModal');
+    const settingsButtonMobile = document.getElementById('settingsButtonMobile');
+    const settingsButtonDesktop = document.getElementById('settingsButtonDesktop');
+    const closeSettingsModal = document.getElementById('closeSettingsModal');
+    const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+    const cancelSettingsBtn = document.getElementById('cancelSettingsBtn');
+    const soundsEnabledInput = document.getElementById('soundsEnabled');
+    const animationsEnabledInput = document.getElementById('animationsEnabled');
+
+    // Clés localStorage pour le système de paramètres
+    const LS_PROFILE = 'tma_profile';
+    const LS_SOUNDS = 'tma_sounds';
+    const LS_ANIMATIONS = 'tma_animations';
+
+    function openSettings() {
+      loadCurrentSettings();
+      settingsModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSettings() {
+      settingsModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function loadCurrentSettings() {
+      const profile = localStorage.getItem(LS_PROFILE) || 'CM2';
+      const profileRadio = document.querySelector(`input[name="userProfile"][value="${profile}"]`);
+      if (profileRadio) {
+        profileRadio.checked = true;
+      }
+      
+      soundsEnabledInput.checked = (localStorage.getItem(LS_SOUNDS) !== 'false');
+      animationsEnabledInput.checked = (localStorage.getItem(LS_ANIMATIONS) !== 'false');
+    }
+
+    function saveSettings() {
+      const selectedProfileElement = document.querySelector('input[name="userProfile"]:checked');
+      if (!selectedProfileElement) {
+        alert('Veuillez sélectionner un profil utilisateur');
+        return;
+      }
+      
+      const selectedProfile = selectedProfileElement.value;
+      const soundsEnabled = soundsEnabledInput.checked;
+      const animationsEnabled = animationsEnabledInput.checked;
+      
+      // Sauvegarder dans localStorage
+      localStorage.setItem(LS_PROFILE, selectedProfile);
+      localStorage.setItem(LS_SOUNDS, soundsEnabled);
+      localStorage.setItem(LS_ANIMATIONS, animationsEnabled);
+      localStorage.setItem('tma_settings_timestamp', Date.now());
+      
+      // Appliquer les changements
+      applyProfileSettings(selectedProfile);
+      
+      // Notification de succès
+      showNotification('Paramètres sauvegardés ! 🎉');
+      
+      // Fermer le modal
+      closeSettings();
+    }
+
+    function applyProfileSettings(profile) {
+      const config = profileConfigs[profile] || profileConfigs.CM2;
+      
+      // Appliquer les couleurs et la typographie
+      document.documentElement.style.setProperty('--primary-color', config.colors.primary);
+      document.documentElement.style.setProperty('--secondary-color', config.colors.secondary);
+      document.documentElement.style.setProperty('--accent-color', config.colors.accent);
+      document.documentElement.style.setProperty('--font-size', config.fontSize);
+      
+      // Définir les variables globales
+      window.tmaAnimationsEnabled = (localStorage.getItem(LS_ANIMATIONS) !== 'false');
+      window.tmaSoundsEnabled = (localStorage.getItem(LS_SOUNDS) !== 'false');
+      
+      // Mettre à jour la visibilité des tables
+      updateVisibleTables(config.tables);
+      
+      // Ajouter l'attribut data-profile au body pour le CSS
+      document.body.setAttribute('data-profile', profile);
+      
+      // Appliquer le style d'animation
+      document.body.setAttribute('data-animation-style', config.animationStyle);
+    }
+
+    function updateVisibleTables(allowedTables) {
+      const tableCards = document.querySelectorAll('.table-card');
+      tableCards.forEach(card => {
+        const tableNum = parseInt(card.dataset.num);
+        if (allowedTables.includes(tableNum)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function showNotification(message) {
+      // Créer une notification temporaire
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #4CAF50;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        z-index: 3000;
+        font-size: 1rem;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        animation: slideInFromRight 0.3s ease;
+      `;
+      notification.textContent = message;
+      
+      // Ajouter les keyframes pour l'animation
+      if (!document.querySelector('#notification-styles')) {
+        const style = document.createElement('style');
+        style.id = 'notification-styles';
+        style.textContent = `
+          @keyframes slideInFromRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+          }
+          @keyframes slideOutToRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'slideOutToRight 0.3s ease';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }, 3000);
+    }
+
+    // Event listeners pour le modal paramètres
+    settingsButtonMobile.onclick = openSettings;
+    settingsButtonDesktop.onclick = openSettings;
+    closeSettingsModal.onclick = closeSettings;
+    cancelSettingsBtn.onclick = closeSettings;
+    saveSettingsBtn.onclick = saveSettings;
+
+    // Fermer le modal en cliquant à l'extérieur
+    settingsModal.onclick = (e) => {
+      if (e.target === settingsModal) {
+        closeSettings();
+      }
+    };
+
     // ========== PHRASES ALÉATOIRES POUR MÉDAILLES ==========
     const MEDAL_MESSAGES = {
       gold: [
@@ -1278,14 +1846,14 @@
     function updateHeaderLayout() {
       const isMobile = window.innerWidth <= 768;
       const desktopLogo = document.querySelector('.header-logo:not(.header-top .header-logo)');
-      const desktopButton = document.getElementById('themeToggleDesktop');
+      const desktopButtons = document.querySelector('.header > div:last-child');
       
       if (isMobile) {
         if (desktopLogo) desktopLogo.style.display = 'none';
-        if (desktopButton) desktopButton.style.display = 'none';
+        if (desktopButtons) desktopButtons.style.display = 'none';
       } else {
         if (desktopLogo) desktopLogo.style.display = 'block';
-        if (desktopButton) desktopButton.style.display = 'flex';
+        if (desktopButtons) desktopButtons.style.display = 'flex';
       }
     }
     
@@ -1513,13 +2081,13 @@
       timeLimitLabel.textContent = `Temps pour ta série de ${questionCount.value} questions :`;
     }
     
-    questionCount.addEventListener('change', ()=> {
+    questionCount.addEventListener('change', () => {
       updateTimeLimitLabel(); 
       savePrefs();
     });
     
     timeLimit.addEventListener('change', savePrefs);
-    noTimerMode.addEventListener('change', ()=>{updateButtonText();savePrefs();});
+    noTimerMode.addEventListener('change', () => {updateButtonText();savePrefs();});
     
     document.querySelectorAll('.tables-selector input').forEach(cb => {
       cb.addEventListener('change', savePrefs);
@@ -1759,9 +2327,9 @@
       let html = '';
       for(let i=0;i<serie.length;i++){
         if (typeof userAnswers[i]==="number" && userAnswers[i]!==serie[i].r){
-          html += `<div>${serie[i].a}&times;${serie[i].b} = ${serie[i].r} <span style="color:#f44"> (réponse : ${userAnswers[i]})</span></div>`;
+          html += `<div>${serie[i].a}×${serie[i].b} = ${serie[i].r} <span style="color:#f44"> (réponse : ${userAnswers[i]})</span></div>`;
         } else if (userAnswers[i]==null){
-          html += `<div>${serie[i].a}&times;${serie[i].b} = ${serie[i].r} <span style="color:#ff0;"> (Non répondu)</span></div>`;
+          html += `<div>${serie[i].a}×${serie[i].b} = ${serie[i].r} <span style="color:#ff0;"> (Non répondu)</span></div>`;
         }
       }
       if (!html) html = "<div>Aucune erreur 👍</div>";
@@ -1771,7 +2339,15 @@
     document.getElementById('newGameBtn').onclick = () => startGame.onclick();
     document.getElementById('backToSettingsBtn').onclick = () => showSettings();
 
-    showSettings();
+    // ========== INITIALISATION ==========
+    document.addEventListener('DOMContentLoaded', () => {
+      // Charger les paramètres sauvegardés au démarrage
+      const savedProfile = localStorage.getItem(LS_PROFILE) || 'CM2';
+      applyProfileSettings(savedProfile);
+      
+      // Afficher la page d'accueil
+      showSettings();
+    });
   </script>
 </body>
 </html>
